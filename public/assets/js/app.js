@@ -193,7 +193,9 @@ var App = function () {
 
     // Toggle main sidebar on mobile
     var _sidebarMobileMainToggle = function() {
+        console.log($('.sidebar-mobile-main-toggle'))
         $('.sidebar-mobile-main-toggle').on('click', function(e) {
+            console.log(2)
             e.preventDefault();
             $('body').toggleClass('sidebar-mobile-main').removeClass('sidebar-mobile-secondary sidebar-mobile-right');
 
