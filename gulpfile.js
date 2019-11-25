@@ -38,10 +38,10 @@ let rtlcss = require('gulp-rtlcss')
 
 // Lint
 gulp.task('lint', gulp.series([], function () {
-  return gulp
-    .src(`public/assets/js/*.js`)
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
+    return gulp
+        .src(`public/assets/js/*.js`)
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
 }))
 
 //
@@ -51,31 +51,31 @@ gulp.task('lint', gulp.series([], function () {
 // Make it dynamic by changing core variables. Sensitive to location: make sure
 // the paths are correct if you need to use a custom assets location
 if (direction === 'LTR') {
-  gulp.task('sass', gulp.series([], function () {
-    return gulp
-      .src(`src/assets/global_assets/scss/layouts/${layout}/${theme}/compile/*.scss`)
-      .pipe(sass())
-      .pipe(postcss())
-      .pipe(gulp.dest(`public/assets/css`))
-      // eslint-disable-next-line standard/object-curly-even-spacing
-      .pipe(minifyCss({ level: { 1: { specialComments: 0 } } }))
-      .pipe(rename({ suffix: '.min' }))
-      .pipe(gulp.dest(`public/assets/css`))
-  }))
+    gulp.task('sass', gulp.series([], function () {
+        return gulp
+            .src(`src/assets/global_assets/scss/layouts/${layout}/${theme}/compile/*.scss`)
+            .pipe(sass())
+            .pipe(postcss())
+            .pipe(gulp.dest(`public/assets/css`))
+            // eslint-disable-next-line standard/object-curly-even-spacing
+            .pipe(minifyCss({ level: { 1: { specialComments: 0 } } }))
+            .pipe(rename({ suffix: '.min' }))
+            .pipe(gulp.dest(`public/assets/css`))
+    }))
 } else {
-  gulp.task('sass', gulp.series([], function () {
-    return gulp
-      .src(`src/assets/global_assets/scss/layouts/${layout}/${theme}/compile/*.scss`)
-      .pipe(sass())
-      .pipe(postcss())
-      .pipe(gulp.dest(`public/assets/css`))
-      .pipe(rtlcss())
-      .pipe(gulp.dest(`public/assets/css`))
-      // eslint-disable-next-line standard/object-curly-even-spacing
-      .pipe(minifyCss({ level: { 1: { specialComments: 0 } } }))
-      .pipe(rename({ suffix: '.min' }))
-      .pipe(gulp.dest(`public/assets/css`))
-  }))
+    gulp.task('sass', gulp.series([], function () {
+        return gulp
+            .src(`src/assets/global_assets/scss/layouts/${layout}/${theme}/compile/*.scss`)
+            .pipe(sass())
+            .pipe(postcss())
+            .pipe(gulp.dest(`public/assets/css`))
+            .pipe(rtlcss())
+            .pipe(gulp.dest(`public/assets/css`))
+            // eslint-disable-next-line standard/object-curly-even-spacing
+            .pipe(minifyCss({ level: { 1: { specialComments: 0 } } }))
+            .pipe(rename({ suffix: '.min' }))
+            .pipe(gulp.dest(`public/assets/css`))
+    }))
 }
 
 //
@@ -83,7 +83,9 @@ if (direction === 'LTR') {
 //
 
 // Listen for changes in all SCSS files and automatically re-compile
-gulp.task('watch', gulp.series([], function () { gulp.watch('src/assets/global_assets/scss/**/*.scss', gulp.parallel(['sass'])) }))
+gulp.task('watch', gulp.series([], function () {
+    gulp.watch('src/assets/global_assets/scss/**/*.scss', gulp.parallel(['sass']))
+}))
 
 //
 // Default task

@@ -10,44 +10,44 @@
 // Check if component is enabled
 @if $enable-datatable-fixed-header {
 
-    // Headers
-    .fixedHeader-floating,
-    .fixedHeader-locked {
-        background-color: $card-bg;
-        margin-top: 0;
-        margin-bottom: 0;
+  // Headers
+  .fixedHeader-floating,
+  .fixedHeader-locked {
+    background-color: $card-bg;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  // Floating header
+  .fixedHeader-floating {
+    position: fixed;
+
+    // Remove top border if multiple tables
+    .fixedHeader-floating + &,
+    .fixedHeader-locked + & {
+      border-top: 0 !important;
     }
 
-    // Floating header
-    .fixedHeader-floating {
-        position: fixed;
-
-        // Remove top border if multiple tables
-        .fixedHeader-floating + &,
-        .fixedHeader-locked + & {
-            border-top: 0!important;
-        }
-
-        // Hide on mobile
-        @include media-breakpoint-down(sm) {
-            display: none;
-        }
+    // Hide on mobile
+    @include media-breakpoint-down(sm) {
+      display: none;
     }
+  }
 
-    // Locked header
-    .fixedHeader-locked {
-        position: absolute;
+  // Locked header
+  .fixedHeader-locked {
+    position: absolute;
 
-        // Hide on mobile
-        @include media-breakpoint-down(sm) {
-            display: none;
-        }
+    // Hide on mobile
+    @include media-breakpoint-down(sm) {
+      display: none;
     }
+  }
 
-    // Hide headers on print
-    @media print {
-        table.fixedHeader-floating {
-            display: none;
-        }
+  // Hide headers on print
+  @media print {
+    table.fixedHeader-floating {
+      display: none;
     }
+  }
 }

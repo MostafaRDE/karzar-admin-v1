@@ -7,17 +7,17 @@
  * ---------------------------------------------------------------------------- */
 
 @mixin badge-variant($bg) {
-    color: color-yiq($bg);
-    background-color: $bg;
+  color: color-yiq($bg);
+  background-color: $bg;
 
-    &[href] {
-        @include hover-focus {
-            color: color-yiq($bg);
-            text-decoration: none;
+  &[href] {
+    @include hover-focus {
+      color: color-yiq($bg);
+      text-decoration: none;
 
-            &:not(.badge-light) {
-                box-shadow: $btn-dark-hover-box-shadow;
-            }
-        }
+      &:not(.badge-light) {
+        box-shadow: $btn-dark-hover-box-shadow;
+      }
     }
+  }
 }

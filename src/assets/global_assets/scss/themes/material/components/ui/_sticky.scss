@@ -9,8 +9,8 @@
 // Check if component is enabled
 @if $enable-sticky {
 
-    // Apply correct z-index to sticked element
-    .is_stuck {
-        z-index: $zindex-fixed !important;
-    }
+  // Apply correct z-index to sticked element
+  .is_stuck {
+    z-index: $zindex-fixed !important;
+  }
 }

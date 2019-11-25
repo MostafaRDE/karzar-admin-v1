@@ -9,44 +9,44 @@
 // Check if component is enabled
 @if $enable-headroom {
 
-	// Base
-	.headroom {
-		transition: transform ease-in-out 0.2s, box-shadow ease-in-out 0.2s;
-		will-change: transform;
-	}
+  // Base
+  .headroom {
+    transition: transform ease-in-out 0.2s, box-shadow ease-in-out 0.2s;
+    will-change: transform;
+  }
 
 
-	//
-	// Positions
-	//
+  //
+  // Positions
+  //
 
-	// Top
-	.navbar-slide-top {
+  // Top
+  .navbar-slide-top {
 
-		// Hidden
-		&.headroom--pinned {
-		    transform: translateY(0);
-		}
+    // Hidden
+    &.headroom--pinned {
+      transform: translateY(0);
+    }
 
-		// Visible
-		&.headroom--unpinned {
-			transform: translateY(-100%);
-			@include box-shadow(none);
-		}
-	}
+    // Visible
+    &.headroom--unpinned {
+      transform: translateY(-100%);
+      @include box-shadow(none);
+    }
+  }
 
-	// Bottom
-	.navbar-slide-bottom {
+  // Bottom
+  .navbar-slide-bottom {
 
-		// Hidden
-		&.headroom--pinned {
-			transform: translateY(100%);
-			@include box-shadow(none);
-		}
+    // Hidden
+    &.headroom--pinned {
+      transform: translateY(100%);
+      @include box-shadow(none);
+    }
 
-		// Visible
-		&.headroom--unpinned {
-			transform: translateY(0);
-		}
-	}
+    // Visible
+    &.headroom--unpinned {
+      transform: translateY(0);
+    }
+  }
 }

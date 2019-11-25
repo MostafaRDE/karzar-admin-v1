@@ -9,14 +9,14 @@
 // Check if component is enabled
 @if $enable-sticky {
 
-    // Apply correct z-index to sticked element
-    .is_stuck {
-        z-index: $zindex-fixed !important;
-    }
+  // Apply correct z-index to sticked element
+  .is_stuck {
+    z-index: $zindex-fixed !important;
+  }
 
-    .navbar-top {
-        .navbar.is_stuck {
-            margin-top: $nav-link-height + rem-calc($navbar-border-width * 2);
-        }
+  .navbar-top {
+    .navbar.is_stuck {
+      margin-top: $nav-link-height + rem-calc($navbar-border-width * 2);
     }
+  }
 }

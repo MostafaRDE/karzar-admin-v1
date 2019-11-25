@@ -7,34 +7,34 @@
  * ---------------------------------------------------------------------------- */
 
 
-// 
+//
 // Custom styles
 //
 
 // Top placement
 .bs-tooltip-top {
-    .arrow[class*=border-]:before {
-        border-top-color: inherit;
-    }
+  .arrow[class*=border-]:before {
+    border-top-color: inherit;
+  }
 }
 
 // Right placement
 .bs-tooltip-right {
-    .arrow[class*=border-]:before {
-        border-right-color: inherit;
-    }
+  .arrow[class*=border-]:before {
+    border-right-color: inherit;
+  }
 }
 
 // Bottom placement
 .bs-tooltip-bottom {
-    .arrow[class*=border-]:before {
-        border-bottom-color: inherit;
-    }
+  .arrow[class*=border-]:before {
+    border-bottom-color: inherit;
+  }
 }
 
 // Left placement
 .bs-tooltip-left {
-    .arrow[class*=border-]:before {
-        border-left-color: inherit;
-    }
+  .arrow[class*=border-]:before {
+    border-left-color: inherit;
+  }
 }

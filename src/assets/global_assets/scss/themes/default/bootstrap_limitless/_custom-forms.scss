@@ -13,74 +13,74 @@
 
 // Container
 .custom-control {
-    min-height: $line-height-computed;
-    margin-bottom: $form-check-margin-y;
+  min-height: $line-height-computed;
+  margin-bottom: $form-check-margin-y;
 
-    // Last item doesn't have spacing
-    &:last-child {
-        margin-bottom: 0;
-    }
+  // Last item doesn't have spacing
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 // Inline list
 .custom-control-inline {
-    margin-bottom: 0;
+  margin-bottom: 0;
 
-    // Last item doesn't have spacing
-    &:last-child {
-        margin-right: 0;
-    }
+  // Last item doesn't have spacing
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 // Input
 .custom-control-input {
 
-    // Active state
-    &:active ~ .custom-control-label::before {
-        @include transition(all ease-in-out $component-transition-timer);
-    }
+  // Active state
+  &:active ~ .custom-control-label::before {
+    @include transition(all ease-in-out $component-transition-timer);
+  }
 
-    // Disabled state
-    &:disabled {
-        ~ .custom-control-label {
-            cursor: $cursor-disabled;
-        }
+  // Disabled state
+  &:disabled {
+    ~ .custom-control-label {
+      cursor: $cursor-disabled;
     }
+  }
 }
 
 // Custom control indicators
 .custom-control-label {
-    cursor: pointer;
+  cursor: pointer;
 
-    // Background
-    &::before {
-        top: (($line-height-computed - $custom-control-indicator-size) / 2);
-    }
+  // Background
+  &::before {
+    top: (($line-height-computed - $custom-control-indicator-size) / 2);
+  }
 
-    // Foreground (icon)
-    &::after {
-        top: (($line-height-computed - $custom-control-indicator-size) / 2);
-    }
+  // Foreground (icon)
+  &::after {
+    top: (($line-height-computed - $custom-control-indicator-size) / 2);
+  }
 }
 
 // Right input alignment
 .custom-control-right {
-    padding-left: 0;
-    padding-right: $custom-control-gutter;
+  padding-left: 0;
+  padding-right: $custom-control-gutter;
 
-    // Input
-    .custom-control-input {
-        right: 0;
-    }
+  // Input
+  .custom-control-input {
+    right: 0;
+  }
 
-    // Label
-    .custom-control-label {
-        &:before,
-        &:after {
-            left: auto;
-            right: 0;
-        }
+  // Label
+  .custom-control-label {
+    &:before,
+    &:after {
+      left: auto;
+      right: 0;
     }
+  }
 }
 
 
@@ -89,23 +89,23 @@
 //
 
 .custom-select {
-    cursor: pointer;
-    @include transition(all ease-in-out $component-transition-timer);
+  cursor: pointer;
+  @include transition(all ease-in-out $component-transition-timer);
+
+  // Hover state
+  @include hover-focus {
+    @include box-shadow($hover-shadow-lighter);
+  }
+
+  // Disabled state
+  &:disabled {
+    cursor: $cursor-disabled;
 
     // Hover state
     @include hover-focus {
-        @include box-shadow($hover-shadow-lighter);
+      @include box-shadow(none);
     }
-
-    // Disabled state
-    &:disabled {
-        cursor: $cursor-disabled;
-
-        // Hover state
-        @include hover-focus {
-            @include box-shadow(none);
-        }
-    }
+  }
 }
 
 
@@ -114,5 +114,5 @@
 //
 
 .custom-file-label {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }

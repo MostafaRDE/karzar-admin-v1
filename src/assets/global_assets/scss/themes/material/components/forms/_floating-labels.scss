@@ -9,21 +9,21 @@
 // Check if component is enabled
 @if $enable-floating-labels {
 
-	// Base
-	.form-group-float-label {
-	    position: relative;
-	    top: $input-padding-y;
-	    opacity: 0;
+  // Base
+  .form-group-float-label {
+    position: relative;
+    top: $input-padding-y;
+    opacity: 0;
 
-	    // Display label
-	    &.is-visible {
-	        top: 0;
-	        opacity: 1;
-	    }
+    // Display label
+    &.is-visible {
+      top: 0;
+      opacity: 1;
+    }
 
-	    // Label animation
-	    &.animate {
-	        @include transition(all linear $component-transition-timer);
-	    }
-	}
+    // Label animation
+    &.animate {
+      @include transition(all linear $component-transition-timer);
+    }
+  }
 }

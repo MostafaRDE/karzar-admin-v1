@@ -10,40 +10,40 @@
 // Check if component is enabled
 @if $enable-datatable-keytable {
 
-    // Focus colors
-    .dataTable {
-        th,
-        td {
+  // Focus colors
+  .dataTable {
+    th,
+    td {
 
-            // Default
-            &.focus {
-                outline: ($table-border-width * 2) solid $color-primary-500;
-                outline-offset: -($table-border-width);
-            }
+      // Default
+      &.focus {
+        outline: ($table-border-width * 2) solid $color-primary-500;
+        outline-offset: -($table-border-width);
+      }
 
-            // Success
-            &.focus-success {
-                background-color: $color-success-50;
-                outline-color: $color-success-500;
-            }
+      // Success
+      &.focus-success {
+        background-color: $color-success-50;
+        outline-color: $color-success-500;
+      }
 
-            // Info
-            &.focus-info {
-                background-color: $color-primary-50;
-                outline-color: $color-primary-500;
-            }
+      // Info
+      &.focus-info {
+        background-color: $color-primary-50;
+        outline-color: $color-primary-500;
+      }
 
-            // Warning
-            &.focus-warning {
-                background-color: $color-warning-50;
-                outline-color: $color-warning-500;
-            }
+      // Warning
+      &.focus-warning {
+        background-color: $color-warning-50;
+        outline-color: $color-warning-500;
+      }
 
-            // Danger
-            &.focus-danger {
-                background-color: $color-danger-50;
-                outline-color: $color-danger-500;
-            }
-        }
+      // Danger
+      &.focus-danger {
+        background-color: $color-danger-50;
+        outline-color: $color-danger-500;
+      }
     }
+  }
 }

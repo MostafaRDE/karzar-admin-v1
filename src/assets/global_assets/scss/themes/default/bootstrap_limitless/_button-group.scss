@@ -10,28 +10,28 @@
 .btn-group,
 .btn-group-vertical {
 
-    // Double border width
-    .btn + .btn.border-2,
-    .btn.border-2 + .btn-group,
-    .btn-group + .btn.border-2 {
-        margin-left: -($btn-border-width * 2);
-    }
-    
-    // Tripple border width
-    .btn + .btn.border-3,
-    .btn.border-3 + .btn-group,
-    .btn-group + .btn.border-3 {
-        margin-left: -($btn-border-width * 3);
-    }
+  // Double border width
+  .btn + .btn.border-2,
+  .btn.border-2 + .btn-group,
+  .btn-group + .btn.border-2 {
+    margin-left: -($btn-border-width * 2);
+  }
+
+  // Tripple border width
+  .btn + .btn.border-3,
+  .btn.border-3 + .btn-group,
+  .btn-group + .btn.border-3 {
+    margin-left: -($btn-border-width * 3);
+  }
 }
 
 // Justified button group
 .btn-group-justified {
-    display: flex;
+  display: flex;
 
-    // Stretch the buttons
-    .btn,
-    .btn-group {
-        flex: 1;
-    }
+  // Stretch the buttons
+  .btn,
+  .btn-group {
+    flex: 1;
+  }
 }

@@ -9,16 +9,16 @@
 // Check if component is enabled
 @if $enable-tasks {
 
-	// Numbers
-	.timer-number {
-		font-size: ($h2-font-size * 2);
-		line-height: 1;
-	}
+  // Numbers
+  .timer-number {
+    font-size: ($h2-font-size * 2);
+    line-height: 1;
+  }
 
-	// Dots between numbers
-	.timer-dots {
-		font-size: ($h2-font-size);
-		padding: ($h2-font-size / 2) 0;
-		line-height: 1;
-	}
+  // Dots between numbers
+  .timer-dots {
+    font-size: ($h2-font-size);
+    padding: ($h2-font-size / 2) 0;
+    line-height: 1;
+  }
 }
