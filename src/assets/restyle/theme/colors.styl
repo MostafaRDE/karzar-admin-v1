@@ -1,0 +1,29 @@
+.theme--{$theme}
+    for $color_name , $color_color in $colorsTheme
+        for $color_type , $color_value in $color_color
+            if $color_type == 'base'
+                .bg-{$color_name}
+                    background-color $color_value !important
+                    transition(all .2s)
+                .text-{$color_name}
+                    color $color_value !important
+                    transition(all .2s)
+
+            else
+                global-color-accent($color_name, $color_value, $color_type)
+
+    .text-danger
+        color $colorDanger !important
+        transition(all .2s)
+    .text-disabled
+        color $colorDisabled !important
+        transition(all .2s)
+    .text-success
+        color $colorSuccess !important
+        transition(all .2s)
+    .text-success-dark
+        color $colorSuccessDark !important
+        transition(all .2s)
+    .text-warning
+        color $colorWarning !important
+        transition(all .2s)

@@ -1,0 +1,313 @@
+for $position in absolute fixed sticky relative static
+    .position-{$position}
+        position $position !important
+
+for $position in absolute fixed sticky relative static
+    $xxs[s(".position-xxs-%s", $position)] = {
+        'position': $position !important
+    }
+    $xs[s(".position-xs-%s", $position)] = $xxs[s(".position-xxs-%s", $position)]
+    $sm[s(".position-sm-%s", $position)] = $xxs[s(".position-xxs-%s", $position)]
+    $md[s(".position-md-%s", $position)] = $xxs[s(".position-xxs-%s", $position)]
+    $lg[s(".position-lg-%s", $position)] = $xxs[s(".position-xxs-%s", $position)]
+    $xl[s(".position-xl-%s", $position)] = $xxs[s(".position-xxs-%s", $position)]
+
+.bottom-auto
+    bottom auto !important
+
+.left-auto
+    left auto !important
+
+.right-auto
+    right auto !important
+
+.top-auto
+    top auto !important
+
+$ltr['.end-auto'] = {
+            right: auto !important
+        }
+$ltr['.start-auto'] = {
+            left: auto !important
+        }
+$ltr['.rtl > .end-auto'] = {
+            left: auto !important
+            right: initial !important
+        }
+$ltr['.rtl > .start-auto'] = {
+            left: initial !important
+            right: auto !important
+        }
+$rtl['.ltr > .end-auto'] = {
+            left: initial !important
+            right: auto !important
+        }
+$rtl['.ltr > .start-auto'] = {
+            left: auto !important
+            right: initial !important
+        }
+
+$xxs[".bottom-xxs-auto"] = {
+            bottom: auto !important
+        }
+$xs[".bottom-xs-auto"] = $xxs[".bottom-xxs-auto"]
+$sm[".bottom-sm-auto"] = $xxs[".bottom-xxs-auto"]
+$md[".bottom-md-auto"] = $xxs[".bottom-xxs-auto"]
+$lg[".bottom-lg-auto"] = $xxs[".bottom-xxs-auto"]
+$xl[".bottom-xl-auto"] = $xxs[".bottom-xxs-auto"]
+
+$xxs[".left-xxs-auto"] = {
+            left: auto !important
+        }
+$xs[".left-xs-auto"] = $xxs[".left-xxs-auto"]
+$sm[".left-sm-auto"] = $xxs[".left-xxs-auto"]
+$md[".left-md-auto"] = $xxs[".left-xxs-auto"]
+$lg[".left-lg-auto"] = $xxs[".left-xxs-auto"]
+$xl[".left-xl-auto"] = $xxs[".left-xxs-auto"]
+
+$xxs[".right-xxs-auto"] = {
+            right: auto !important
+        }
+$xs[".right-xs-auto"] = $xxs[".right-xxs-auto"]
+$sm[".right-sm-auto"] = $xxs[".right-xxs-auto"]
+$md[".right-md-auto"] = $xxs[".right-xxs-auto"]
+$lg[".right-lg-auto"] = $xxs[".right-xxs-auto"]
+$xl[".right-xl-auto"] = $xxs[".right-xxs-auto"]
+
+$xxs[".top-xxs-auto"] = {
+            top: auto !important
+        }
+$xs[".top-xs-auto"] = $xxs[".top-xxs-auto"]
+$sm[".top-sm-auto"] = $xxs[".top-xxs-auto"]
+$md[".top-md-auto"] = $xxs[".top-xxs-auto"]
+$lg[".top-lg-auto"] = $xxs[".top-xxs-auto"]
+$xl[".top-xl-auto"] = $xxs[".top-xxs-auto"]
+
+$xxs[".ltr .end-xxs-auto"] = {
+            right: auto !important
+        }
+$xs[".ltr .end-xs-auto"] = $xxs[".ltr .end-xxs-auto"]
+$sm[".ltr .end-sm-auto"] = $xxs[".ltr .end-xxs-auto"]
+$md[".ltr .end-md-auto"] = $xxs[".ltr .end-xxs-auto"]
+$lg[".ltr .end-lg-auto"] = $xxs[".ltr .end-xxs-auto"]
+$xl[".ltr .end-xl-auto"] = $xxs[".ltr .end-xxs-auto"]
+
+$xxs[".rtl .ltr > .end-xxs-auto"] = {
+            left: initial !important
+            right: auto !important
+        }
+$xs[".rtl .ltr > .end-xs-auto"] = $xxs[".rtl .ltr > .end-xxs-auto"]
+$sm[".rtl .ltr > .end-sm-auto"] = $xxs[".rtl .ltr > .end-xxs-auto"]
+$md[".rtl .ltr > .end-md-auto"] = $xxs[".rtl .ltr > .end-xxs-auto"]
+$lg[".rtl .ltr > .end-lg-auto"] = $xxs[".rtl .ltr > .end-xxs-auto"]
+$xl[".rtl .ltr > .end-xl-auto"] = $xxs[".rtl .ltr > .end-xxs-auto"]
+
+$xxs[".ltr .start-xxs-auto"] = {
+            left: auto !important
+        }
+$xs[".ltr .start-xs-auto"] = $xxs[".ltr .start-xxs-auto"]
+$sm[".ltr .start-sm-auto"] = $xxs[".ltr .start-xxs-auto"]
+$md[".ltr .start-md-auto"] = $xxs[".ltr .start-xxs-auto"]
+$lg[".ltr .start-lg-auto"] = $xxs[".ltr .start-xxs-auto"]
+$xl[".ltr .start-xl-auto"] = $xxs[".ltr .start-xxs-auto"]
+
+$xxs[".rtl .ltr > .start-xxs-auto"] = {
+            left: auto !important
+            right: initial !important
+        }
+$xs[".rtl .ltr > .start-xs-auto"] = $xxs[".rtl .ltr > .start-xxs-auto"]
+$sm[".rtl .ltr > .start-sm-auto"] = $xxs[".rtl .ltr > .start-xxs-auto"]
+$md[".rtl .ltr > .start-md-auto"] = $xxs[".rtl .ltr > .start-xxs-auto"]
+$lg[".rtl .ltr > .start-lg-auto"] = $xxs[".rtl .ltr > .start-xxs-auto"]
+$xl[".rtl .ltr > .start-xl-auto"] = $xxs[".rtl .ltr > .start-xxs-auto"]
+
+$xxs[".rtl .end-xxs-auto"] = {
+            left: auto !important
+        }
+$xs[".rtl .end-xs-auto"] = $xxs[".rtl .end-xxs-auto"]
+$sm[".rtl .end-sm-auto"] = $xxs[".rtl .end-xxs-auto"]
+$md[".rtl .end-md-auto"] = $xxs[".rtl .end-xxs-auto"]
+$lg[".rtl .end-lg-auto"] = $xxs[".rtl .end-xxs-auto"]
+$xl[".rtl .end-xl-auto"] = $xxs[".rtl .end-xxs-auto"]
+
+$xxs[".ltr .rtl > .end-xxs-auto"] = {
+            left: auto !important
+            right: initial !important
+        }
+$xs[".ltr .rtl > .end-xs-auto"] = $xxs[".ltr .rtl > .end-xxs-auto"]
+$sm[".ltr .rtl > .end-sm-auto"] = $xxs[".ltr .rtl > .end-xxs-auto"]
+$md[".ltr .rtl > .end-md-auto"] = $xxs[".ltr .rtl > .end-xxs-auto"]
+$lg[".ltr .rtl > .end-lg-auto"] = $xxs[".ltr .rtl > .end-xxs-auto"]
+$xl[".ltr .rtl > .end-xl-auto"] = $xxs[".ltr .rtl > .end-xxs-auto"]
+
+$xxs[".rtl .start-xxs-auto"] = {
+            right: auto !important
+        }
+$xs[".rtl .start-xs-auto"] = $xxs[".rtl .start-xxs-auto"]
+$sm[".rtl .start-sm-auto"] = $xxs[".rtl .start-xxs-auto"]
+$md[".rtl .start-md-auto"] = $xxs[".rtl .start-xxs-auto"]
+$lg[".rtl .start-lg-auto"] = $xxs[".rtl .start-xxs-auto"]
+$xl[".rtl .start-xl-auto"] = $xxs[".rtl .start-xxs-auto"]
+
+$xxs[".ltr .rtl > .start-xxs-auto"] = {
+            left: initial !important
+            right: auto !important
+        }
+$xs[".ltr .rtl > .start-xs-auto"] = $xxs[".ltr .rtl > .start-xxs-auto"]
+$sm[".ltr .rtl > .start-sm-auto"] = $xxs[".ltr .rtl > .start-xxs-auto"]
+$md[".ltr .rtl > .start-md-auto"] = $xxs[".ltr .rtl > .start-xxs-auto"]
+$lg[".ltr .rtl > .start-lg-auto"] = $xxs[".ltr .rtl > .start-xxs-auto"]
+$xl[".ltr .rtl > .start-xl-auto"] = $xxs[".ltr .rtl > .start-xxs-auto"]
+
+for i in 0..20
+    $key = i * 5
+    .bottom-{$key}
+        bottom unit($key, 'px') !important
+    .left-{$key}
+        left unit($key, 'px') !important
+    .right-{$key}
+        right unit($key, 'px') !important
+    .top-{$key}
+        top unit($key, 'px') !important
+
+    $ltr['.end-' + $key] = {
+            right: unit($key, 'px') !important
+        }
+    $ltr['.start-' + $key] = {
+            left: unit($key, 'px') !important
+        }
+    $rtl['.ltr > .end-' + $key] = {
+            left: initial !important
+            right: unit($key, 'px') !important
+        }
+    $rtl['.ltr > .start-' + $key] = {
+            left: unit($key, 'px') !important
+            right: initial !important
+        }
+
+    $rtl['.end-' + $key] = {
+            left: unit($key, 'px') !important
+        }
+    $rtl['.start-' + $key] = {
+            right: unit($key, 'px') !important
+        }
+    $ltr['.rtl > .end-' + $key] = {
+            left: unit($key, 'px') !important
+            right: initial !important
+        }
+    $ltr['.rtl > .start-' + $key] = {
+            left: initial !important
+            right: unit($key, 'px') !important
+        }
+
+    $xxs[".bottom-xxs-" + $key] = {
+            bottom: unit($key, 'px') !important
+        }
+    $xs[".bottom-xs-" + $key] = $xxs[".bottom-xxs-" + $key]
+    $sm[".bottom-sm-" + $key] = $xxs[".bottom-xxs-" + $key]
+    $md[".bottom-md-" + $key] = $xxs[".bottom-xxs-" + $key]
+    $lg[".bottom-lg-" + $key] = $xxs[".bottom-xxs-" + $key]
+    $xl[".bottom-xl-" + $key] = $xxs[".bottom-xxs-" + $key]
+
+    $xxs[".left-xxs-" + $key] = {
+            left: unit($key, 'px') !important
+        }
+    $xs[".left-xs-" + $key] = $xxs[".left-xxs-" + $key]
+    $sm[".left-sm-" + $key] = $xxs[".left-xxs-" + $key]
+    $md[".left-md-" + $key] = $xxs[".left-xxs-" + $key]
+    $lg[".left-lg-" + $key] = $xxs[".left-xxs-" + $key]
+    $xl[".left-xl-" + $key] = $xxs[".left-xxs-" + $key]
+
+    $xxs[".right-xxs-" + $key] = {
+            right: unit($key, 'px') !important
+        }
+    $xs[".right-xs-" + $key] = $xxs[".right-xxs-" + $key]
+    $sm[".right-sm-" + $key] = $xxs[".right-xxs-" + $key]
+    $md[".right-md-" + $key] = $xxs[".right-xxs-" + $key]
+    $lg[".right-lg-" + $key] = $xxs[".right-xxs-" + $key]
+    $xl[".right-xl-" + $key] = $xxs[".right-xxs-" + $key]
+
+    $xxs[".top-xxs-" + $key] = {
+            top: unit($key, 'px') !important
+        }
+    $xs[".top-xs-" + $key] = $xxs[".top-xxs-" + $key]
+    $sm[".top-sm-" + $key] = $xxs[".top-xxs-" + $key]
+    $md[".top-md-" + $key] = $xxs[".top-xxs-" + $key]
+    $lg[".top-lg-" + $key] = $xxs[".top-xxs-" + $key]
+    $xl[".top-xl-" + $key] = $xxs[".top-xxs-" + $key]
+
+    $xxs[".ltr .end-xxs-" + $key] = {
+            right: unit($key, 'px') !important
+        }
+    $xs[".ltr .end-xs-" + $key] = $xxs[".ltr .end-xxs-" + $key]
+    $sm[".ltr .end-sm-" + $key] = $xxs[".ltr .end-xxs-" + $key]
+    $md[".ltr .end-md-" + $key] = $xxs[".ltr .end-xxs-" + $key]
+    $lg[".ltr .end-lg-" + $key] = $xxs[".ltr .end-xxs-" + $key]
+    $xl[".ltr .end-xl-" + $key] = $xxs[".ltr .end-xxs-" + $key]
+
+    $xxs[".rtl .ltr > .end-xxs-" + $key] = {
+            left: initial !important
+            right: unit($key, 'px') !important
+        }
+    $xs[".rtl .ltr > .end-xs-" + $key] = $xxs[".rtl .ltr > .end-xxs-" + $key]
+    $sm[".rtl .ltr > .end-sm-" + $key] = $xxs[".rtl .ltr > .end-xxs-" + $key]
+    $md[".rtl .ltr > .end-md-" + $key] = $xxs[".rtl .ltr > .end-xxs-" + $key]
+    $lg[".rtl .ltr > .end-lg-" + $key] = $xxs[".rtl .ltr > .end-xxs-" + $key]
+    $xl[".rtl .ltr > .end-xl-" + $key] = $xxs[".rtl .ltr > .end-xxs-" + $key]
+
+    $xxs[".ltr .start-xxs-" + $key] = {
+            left: unit($key, 'px') !important
+        }
+    $xs[".ltr .start-xs-" + $key] = $xxs[".ltr .start-xxs-" + $key]
+    $sm[".ltr .start-sm-" + $key] = $xxs[".ltr .start-xxs-" + $key]
+    $md[".ltr .start-md-" + $key] = $xxs[".ltr .start-xxs-" + $key]
+    $lg[".ltr .start-lg-" + $key] = $xxs[".ltr .start-xxs-" + $key]
+    $xl[".ltr .start-xl-" + $key] = $xxs[".ltr .start-xxs-" + $key]
+
+    $xxs[".rtl .ltr > .start-xxs-" + $key] = {
+            left: unit($key, 'px') !important
+            right: initial !important
+        }
+    $xs[".rtl .ltr > .start-xs-" + $key] = $xxs[".rtl .ltr > .start-xxs-" + $key]
+    $sm[".rtl .ltr > .start-sm-" + $key] = $xxs[".rtl .ltr > .start-xxs-" + $key]
+    $md[".rtl .ltr > .start-md-" + $key] = $xxs[".rtl .ltr > .start-xxs-" + $key]
+    $lg[".rtl .ltr > .start-lg-" + $key] = $xxs[".rtl .ltr > .start-xxs-" + $key]
+    $xl[".rtl .ltr > .start-xl-" + $key] = $xxs[".rtl .ltr > .start-xxs-" + $key]
+
+    $xxs[".rtl .end-xxs-" + $key] = {
+            left: unit($key, 'px') !important
+        }
+    $xs[".rtl .end-xs-" + $key] = $xxs[".rtl .end-xxs-" + $key]
+    $sm[".rtl .end-sm-" + $key] = $xxs[".rtl .end-xxs-" + $key]
+    $md[".rtl .end-md-" + $key] = $xxs[".rtl .end-xxs-" + $key]
+    $lg[".rtl .end-lg-" + $key] = $xxs[".rtl .end-xxs-" + $key]
+    $xl[".rtl .end-xl-" + $key] = $xxs[".rtl .end-xxs-" + $key]
+
+    $xxs[".ltr .rtl > .end-xxs-" + $key] = {
+            left: unit($key, 'px') !important
+            right: initial !important
+        }
+    $xs[".ltr .rtl > .end-xs-" + $key] = $xxs[".ltr .rtl > .end-xxs-" + $key]
+    $sm[".ltr .rtl > .end-sm-" + $key] = $xxs[".ltr .rtl > .end-xxs-" + $key]
+    $md[".ltr .rtl > .end-md-" + $key] = $xxs[".ltr .rtl > .end-xxs-" + $key]
+    $lg[".ltr .rtl > .end-lg-" + $key] = $xxs[".ltr .rtl > .end-xxs-" + $key]
+    $xl[".ltr .rtl > .end-xl-" + $key] = $xxs[".ltr .rtl > .end-xxs-" + $key]
+
+    $xxs[".rtl .start-xxs-" + $key] = {
+            right: unit($key, 'px') !important
+        }
+    $xs[".rtl .start-xs-" + $key] = $xxs[".rtl .start-xxs-" + $key]
+    $sm[".rtl .start-sm-" + $key] = $xxs[".rtl .start-xxs-" + $key]
+    $md[".rtl .start-md-" + $key] = $xxs[".rtl .start-xxs-" + $key]
+    $lg[".rtl .start-lg-" + $key] = $xxs[".rtl .start-xxs-" + $key]
+    $xl[".rtl .start-xl-" + $key] = $xxs[".rtl .start-xxs-" + $key]
+
+    $xxs[".ltr .rtl > .start-xxs-" + $key] = {
+            left: initial !important
+            right: unit($key, 'px') !important
+        }
+    $xs[".ltr .rtl > .start-xs-" + $key] = $xxs[".ltr .rtl > .start-xxs-" + $key]
+    $sm[".ltr .rtl > .start-sm-" + $key] = $xxs[".ltr .rtl > .start-xxs-" + $key]
+    $md[".ltr .rtl > .start-md-" + $key] = $xxs[".ltr .rtl > .start-xxs-" + $key]
+    $lg[".ltr .rtl > .start-lg-" + $key] = $xxs[".ltr .rtl > .start-xxs-" + $key]
+    $xl[".ltr .rtl > .start-xl-" + $key] = $xxs[".ltr .rtl > .start-xxs-" + $key]

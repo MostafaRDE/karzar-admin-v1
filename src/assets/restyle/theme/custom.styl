@@ -1,0 +1,17 @@
+.theme--{$theme}
+    .border-exchange
+        &, &-bottom, &-left, &-right, &-top, &-end, &-start
+            border-color $border-exchange-color
+            transition(all .2s)
+
+    // Chrome, Firefox, Opera, Safari 10.1+
+    ::placeholder
+        {$placeholder}
+
+    // Internet Explorer 10-11
+    :-ms-input-placeholder
+        {$placeholder}
+
+    // Microsoft Edge
+    ::-ms-input-placeholder
+        {$placeholder}

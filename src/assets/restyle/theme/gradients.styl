@@ -1,0 +1,10 @@
+.theme--{$theme}
+    for $gradient_name , $gradient_gradient in $gradientsTheme
+        for $gradient_type , $gradient_value in $gradient_gradient
+            if $gradient_type == 'base'
+                .bg-gradient-{$gradient_name}
+                    bg-gradient($gradient_value !important)
+                    transition(all .2s)
+
+            else
+                bg-gradient($gradient_name, $gradient_value, $gradient_type)

@@ -1,0 +1,93 @@
+.text-white
+    color white !important
+.text-gray
+    color gray !important
+
+.no-select {
+    user-select none
+    -webkit-user-select none
+    -moz-user-select none
+}
+
+for align in center justify left right
+    .text-{align}
+        text-align align !important
+    $xxs[".text-xxs-" + align] = {
+        'text-align': align !important
+    }
+    $xs[".text-xs-" + align] = $xxs[".text-xxs-" + align]
+    $sm[".text-sm-" + align] = $xxs[".text-xxs-" + align]
+    $md[".text-md-" + align] = $xxs[".text-xxs-" + align]
+    $lg[".text-lg-" + align] = $xxs[".text-xxs-" + align]
+    $xl[".text-xl-" + align] = $xxs[".text-xxs-" + align]
+
+$rtl['.text-start'] = $ltr['.text-end'] = {
+    'text-align': right !important
+}
+$xxs[".rtl .text-xxs-start"] = $xxs[".ltr .text-xxs-end"] = $ltr['.text-end']
+$xs[".rtl .text-xs-start"] = $xs[".ltr .text-xs-end"] = $ltr['.text-end']
+$sm[".rtl .text-sm-start"] = $sm[".ltr .text-sm-end"] = $ltr['.text-end']
+$md[".rtl .text-md-start"] = $md[".ltr .text-md-end"] = $ltr['.text-end']
+$lg[".rtl .text-lg-start"] = $lg[".ltr .text-lg-end"] = $ltr['.text-end']
+$xl[".rtl .text-xl-start"] = $xl[".ltr .text-xl-end"] = $ltr['.text-end']
+
+$ltr['.rtl > .text-start'] = $rtl['.ltr > .text-end'] = {
+    'text-align': right !important
+}
+$xxs[".ltr .rtl > .text-xxs-start"] = $xxs[".rtl .ltr > .text-xxs-end"] = $rtl['.ltr > .text-end']
+$xs[".ltr .rtl > .text-xs-start"] = $xs[".rtl .ltr > .text-xs-end"] = $rtl['.ltr > .text-end']
+$sm[".ltr .rtl > .text-sm-start"] = $sm[".rtl .ltr > .text-sm-end"] = $rtl['.ltr > .text-end']
+$md[".ltr .rtl > .text-md-start"] = $md[".rtl .ltr > .text-md-end"] = $rtl['.ltr > .text-end']
+$lg[".ltr .rtl > .text-lg-start"] = $lg[".rtl .ltr > .text-lg-end"] = $rtl['.ltr > .text-end']
+$xl[".ltr .rtl > .text-xl-start"] = $xl[".rtl .ltr > .text-xl-end"] = $rtl['.ltr > .text-end']
+
+$rtl['.text-end'] = $ltr['.text-start'] = {
+    'text-align': left !important
+}
+$xxs[".rtl .text-xxs-end"] = $xxs[".ltr .text-xxs-start"] = $ltr['.text-start']
+$xs[".rtl .text-xs-end"] = $xs[".ltr .text-xs-start"] = $ltr['.text-start']
+$sm[".rtl .text-sm-end"] = $sm[".ltr .text-sm-start"] = $ltr['.text-start']
+$md[".rtl .text-md-end"] = $md[".ltr .text-md-start"] = $ltr['.text-start']
+$lg[".rtl .text-lg-end"] = $lg[".ltr .text-lg-start"] = $ltr['.text-start']
+$xl[".rtl .text-xl-end"] = $xl[".ltr .text-xl-start"] = $ltr['.text-start']
+
+$ltr['.rtl > .text-end'] = $rtl['.ltr > .text-start'] = {
+    'text-align': left !important
+}
+$xxs[".ltr .rtl > .text-xxs-end"] = $xxs[".rtl .ltr > .text-xxs-start"] = $rtl['.ltr > .text-start']
+$xs[".ltr .rtl > .text-xs-end"] = $xs[".rtl .ltr > .text-xs-start"] = $rtl['.ltr > .text-start']
+$sm[".ltr .rtl > .text-sm-end"] = $sm[".rtl .ltr > .text-sm-start"] = $rtl['.ltr > .text-start']
+$md[".ltr .rtl > .text-md-end"] = $md[".rtl .ltr > .text-md-start"] = $rtl['.ltr > .text-start']
+$lg[".ltr .rtl > .text-lg-end"] = $lg[".rtl .ltr > .text-lg-start"] = $rtl['.ltr > .text-start']
+$xl[".ltr .rtl > .text-xl-end"] = $xl[".rtl .ltr > .text-xl-start"] = $rtl['.ltr > .text-start']
+
+.font-size
+    font-size $font-size !important
+.font-size-xxs
+    font-size $font-size-xxs !important
+.font-size-xs
+    font-size $font-size-xs !important
+.font-size-sm
+    font-size $font-size-sm !important
+.font-size-md
+    font-size $font-size-md !important
+.font-size-lg
+    font-size $font-size-lg !important
+.font-size-xl
+    font-size $font-size-xl !important
+
+for i in 100 200 300 400 500 600 700 800 900
+    .font-weight-{i}
+        font-weight i !important
+
+for i in 0..10
+    for j in 0...10
+        .line-height-{i}-{j}
+            line-height s('%s.%s', i, j) !important
+
+.text-nowrap
+    white-space nowrap !important
+
+for val in capitalize full-width inherit initial lowercase none revert unset uppercase
+    .text-{val}
+        text-transform val

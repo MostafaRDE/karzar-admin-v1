@@ -1,0 +1,29 @@
+table
+    width 100%
+    .btn-image-table img
+        width 18px
+    th
+        white-space nowrap
+    th, td
+        padding-left 10px
+        padding-right 10px
+
+.ltr th, .ltr td
+    text-align left
+.rtl th, .rtl td
+    text-align right
+
+.table-responsive
+    overflow-y hidden
+    overflow-x auto
+    -webkit-overflow-scrolling touch
+$xxs['.table-responsive-xxs'] = {
+    overflow-y: hidden,
+    overflow-x: auto,
+    -webkit-overflow-scrolling: touch
+}
+$xs['.table-responsive-xs'] = $xxs['.table-responsive-xxs']
+$sm['.table-responsive-sm'] = $xxs['.table-responsive-xxs']
+$md['.table-responsive-md'] = $xxs['.table-responsive-xxs']
+$lg['.table-responsive-lg'] = $xxs['.table-responsive-xxs']
+$xl['.table-responsive-xl'] = $xxs['.table-responsive-xxs']

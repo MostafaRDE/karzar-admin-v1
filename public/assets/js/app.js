@@ -123,7 +123,7 @@ var App = function () {
 
             // Opposite sidebar visibility
             $('body').toggleClass('sidebar-right-visible');
-
+            
             // If visible
             if ($('body').hasClass('sidebar-right-visible')) {
                 $('body').addClass('sidebar-main-hidden');
@@ -193,9 +193,7 @@ var App = function () {
 
     // Toggle main sidebar on mobile
     var _sidebarMobileMainToggle = function() {
-        console.log($('.sidebar-mobile-main-toggle'))
         $('.sidebar-mobile-main-toggle').on('click', function(e) {
-            console.log(2)
             e.preventDefault();
             $('body').toggleClass('sidebar-mobile-main').removeClass('sidebar-mobile-secondary sidebar-mobile-right');
 
@@ -342,9 +340,9 @@ var App = function () {
             e.preventDefault();
             var $target = $(this),
                 block = $target.closest('.card');
-
+            
             // Block card
-            $(block).block({
+            $(block).block({ 
                 message: '<i class="icon-spinner2 spinner"></i>',
                 overlayCSS: {
                     backgroundColor: '#fff',
@@ -362,7 +360,7 @@ var App = function () {
             // For demo purposes
             window.setTimeout(function () {
                $(block).unblock();
-            }, 2000);
+            }, 2000); 
         });
     };
 

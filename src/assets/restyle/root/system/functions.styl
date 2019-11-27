@@ -1,0 +1,13 @@
+global-color-accent($color_name, $color_value, $color_type)
+    .bg-{$color_name}
+        &.{$color_type}
+            background-color $color_value !important
+
+    .text-{$color_name}
+        &.{$color_type}
+            color $color_value !important
+
+global-gradient-accent($gradient_name, $gradient_value, $gradient_type)
+    .bg-gradient-{$gradient_name}
+        &.{$gradient_type}
+            bg-gradient($gradient_value !important)

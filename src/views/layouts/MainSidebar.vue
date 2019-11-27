@@ -22,11 +22,11 @@
                 <div class="sidebar-user-material-body">
                     <div class="card-body text-center">
                         <a href="#">
-                            <img :src="require('@/assets/global_assets/images/image.png')"
+                            <img :src="$store.state.user.userImage"
                                  class="img-fluid rounded-circle shadow-1 mb-3" width="80" height="80" alt="">
                         </a>
-                        <h6 class="mb-0 text-white text-shadow-dark">مصطفی رستم دخت عفتی</h6>
-                        <span class="font-size-sm text-white text-shadow-dark">مدیر</span>
+                        <h6 class="mb-0 text-white text-shadow-dark">{{ $store.getters['user/fullName'] }}</h6>
+                        <span class="font-size-sm text-white text-shadow-dark">{{ $store.getters['user/roleLabel'] }}</span>
                     </div>
 
                     <div class="sidebar-user-material-footer">

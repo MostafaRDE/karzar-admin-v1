@@ -1,0 +1,10 @@
+for $color_name , $color_color in $colors
+    for $color_type , $color_value in $color_color
+        if $color_type == 'base'
+            .bg-{$color_name}
+                background-color $color_value !important
+            .text-{$color_name}
+                color $color_value !important
+
+        else if $color_type != 'shades'
+            global-color-accent($color_name, $color_value, $color_type)

@@ -1,0 +1,32 @@
+{
+    "xx-small": {
+        "default": "screen and (max-width:400px)",
+        "landscape": "screen and (max-width:400px) and (orientation:landscape)",
+        "portrait": "screen and (max-width:400px) and (orientation:portrait)"
+    },
+    "x-small": {
+        "default": "screen and (min-width:401px)",
+        "landscape": "screen and (min-width:401px) and (orientation:landscape)",
+        "portrait": "screen and (min-width:401px) and (orientation:portrait)"
+    },
+    "small": {
+        "default": "screen and (min-width:576px)",
+        "landscape": "screen and (min-width:576px) and (orientation:landscape)",
+        "portrait": "screen and (min-width:576px) and (orientation:portrait)"
+    },
+    "medium": {
+        "default": "screen and (min-width:768px)",
+        "landscape": "screen and (min-width:768px) and (orientation:landscape)",
+        "portrait": "screen and (min-width:768px) and (orientation:portrait)"
+    },
+    "large": {
+        "default": "screen and (min-width:992px)",
+        "landscape": "screen and (min-width:992px) and (orientation:landscape)",
+        "portrait": "screen and (min-width:992px) and (orientation:portrait)"
+    },
+    "x-large": {
+        "default": "screen and (min-width:1200px)",
+        "landscape": "screen and (min-width:1200px) and (orientation:landscape)",
+        "portrait": "screen and (min-width:1200px) and (orientation:portrait)"
+    }
+}

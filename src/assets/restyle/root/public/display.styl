@@ -1,0 +1,42 @@
+for displayMedia in flex block inline inline-block inline-flex inline-table inline-grid table none
+    .d-{displayMedia}
+        display displayMedia !important
+
+for displayMedia in flex block inline inline-block table none inline-flex
+    $xxs[s(".d-xxs-%s", displayMedia)] = {
+        'display': displayMedia !important
+    }
+    $xs[s(".d-xs-%s", displayMedia)] = $xxs[s(".d-xxs-%s", displayMedia)]
+    $sm[s(".d-sm-%s", displayMedia)] = $xxs[s(".d-xxs-%s", displayMedia)]
+    $md[s(".d-md-%s", displayMedia)] = $xxs[s(".d-xxs-%s", displayMedia)]
+    $lg[s(".d-lg-%s", displayMedia)] = $xxs[s(".d-xxs-%s", displayMedia)]
+    $xl[s(".d-xl-%s", displayMedia)] = $xxs[s(".d-xxs-%s", displayMedia)]
+
+for val in baseline center flex-start flex-end end left right safe self-end self-start start stretch unset unsafe
+    .align-items-{val}
+        align-items val !important
+
+for val in baseline center flex-start flex-end end left right safe self-end self-start start stretch unset unsafe space-around space-between space-evenly
+    .justify-content-{val}
+        justify-content val !important
+
+for i in 0..10
+    .order-{i}
+        order i !important
+    $xxs[".order-xxs-" + i] = {
+        'order': i !important
+    }
+    $xs[".order-xs-" + i] = $xxs[".order-xxs-" + i]
+    $sm[".order-sm-" + i] = $xxs[".order-xxs-" + i]
+    $md[".order-md-" + i] = $xxs[".order-xxs-" + i]
+    $lg[".order-lg-" + i] = $xxs[".order-xxs-" + i]
+    $xl[".order-xl-" + i] = $xxs[".order-xxs-" + i]
+
+for val in column column-reverse inherit initial row row-reverse unset
+    .flex-direction-{val}
+        flex-direction val !important
+
+.flex-grow-0
+    flex-grow 0 !important
+.flex-grow-1
+    flex-grow 1 !important

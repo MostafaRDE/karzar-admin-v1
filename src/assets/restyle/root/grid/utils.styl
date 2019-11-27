@@ -1,0 +1,57 @@
+.container-fluid
+    width 100%
+    padding-left 15px
+    padding-right 15px
+
+.container
+    margin-left auto
+    margin-right auto
+
+.row
+    display flex
+    flex-wrap wrap
+    width 100%
+
+.col
+    margin-bottom 20px
+    flex-basis 0
+    flex-grow 1
+    max-width 100%
+    padding-left 10px
+    padding-right 10px
+for i in  1..12
+    .col-{i}
+        margin-bottom 20px
+        flex 0 0 unit(i / 12 * 100, '%') !important
+        max-width unit(i / 12 * 100, '%') !important
+        padding-left 10px
+        padding-right 10px
+
+.w-fit-content
+    width auto !important
+    width -moz-fit-content !important
+    width fit-content !important
+.h-fit-content
+    height auto !important
+    height -moz-fit-content !important
+    height fit-content !important
+
+.w-auto
+    width auto !important
+.h-auto
+    height auto !important
+
+for i in 0..20
+    i = i * 5
+    .h-{i}
+        height unit(i, '%') !important
+    .w-{i}
+        width unit(i, '%') !important
+    .vh-{i}
+        height unit(i, 'vh') !important
+    .vw-{i}
+        width unit(i, 'vw') !important
+    .pxh-{i}
+        height unit(i, 'px') !important
+    .pxw-{i}
+        width unit(i, 'px') !important

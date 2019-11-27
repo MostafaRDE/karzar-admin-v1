@@ -1,0 +1,21 @@
+for i in 1..12
+    $ltr['.offset-' + i] = {
+        margin-left: unit(i / 12 * 100, '%') !important
+    }
+    $xxs[".ltr .offset-xxs-" + i] = $ltr['.offset-' + i]
+    $xs[".ltr .offset-xs-" + i] = $ltr['.offset-' + i]
+    $sm[".ltr .offset-sm-" + i] = $ltr['.offset-' + i]
+    $md[".ltr .offset-md-" + i] = $ltr['.offset-' + i]
+    $lg[".ltr .offset-lg-" + i] = $ltr['.offset-' + i]
+    $xl[".ltr .offset-xl-" + i] = $ltr['.offset-' + i]
+
+for i in 1..12
+    $rtl['.offset-' + i] = {
+        margin-right: unit(i / 12 * 100, '%') !important
+    }
+    $xxs[".rtl .offset-xxs-" + i] = $rtl['.offset-' + i]
+    $xs[".rtl .offset-xs-" + i] = $rtl['.offset-' + i]
+    $sm[".rtl .offset-sm-" + i] = $rtl['.offset-' + i]
+    $md[".rtl .offset-md-" + i] = $rtl['.offset-' + i]
+    $lg[".rtl .offset-lg-" + i] = $rtl['.offset-' + i]
+    $xl[".rtl .offset-xl-" + i] = $rtl['.offset-' + i]

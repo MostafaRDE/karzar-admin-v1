@@ -1,0 +1,341 @@
+.m-auto
+    margin auto !important
+
+$xxs['.m-xxs-auto'] = {
+            margin: auto !important
+        }
+$xs['.m-xs-auto'] = $xxs['.m-xxs-auto']
+$sm['.m-sm-auto'] = $xxs['.m-xxs-auto']
+$md['.m-md-auto'] = $xxs['.m-xxs-auto']
+$lg['.m-lg-auto'] = $xxs['.m-xxs-auto']
+$xl['.m-xl-auto'] = $xxs['.m-xxs-auto']
+
+.p-auto
+    padding auto !important
+
+$xxs['.p-xxs-auto'] = {
+            padding: auto !important
+        }
+$xs['.p-xs-auto'] = $xxs['.p-xxs-auto']
+$sm['.p-sm-auto'] = $xxs['.p-xxs-auto']
+$md['.p-md-auto'] = $xxs['.p-xxs-auto']
+$lg['.p-lg-auto'] = $xxs['.p-xxs-auto']
+$xl['.p-xl-auto'] = $xxs['.p-xxs-auto']
+
+for val in inherit initial normal unset
+    .letter-spacing-{val}
+        letter-spacing val !important
+for i in 0..10
+    .letter-spacing-{i}
+        letter-spacing unit(i, 'px') !important
+
+// --------------------------------------------------------------------------------
+
+.mx-auto
+    margin-left auto !important
+    margin-right auto !important
+$xxs['.mx-xxs-auto'] = {
+            margin-left: auto !important,
+            margin-right: auto !important,
+        }
+$xs['.mx-xs-auto'] = $xxs['.mx-xxs-auto']
+$sm['.mx-sm-auto'] = $xxs['.mx-xxs-auto']
+$md['.mx-md-auto'] = $xxs['.mx-xxs-auto']
+$lg['.mx-lg-auto'] = $xxs['.mx-xxs-auto']
+$xl['.mx-xl-auto'] = $xxs['.mx-xxs-auto']
+.my-auto
+    margin-bottom auto !important
+    margin-top auto !important
+$xxs['.my-xxs-auto'] = {
+            margin-bottom: auto !important,
+            margin-top: auto !important,
+        }
+$xs['.my-xs-auto'] = $xxs['.my-xxs-auto']
+$sm['.my-sm-auto'] = $xxs['.my-xxs-auto']
+$md['.my-md-auto'] = $xxs['.my-xxs-auto']
+$lg['.my-lg-auto'] = $xxs['.my-xxs-auto']
+$xl['.my-xl-auto'] = $xxs['.my-xxs-auto']
+
+.px-auto
+    padding-left auto !important
+    padding-right auto !important
+$xxs['.px-xxs-auto'] = {
+            padding-left: auto !important,
+            padding-right: auto !important,
+        }
+$xs['.px-xs-auto'] = $xxs['.px-xxs-auto']
+$sm['.px-sm-auto'] = $xxs['.px-xxs-auto']
+$md['.px-md-auto'] = $xxs['.px-xxs-auto']
+$lg['.px-lg-auto'] = $xxs['.px-xxs-auto']
+$xl['.px-xl-auto'] = $xxs['.px-xxs-auto']
+.py-auto
+    padding-bottom auto !important
+    padding-top auto !important
+$xxs['.py-xxs-auto'] = {
+            padding-bottom: auto !important,
+            padding-top: auto !important,
+        }
+$xs['.py-xs-auto'] = $xxs['.py-xxs-auto']
+$sm['.py-sm-auto'] = $xxs['.py-xxs-auto']
+$md['.py-md-auto'] = $xxs['.py-xxs-auto']
+$lg['.py-lg-auto'] = $xxs['.py-xxs-auto']
+$xl['.py-xl-auto'] = $xxs['.py-xxs-auto']
+
+// --------------------------------------------------------------------------------
+
+for value in (b bottom) (l left) (r right) (t top)
+    .m{value}-auto
+        margin-{value [ 1 ]} auto !important
+    .p{value}-auto
+        padding-{value [ 1 ]} auto !important
+    if value[1] == 'bottom'
+        $xxs['.mb-xxs-auto'] = {
+                    margin-bottom: auto !important
+                }
+        $xxs['.pb-xxs-auto'] = {
+                    padding-bottom: auto !important
+                }
+    if value[1] == 'left'
+        $xxs['.ml-xxs-auto'] = {
+                    margin-left: auto !important
+                }
+        $xxs['.pl-xxs-auto'] = {
+                    padding-left: auto !important
+                }
+    if value[1] == 'right'
+        $xxs['.mr-xxs-auto'] = {
+                    margin-right: auto !important
+                }
+        $xxs['.pr-xxs-auto'] = {
+                    padding-right: auto !important
+                }
+    if value[1] == 'top'
+        $xxs['.mt-xxs-auto'] = {
+                    margin-top: auto !important
+                }
+        $xxs['.pt-xxs-auto'] = {
+                    padding-top: auto !important
+                }
+    key = value[0]
+    $xs['.m' + key + '-xs-auto'] = $xxs['.m' + key + '-xxs-auto']
+    $sm['.m' + key + '-sm-auto'] = $xxs['.m' + key + '-xxs-auto']
+    $md['.m' + key + '-md-auto'] = $xxs['.m' + key + '-xxs-auto']
+    $lg['.m' + key + '-lg-auto'] = $xxs['.m' + key + '-xxs-auto']
+    $xl['.m' + key + '-xl-auto'] = $xxs['.m' + key + '-xxs-auto']
+    $xs['.p' + key + '-xs-auto'] = $xxs['.p' + key + '-xxs-auto']
+    $sm['.p' + key + '-sm-auto'] = $xxs['.p' + key + '-xxs-auto']
+    $md['.p' + key + '-md-auto'] = $xxs['.p' + key + '-xxs-auto']
+    $lg['.p' + key + '-lg-auto'] = $xxs['.p' + key + '-xxs-auto']
+    $xl['.p' + key + '-xl-auto'] = $xxs['.p' + key + '-xxs-auto']
+
+// --------------------------------------------------------------------------------
+
+for i in 0..30
+    $key = i * 5
+    .m-{$key}
+        margin  unit($key, 'px') !important
+    $xxs['.m-xxs-' + $key] = {
+        margin:  unit($key, 'px') !important
+    }
+    $xs['.m-xs-' + $key] = $xxs['.m-xxs-' + $key]
+    $sm['.m-sm-' + $key] = $xxs['.m-xxs-' + $key]
+    $md['.m-md-' + $key] = $xxs['.m-xxs-' + $key]
+    $lg['.m-lg-' + $key] = $xxs['.m-xxs-' + $key]
+    $xl['.m-xl-' + $key] = $xxs['.m-xxs-' + $key]
+
+    .p-{$key}
+        padding  unit($key, 'px') !important
+    $xxs['.p-xxs-' + $key] = {
+        padding:  unit($key, 'px') !important
+    }
+    $xs['.p-xs-' + $key] = $xxs['.p-xxs-' + $key]
+    $sm['.p-sm-' + $key] = $xxs['.p-xxs-' + $key]
+    $md['.p-md-' + $key] = $xxs['.p-xxs-' + $key]
+    $lg['.p-lg-' + $key] = $xxs['.p-xxs-' + $key]
+    $xl['.p-xl-' + $key] = $xxs['.p-xxs-' + $key]
+
+    .mx-{$key}
+        margin-left  unit($key, 'px') !important
+        margin-right  unit($key, 'px') !important
+    .mx--{$key}
+        margin-left  unit($key * -1, 'px') !important
+        margin-right  unit($key * -1, 'px') !important
+    $xxs['.mx-xxs-' + $key] = {
+        margin-left:  unit($key, 'px') !important,
+        margin-right:  unit($key, 'px') !important
+    }
+    $xs['.mx-xs-' + $key] = $xxs['.mx-xxs-' + $key]
+    $sm['.mx-sm-' + $key] = $xxs['.mx-xxs-' + $key]
+    $md['.mx-md-' + $key] = $xxs['.mx-xxs-' + $key]
+    $lg['.mx-lg-' + $key] = $xxs['.mx-xxs-' + $key]
+    $xl['.mx-xl-' + $key] = $xxs['.mx-xxs-' + $key]
+    $xxs['.mx--xxs-' + $key] = {
+        margin-left:  unit($key * -1, 'px') !important,
+        margin-right:  unit($key * -1, 'px') !important
+    }
+    $xs['.mx--xs-' + $key] = $xxs['.mx--xxs-' + $key]
+    $sm['.mx--sm-' + $key] = $xxs['.mx--xxs-' + $key]
+    $md['.mx--md-' + $key] = $xxs['.mx--xxs-' + $key]
+    $lg['.mx--lg-' + $key] = $xxs['.mx--xxs-' + $key]
+    $xl['.mx--xl-' + $key] = $xxs['.mx--xxs-' + $key]
+
+    .px-{$key}
+        padding-left  unit($key, 'px') !important
+        padding-right  unit($key, 'px') !important
+    .px--{$key}
+        padding-left  unit($key * -1, 'px') !important
+        padding-right  unit($key * -1, 'px') !important
+    $xxs['.px-xxs-' + $key] = {
+        padding-left:  unit($key, 'px') !important,
+        padding-right:  unit($key, 'px') !important
+    }
+    $xs['.px-xs-' + $key] = $xxs['.px-xxs-' + $key]
+    $sm['.px-sm-' + $key] = $xxs['.px-xxs-' + $key]
+    $md['.px-md-' + $key] = $xxs['.px-xxs-' + $key]
+    $lg['.px-lg-' + $key] = $xxs['.px-xxs-' + $key]
+    $xl['.px-xl-' + $key] = $xxs['.px-xxs-' + $key]
+    $xxs['.px--xxs-' + $key] = {
+        padding-left:  unit($key * -1, 'px') !important,
+        padding-right:  unit($key * -1, 'px') !important
+    }
+    $xs['.px--xs-' + $key] = $xxs['.px--xxs-' + $key]
+    $sm['.px--sm-' + $key] = $xxs['.px--xxs-' + $key]
+    $md['.px--md-' + $key] = $xxs['.px--xxs-' + $key]
+    $lg['.px--lg-' + $key] = $xxs['.px--xxs-' + $key]
+    $xl['.px--xl-' + $key] = $xxs['.px--xxs-' + $key]
+
+    .my-{$key}
+        margin-bottom  unit($key, 'px') !important
+        margin-top  unit($key, 'px') !important
+    .my--{$key}
+        margin-bottom  unit($key * -1, 'px') !important
+        margin-top  unit($key * -1, 'px') !important
+    $xxs['.my-xxs-' + $key] = {
+        margin-bottom:  unit($key, 'px') !important,
+        margin-top:  unit($key, 'px') !important
+    }
+    $xs['.my-xs-' + $key] = $xxs['.my-xxs-' + $key]
+    $sm['.my-sm-' + $key] = $xxs['.my-xxs-' + $key]
+    $md['.my-md-' + $key] = $xxs['.my-xxs-' + $key]
+    $lg['.my-lg-' + $key] = $xxs['.my-xxs-' + $key]
+    $xl['.my-xl-' + $key] = $xxs['.my-xxs-' + $key]
+    $xxs['.my--xxs-' + $key] = {
+        margin-bottom:  unit($key * -1, 'px') !important,
+        margin-top:  unit($key * -1, 'px') !important
+    }
+    $xs['.my--xs-' + $key] = $xxs['.my--xxs-' + $key]
+    $sm['.my--sm-' + $key] = $xxs['.my--xxs-' + $key]
+    $md['.my--md-' + $key] = $xxs['.my--xxs-' + $key]
+    $lg['.my--lg-' + $key] = $xxs['.my--xxs-' + $key]
+    $xl['.my--xl-' + $key] = $xxs['.my--xxs-' + $key]
+
+    .py-{$key}
+        padding-bottom  unit($key, 'px') !important
+        padding-top  unit($key, 'px') !important
+    .py--{$key}
+        padding-bottom  unit($key * -1, 'px') !important
+        padding-top  unit($key * -1, 'px') !important
+    $xxs['.py-xxs-' + $key] = {
+        padding-bottom:  unit($key, 'px') !important,
+        padding-top:  unit($key, 'px') !important
+    }
+    $xs['.py-xs-' + $key] = $xxs['.py-xxs-' + $key]
+    $sm['.py-sm-' + $key] = $xxs['.py-xxs-' + $key]
+    $md['.py-md-' + $key] = $xxs['.py-xxs-' + $key]
+    $lg['.py-lg-' + $key] = $xxs['.py-xxs-' + $key]
+    $xl['.py-xl-' + $key] = $xxs['.py-xxs-' + $key]
+    $xxs['.py--xxs-' + $key] = {
+        padding-bottom:  unit($key * -1, 'px') !important,
+        padding-top:  unit($key * -1, 'px') !important
+    }
+    $xs['.py--xs-' + $key] = $xxs['.py--xxs-' + $key]
+    $sm['.py--sm-' + $key] = $xxs['.py--xxs-' + $key]
+    $md['.py--md-' + $key] = $xxs['.py--xxs-' + $key]
+    $lg['.py--lg-' + $key] = $xxs['.py--xxs-' + $key]
+    $xl['.py--xl-' + $key] = $xxs['.py--xxs-' + $key]
+
+    for value in (b bottom) (l left) (r right) (t top)
+        .m{value}-{$key}
+            margin-{value [ 1 ]}  unit($key, 'px') !important
+        .p{value}-{$key}
+            padding-{value [ 1 ]}  unit($key, 'px') !important
+        .m{value}--{$key}
+            margin-{value [ 1 ]}  unit($key * -1, 'px') !important
+        .p{value}--{$key}
+            padding-{value [ 1 ]}  unit($key * -1, 'px') !important
+        if value[1] == 'bottom'
+            $xxs['.mb-xxs-' + $key] = {
+                margin-bottom:  unit($key, 'px') !important
+            }
+            $xxs['.pb-xxs-' + $key] = {
+                padding-bottom:  unit($key, 'px') !important
+            }
+            $xxs['.mb--xxs-' + $key] = {
+                margin-bottom:  unit($key * -1, 'px') !important
+            }
+            $xxs['.pb--xxs-' + $key] = {
+                padding-bottom:  unit($key * -1, 'px') !important
+            }
+        if value[1] == 'left'
+            $xxs['.ml-xxs-' + $key] = {
+                margin-left:  unit($key, 'px') !important
+            }
+            $xxs['.pl-xxs-' + $key] = {
+                padding-left:  unit($key, 'px') !important
+            }
+            $xxs['.ml--xxs-' + $key] = {
+                margin-left:  unit($key * -1, 'px') !important
+            }
+            $xxs['.pl--xxs-' + $key] = {
+                padding-left:  unit($key * -1, 'px') !important
+            }
+        if value[1] == 'right'
+            $xxs['.mr-xxs-' + $key] = {
+                margin-right:  unit($key, 'px') !important
+            }
+            $xxs['.pr-xxs-' + $key] = {
+                padding-right:  unit($key, 'px') !important
+            }
+            $xxs['.mr--xxs-' + $key] = {
+                margin-right:  unit($key * -1, 'px') !important
+            }
+            $xxs['.pr--xxs-' + $key] = {
+                padding-right:  unit($key * -1, 'px') !important
+            }
+        if value[1] == 'top'
+            $xxs['.mt-xxs-' + $key] = {
+                margin-top:  unit($key, 'px') !important
+            }
+            $xxs['.pt-xxs-' + $key] = {
+                padding-top:  unit($key, 'px') !important
+            }
+            $xxs['.mt--xxs-' + $key] = {
+                margin-top:  unit($key * -1, 'px') !important
+            }
+            $xxs['.pt--xxs-' + $key] = {
+                padding-top:  unit($key * -1, 'px') !important
+            }
+        key = value[0]
+        $xs['.m' + key + '-xs-' + $key] = $xxs['.m' + key + '-xxs-' + $key]
+        $sm['.m' + key + '-sm-' + $key] = $xxs['.m' + key + '-xxs-' + $key]
+        $md['.m' + key + '-md-' + $key] = $xxs['.m' + key + '-xxs-' + $key]
+        $lg['.m' + key + '-lg-' + $key] = $xxs['.m' + key + '-xxs-' + $key]
+        $xl['.m' + key + '-xl-' + $key] = $xxs['.m' + key + '-xxs-' + $key]
+        $xs['.p' + key + '-xs-' + $key] = $xxs['.p' + key + '-xxs-' + $key]
+        $sm['.p' + key + '-sm-' + $key] = $xxs['.p' + key + '-xxs-' + $key]
+        $md['.p' + key + '-md-' + $key] = $xxs['.p' + key + '-xxs-' + $key]
+        $lg['.p' + key + '-lg-' + $key] = $xxs['.p' + key + '-xxs-' + $key]
+        $xl['.p' + key + '-xl-' + $key] = $xxs['.p' + key + '-xxs-' + $key]
+
+        $xs['.m' + key + '--xs-' + $key] = $xxs['.m' + key + '--xxs-' + $key]
+        $sm['.m' + key + '--sm-' + $key] = $xxs['.m' + key + '--xxs-' + $key]
+        $md['.m' + key + '--md-' + $key] = $xxs['.m' + key + '--xxs-' + $key]
+        $lg['.m' + key + '--lg-' + $key] = $xxs['.m' + key + '--xxs-' + $key]
+        $xl['.m' + key + '--xl-' + $key] = $xxs['.m' + key + '--xxs-' + $key]
+        $xs['.p' + key + '--xs-' + $key] = $xxs['.p' + key + '--xxs-' + $key]
+        $sm['.p' + key + '--sm-' + $key] = $xxs['.p' + key + '--xxs-' + $key]
+        $md['.p' + key + '--md-' + $key] = $xxs['.p' + key + '--xxs-' + $key]
+        $lg['.p' + key + '--lg-' + $key] = $xxs['.p' + key + '--xxs-' + $key]
+        $xl['.p' + key + '--xl-' + $key] = $xxs['.p' + key + '--xxs-' + $key]
+
+@import "direction.styl"
