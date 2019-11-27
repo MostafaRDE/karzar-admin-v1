@@ -55,11 +55,12 @@
 </template>
 
 <script>
+    import {a} from '../../api'
+
   export default {
     name: 'Login',
 
     data: () => ({
-
       // Loader login button status
       logging: false,
 
@@ -102,6 +103,12 @@
         // Set "true" flag's loading in submit button & show it
         // this.logging = true;
       }
+    },
+
+    mounted() {
+      a().then(response => {
+        console.log(response)
+      })
     }
   }
 </script>

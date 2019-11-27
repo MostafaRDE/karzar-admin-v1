@@ -5,6 +5,7 @@ import './assets/styles/index.scss'
 
 import './helpers'
 
+import './plugins'
 import './components'
 
 import App from './App.vue'

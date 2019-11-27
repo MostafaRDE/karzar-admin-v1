@@ -1,4 +1,4 @@
-import Regex from "../../../util/regex.js"
+import Regex from "../../../utils/regex.js"
 
 export default class Password {
     /**
