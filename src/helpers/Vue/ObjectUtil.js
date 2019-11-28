@@ -2,6 +2,9 @@ import Vue from 'vue'
 
 Vue.mixin({
     methods: {
+        objectIsEmpty(object) {
+            return Object.entries(object).length === 0
+        },
         sortingObjectResults(object, prop, sortType = 'asc') {
             object.sort(function(a, b) {
                 if (sortType === 'asc') {

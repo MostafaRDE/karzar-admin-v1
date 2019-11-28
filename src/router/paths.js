@@ -13,12 +13,6 @@ export default [
         meta: {auth: false},
         component: () => import('../views/Authentication/GoogleTwoFactor.vue'),
     },
-    {
-        path: '/reset-password',
-        name: 'resetPassword',
-        meta: {auth: false},
-        component: () => import('../views/Authentication/ResetPassword.vue'),
-    },
     // </editor-fold>
 
     // <editor-fold desc="Dashboard Routes">
@@ -27,7 +21,7 @@ export default [
         component: () => import('../views/Home.vue'),
         meta: {auth: true},
         children: [
-            {path: '', name: 'home', component: () => import('../views/Root/Home.vue')},
+            {path: '', name: 'dashboard', component: () => import('../views/Root/Home.vue')},
         ]
     },
     // </editor-fold>

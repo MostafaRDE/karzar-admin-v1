@@ -1,1 +1,2 @@
-import './vue-axios.js'
+import './axios.js'
+import './moment.js'

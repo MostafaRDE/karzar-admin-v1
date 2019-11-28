@@ -10,6 +10,11 @@
 
                 <!-- Login form -->
                 <rs-form class="login-form" @errors="setFormErrors($event)" :submit="submit">
+
+                    <rs-alert v-if="!objectIsEmpty(signInError)" color="danger" hasArrow right type="bg">
+                        {{ signInError.message }}
+                    </rs-alert>
+
                     <div class="card mb-0">
                         <div class="card-body">
                             <div class="text-center mb-3">
@@ -22,22 +27,22 @@
                                                icon="user"
                                                name="username"
                                                :error="getInputError('username')"
-                                               :rules="fields.rules.username"/>
+                                               :rules="fields.rules.username"
+                                               v-model="fields.username"/>
 
                             <rs-input-material placeholder="گذرواژه"
                                                icon="lock2"
                                                name="password"
                                                :error="getInputError('password')"
-                                               :rules="fields.rules.password"/>
+                                               :rules="fields.rules.password"
+                                               v-model="fields.password"/>
 
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block">ورود <i
-                                    class="icon-circle-left2 ml-2"></i></button>
-                            </div>
-
-                            <div class="text-center">
-                                <router-link :to="{name: 'resetPassword'}">گذرواژه خود را وارد فراموش کرده اید؟
-                                </router-link>
+                            <div class="form-group mb-0">
+                                <button type="submit" class="btn bg-teal-400 btn-block" :disabled="logging">
+                                    <rs-loading v-if="logging" icon="spinner10" class="mr-2"/>
+                                    ورود
+                                    <i v-if="!logging" class="icon-circle-left2 ml-2"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -55,60 +60,71 @@
 </template>
 
 <script>
-    import {a} from '../../api'
+    import auth from '../../modules/objects/auth.js'
+    import { login } from '../../api'
 
-  export default {
-    name: 'Login',
+    export default {
+        name: 'Login',
 
-    data: () => ({
-      // Loader login button status
-      logging: false,
+        data: () => ({
+            // Loader login button status
+            logging: false,
 
-      // Server error message after submit data
-      signInError: {},
+            // Server error message after submit data
+            signInError: {},
 
-      // Form errors that back from "rs-form"-component
-      formErrors: {},
+            // Form errors that back from "rs-form"-component
+            formErrors: {},
 
-      // Fields of page
-      fields: {
-        username: '',
-        password: '',
+            // Fields of page
+            fields: {
+                username: '',
+                password: '',
 
-        // Rules of inputs of page
-        rules: {
-          username: 'required|string',
-          password: 'required|string',
-        }
-      }
-    }),
+                // Rules of inputs of page
+                rules: {
+                    username: 'required|string',
+                    password: 'required|string',
+                }
+            }
+        }),
 
-    methods: {
-      // Get errors from "rs-form"-component and set in "formErrors"-data-variable
-      setFormErrors (errors) {
-        this.formErrors = errors
-      },
+        methods: {
+            // Get errors from "rs-form"-component and set in "formErrors"-data-variable
+            setFormErrors (errors) {
+                this.formErrors = errors
+            },
 
-      // Customizing error-message for show in view (below inputs)
-      getInputError (key) {
-        return (this.formErrors.hasOwnProperty(key)) ? this.formErrors[key][0] : ''
-      },
+            // Customizing error-message for show in view (below inputs)
+            getInputError (key) {
+                return (this.formErrors.hasOwnProperty(key)) ? this.formErrors[key][0] : ''
+            },
 
-      // Submit form after form validation (If is successful)
-      submit() {
-        // Clear form errors
-        this.setFormErrors({});
-        // Remove message server error
-        this.signInError = {};
-        // Set "true" flag's loading in submit button & show it
-        // this.logging = true;
-      }
-    },
+            // Submit form after form validation (If is successful)
+            submit () {
+                // Clear form errors
+                this.setFormErrors({})
+                // Remove message server error
+                this.signInError = {}
+                // Set "true" flag's loading in submit button & show it
+                this.logging = true
 
-    mounted() {
-      a().then(response => {
-        console.log(response)
-      })
+                // Call "login" api method
+                login(this.fields.username, this.fields.password).then(response => {
+                    setCookie(auth.AUTH_TOKEN, response.data['access_token'])
+                    this.$router.push({name: 'dashboard'})
+                }).catch(error => {
+                    console.log(error)
+                    // Show message server error
+                    this.signInError = {
+                        code: error.response.status,
+                        message: error.response.data.msg,
+                    };
+                }).finally(() => {
+                    // Set "false" flag's loading in submit button & hide it
+                    this.logging = false
+                })
+            }
+        },
     }
-  }
 </script>
