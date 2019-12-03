@@ -1,5 +1,6 @@
 <template>
-    <button :type="type">
+    <button :type="type"
+            :class="[`btn`, color !== '' ? `btn-${color}` : '', bg !== '' ? `bg-${bg}` : '']">
         <slot/>
     </button>
 </template>
@@ -9,6 +10,14 @@
         name: "RSButton",
 
         props: {
+            bg: {
+                default: '',
+                type: String,
+            },
+            color: {
+                default: 'primary',
+                type: String,
+            },
             loading: {
                 default: false,
                 type: Boolean,

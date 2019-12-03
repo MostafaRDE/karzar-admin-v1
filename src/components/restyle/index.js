@@ -6,3 +6,4 @@ Vue.component('rs-checkable-button', () => import('./RSCheckableButton.vue'));
 Vue.component('rs-form', () => import('./RSForm.vue'));
 Vue.component('rs-input', () => import('./RSInput.vue'));
 Vue.component('rs-loading', () => import('./RSLoading.vue'));
+Vue.component('rs-pagination', () => import('./RSPagination.vue'));
