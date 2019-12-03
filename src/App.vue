@@ -42,4 +42,8 @@
             }
         }
     }
+
+    .page-content {
+        min-height: calc(100vh - 48px)
+    }
 </style>

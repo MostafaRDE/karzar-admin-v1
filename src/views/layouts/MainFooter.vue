@@ -11,17 +11,21 @@
         <div class="navbar-collapse collapse" id="navbar-footer">
             <span class="navbar-text">
                 &copy; ۲۰۱۹. <a href="https://www.okex.ir">OKEX Exchange</a> توسط <a
-                href="https://www.ok-ex.co" target="_blank">OK-EX.CO</a>
+                    href="https://www.ok-ex.co" target="_blank">OK-EX.CO</a>
             </span>
 
             <ul class="navbar-nav ml-lg-auto">
                 <li class="nav-item">
-                    <a href="#" class="navbar-nav-link">اکسچنج</a>
+                    <a href="#" class="navbar-nav-link">
+                        <i class="icon-home4 mr-2"></i> &nbsp
+                        اکسچنج
+                    </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="#" class="navbar-nav-link">
-                        <i class="icon-lifebuoy"></i>
+                        <i class="icon-lifebuoy mr-2"></i>
+                        پشتیبانی
                     </a>
                 </li>
             </ul>
@@ -32,11 +36,7 @@
 </template>
 
 <script>
-  export default {
-    name: 'MainFooter'
-  }
+    export default {
+        name: 'MainFooter'
+    }
 </script>
-
-<style scoped>
-
-</style>

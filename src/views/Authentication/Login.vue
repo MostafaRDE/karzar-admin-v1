@@ -23,19 +23,27 @@
                                 <span class="d-block text-muted">اطلاعات کاربری خود را وارد کنید</span>
                             </div>
 
-                            <rs-input-material placeholder="نام کاربری"
-                                               icon="user"
-                                               name="username"
-                                               :error="getInputError('username')"
-                                               :rules="fields.rules.username"
-                                               v-model="fields.username"/>
+                            <rs-input placeholder="نام کاربری"
+                                      icon="user"
+                                      name="username"
+                                      :error="getInputError('username')"
+                                      :rules="fields.rules.username"
+                                      v-model="fields.username"/>
 
-                            <rs-input-material placeholder="گذرواژه"
-                                               icon="lock2"
-                                               name="password"
-                                               :error="getInputError('password')"
-                                               :rules="fields.rules.password"
-                                               v-model="fields.password"/>
+                            <rs-input placeholder="گذرواژه"
+                                      icon="lock2"
+                                      name="password"
+                                      :error="getInputError('password')"
+                                      :rules="fields.rules.password"
+                                      v-model="fields.password"/>
+
+                            <rs-input placeholder="کد ورود دومرحله ای گوگل"
+                                      icon="safe"
+                                      maxlength="6"
+                                      name="g2f"
+                                      :error="getInputError('g2f')"
+                                      :rules="fields.rules.g2f"
+                                      v-model="fields.g2f"/>
 
                             <div class="form-group mb-0">
                                 <button type="submit" class="btn bg-teal-400 btn-block" :disabled="logging">
@@ -80,11 +88,13 @@
             fields: {
                 username: '',
                 password: '',
+                g2f: '',
 
                 // Rules of inputs of page
                 rules: {
                     username: 'required|string',
                     password: 'required|string',
+                    g2f: 'required|string|size:6',
                 }
             }
         }),

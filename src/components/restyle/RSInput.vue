@@ -1,7 +1,7 @@
 <template>
     <div class="form-group"
-         :class="{'form-group-feedback': icon !== null, 'form-group-feedback-left': iconDirection === 'start', 'form-group-feedback-right': iconDirection === 'end'}">
-        <input type="text" class="form-control" :placeholder="placeholder" v-model="model"/>
+         :class="{'form-group-feedback': icon !== '', 'form-group-feedback-left': icon !== '' && iconDirection === 'start', 'form-group-feedback-right': icon !== '' && iconDirection === 'end'}">
+        <input type="text" class="form-control" :maxlength="maxlength !== 0 ? maxlength : ''" :placeholder="placeholder" v-model="model"/>
         <div class="form-control-feedback" v-if="icon !== ''">
             <i :class="`icon-${icon} text-${iconColor}`"></i>
         </div>
@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: 'RSInputMaterial',
+        name: 'RSInput',
 
         model: {
             prop: 'value',
@@ -33,6 +33,10 @@
             iconDirection: {
                 default: 'start',
                 type: String,
+            },
+            maxlength: {
+                default: 0,
+                type: Number,
             },
             name: {
                 default: '',

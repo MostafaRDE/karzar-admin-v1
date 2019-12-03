@@ -78,17 +78,13 @@
 </template>
 
 <script>
-  import MainSidebarData from '../../utils/objects/MainSidebarData'
+    import MainSidebarData from '../../utils/objects/MainSidebarData'
 
-  export default {
-    name: 'SideBar',
+    export default {
+        name: 'SideBar',
 
-    data: () => ({
-      MainSidebarData
-    })
-  }
+        data: () => ({
+            MainSidebarData
+        })
+    }
 </script>
-
-<style scoped>
-
-</style>
