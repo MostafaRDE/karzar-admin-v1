@@ -1,8 +1,25 @@
 <template>
     <div id="system">
-        <router-view></router-view>
+        <router-view/>
     </div>
 </template>
+
+<script>
+    export default {
+
+        metaInfo: {
+            titleTemplate: 'پنل مدیریت - %s'
+        },
+
+        watch: {
+            $route (route) {
+                if (route.matched[1].components.default.hasOwnProperty('breadcrumb'))
+                    this.$store.commit('updateBreadcrumb', route.matched[1].components.default.breadcrumb());
+            }
+        }
+
+    }
+</script>
 
 <style lang="scss">
     #app {

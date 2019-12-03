@@ -18,10 +18,10 @@ export default [
     // <editor-fold desc="Dashboard Routes">
     {
         path: '/',
-        component: () => import('../views/Home.vue'),
+        component: () => import('../views/Root.vue'),
         meta: {auth: true},
         children: [
-            {path: '', name: 'dashboard', component: () => import('../views/Root/Home.vue')},
+            {path: '', name: 'dashboard', component: () => import('../views/Root/Dashboard.vue')},
         ]
     },
     // </editor-fold>

@@ -8,8 +8,8 @@
             </div>
 
             <div class="header-elements d-none">
-                <a href="#" class="btn btn-labeled btn-labeled-right bg-pink-400">Button <b><i
-                    class="icon-menu7"></i></b></a>
+<!--                <a href="#" class="btn btn-labeled btn-labeled-right bg-pink-400">Button <b><i-->
+<!--                    class="icon-menu7"></i></b></a>-->
             </div>
         </div>
 

@@ -6,9 +6,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 
-    state: {},
+    state: {
+        breadcrumb: [],
+    },
 
-    mutations: {},
+    mutations: {
+        updateBreadcrumb: (state, breadcrumb) => state.breadcrumb = breadcrumb
+    },
 
     actions: {},
 

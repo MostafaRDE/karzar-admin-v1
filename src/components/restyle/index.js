@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import './Charts'
+
 Vue.component('rs-alert', () => import('./RSAlert.vue'));
 Vue.component('rs-form', () => import('./RSForm.vue'));
 Vue.component('rs-input-material', () => import('./RSInputMaterial.vue'));
