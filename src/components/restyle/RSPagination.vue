@@ -1,82 +1,38 @@
 <template>
     <div class="btn-toolbar justify-content-center">
         {{ /* Previous Button */ }}
-        <rs-button v-if="model !== 0"
-                   class="legitRipple mr-2"
+        <rs-button class="legitRipple mr-2"
                    :bg="bg"
                    :color="color"
-                   @click.native="model -= 1">
+                   @click.native="model -= model !== 1 ? 1 : 0">
             <i class="mi-navigate-next"></i>
         </rs-button>
 
         <div class="btn-group">
 
             {{ /* Start Buttons */ }}
-            <rs-button v-for="n in count"
-                       v-if="n < 4"
-                       class="legitRipple"
-                       :bg="bg"
-                       :color="selected !== n - 1 ? color : activeColor"
-                       @click.native="updatePagination(n)">
-                {{ n }}
-            </rs-button>
-
-            {{ /* Middle Buttons */ }}
-            <template v-if="count > 6">
-                <template v-if="selected < 2">
-                    <rs-button class="legitRipple" :bg="bg" :color="color">...</rs-button>
-                </template>
-                <template v-else-if="selected > count - 3">
-                    <rs-button class="legitRipple" :bg="bg" :color="color">...</rs-button>
-                </template>
-                <template v-else-if="count - 3 <= 5">
-                    <rs-button v-for="n in range(4, count - 3)"
-                               class="legitRipple"
-                               :bg="bg"
-                               :color="selected !== n - 1 ? color : activeColor"
-                               @click.native="updatePagination(n)">
-                        {{ n }}
-                    </rs-button>
-                </template>
-                <template v-else-if="selected === 2">
-                    <rs-button class="legitRipple"
-                               :bg="bg"
-                               :color="selected !== n - 1 ? color : activeColor"
-                               @click.native="updatePagination(4)">
-                        {{ 4 }}
-                    </rs-button>
-                    <rs-button class="legitRipple" :bg="bg" :color="color">...</rs-button>
-                </template>
-                <template v-else-if="selected === count - 3">
-                    <rs-button class="legitRipple" :bg="bg" :color="color">...</rs-button>
-                    <rs-button class="legitRipple"
-                               :bg="bg"
-                               :color="selected !== n - 1 ? color : activeColor"
-                               @click.native="updatePagination(6)">
-                        {{ count - 3 }}
-                    </rs-button>
-                </template>
-            </template>
-
-            {{ /* End Buttons */ }}
-            <template v-if="count > 3">
-                <rs-button v-for="n in range( count - (count >= 6 ? 2 : (count === 5 ? 1 : 0)), count)"
+            <template v-for="button of buttons">
+                <rs-button v-if="button.type === 1"
                            class="legitRipple"
                            :bg="bg"
-                           :color="selected !== n - 1 ? color : activeColor"
-                           @click.native="updatePagination(n)">
-                    {{ n }}
+                           :color="selected !== button.index ? color : activeColor"
+                           @click.native="updatePagination(button.index)">
+                    {{ button.index }}
+                </rs-button>
+                <rs-button v-if="button.type === 0"
+                           class="legitRipple"
+                           :bg="bg"
+                           :color="color">...
                 </rs-button>
             </template>
 
         </div>
 
         {{ /* Next Button */ }}
-        <rs-button v-if="model < count - 1"
-                   class="legitRipple ml-2"
+        <rs-button class="legitRipple ml-2"
                    :bg="bg"
                    :color="color"
-                   @click.native="model += 1">
+                   @click.native="model += model < count ? 1 : 0">
             <i class="mi-navigate-before"></i>
         </rs-button>
     </div>
@@ -107,9 +63,13 @@
             count: {
                 default: 1,
             },
+            ellipsisCount: {
+                default: 3,
+                type: Number,
+            },
             selected: {
-                default: 0,
-            }
+                default: 1,
+            },
         },
 
         computed: {
@@ -120,12 +80,63 @@
                 set (selected) {
                     this.$emit('change', selected)
                 }
+            },
+
+            buttons () {
+                let buttons = []
+
+                if (this.count <= this.ellipsisCount * 2 + 1) {
+                    // Create buttons
+                    for (let index = 1; index <= this.count; index++) {
+                        buttons.push({ index, type: 1 })
+                    }
+                }
+                // If the buttons more than this.ellipsisCount * 2 + 1, then
+                else {
+                    // Create first buttons
+                    for (let i = 0; i < this.ellipsisCount; i++) {
+                        buttons.push({ index: buttons.length + 1, type: 1 })
+                    }
+
+                    // Create variable has first show button on middle
+                    let middleFirst = this.model - 1,
+                        // Create variable has last show button on middle
+                        middleEnd = this.model + 1,
+                        // First button number of ellipsis ending buttons
+                        end = this.count - (this.ellipsisCount - 1);
+
+                    // If more than one button before set selected middle buttons, then add dots button at first middle buttons
+                    if (middleFirst - this.ellipsisCount > 1) {
+                        buttons.push({ type: 0 })
+                    }
+
+                    // <editor-fold desc="Middle buttons creator algorithm">
+                    for (let i = 0; i < 3; i++) {
+                        if (middleFirst >= 0 && middleFirst > this.ellipsisCount && middleFirst < end) {
+                            buttons.push({ index: middleFirst, type: 1 })
+                        }
+                        middleFirst++
+                    }
+                    // </editor-fold>
+
+                    // If more than one button after set selected middle buttons, then add dots button at last middle buttons
+                    if (end - middleEnd > 1) {
+                        buttons.push({ type: 0 })
+                    }
+
+                    // Create last buttons
+                    for (let i = 0; i < this.ellipsisCount; i++) {
+                        buttons.push({ index: this.count - (2 - i), type: 1 })
+                    }
+                }
+
+                return buttons
             }
         },
 
         methods: {
             updatePagination (n) {
-                this.model = n - 1
+                this.model = n
             }
         }
     }

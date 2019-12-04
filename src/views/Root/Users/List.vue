@@ -5,8 +5,11 @@
             <div class="card-body">
                 <div>
                     <rs-input placeholder="جستجو براساس کد ملی، نام و نام خانوادگی، شماره همراه، شماره ثابت، کارت بانکی، شماره شبا و سفارشات درگیر"/>
-                    <dashboard-navigation :source="navigation"
-                                          v-model="selectedNavigation"/>
+                    <div class="d-flex">
+                        <dashboard-navigation :source="navigation"
+                                              v-model="selectedNavigation"/>
+                        <rs-button color="light" icon="user-plus" @click.native="$router.push({name: 'userCreate'})">افزودن کاربر</rs-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -20,51 +23,57 @@
                 </div>
 
                 <div class="card-body">
-<!--                    Seed project includes the most basic components that can help you in development process - basic grid example, card, table and form layouts with standard components. Nothing extra. Easily turn on and off styles of different components in <code>_config.scss</code> file so that your CSS is always as clean as possible. Bootstrap components are always enabled though.-->
                 نکات
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
+                <rs-table>
+                    <template slot="head">
+                        <th>نام و نام خانوادگی</th>
+                        <th>شماره همراه</th>
+                        <th>وضعیت احراز هویت</th>
+                        <th>سطح کاربر</th>
+                        <th>تایید کاربر</th>
+                        <th>بلاک کردن کاربر</th>
+                        <th>جزییات</th>
+                    </template>
+
+                    <template slot="body">
                         <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                            <td class="select-text">مصطفی رستم دخت عفتی</td>
+                            <td class="select-text">09383359523</td>
+                            <td>
+                                <rs-badge color="success" pill>تایید شده</rs-badge>
+                            </td>
+                            <td>
+                                <rs-badge pill>تریدر</rs-badge>
+                            </td>
+                            <td>
+                                <rs-badge-icon class="cursor-pointer"
+                                               color="success"
+                                               icon="user-check"
+                                               rounded
+                                               @click.native=""/>
+                            </td>
+                            <td>
+                                <rs-badge-icon class="cursor-pointer"
+                                               bg="pink-400"
+                                               icon="user-cancel"
+                                               rounded
+                                               @click.native=""/>
+                            </td>
+                            <td>
+                                <rs-badge-icon class="cursor-pointer"
+                                               color="light"
+                                               icon="menu"
+                                               rounded
+                                               @click.native=""/>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Eugene</td>
-                            <td>Kopyov</td>
-                            <td>@Kopyov</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Victoria</td>
-                            <td>Baker</td>
-                            <td>@Vicky</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>James</td>
-                            <td>Alexander</td>
-                            <td>@Alex</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Franklin</td>
-                            <td>Morrison</td>
-                            <td>@Frank</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </template>
+                </rs-table>
 
                 <div class="card-body">
-                    <rs-pagination :count="9" v-model="currentPage"/>
+                    <rs-pagination :count="20" v-model="currentPage"/>
                 </div>
             </div>
         </div>
@@ -85,17 +94,19 @@
         ]),
 
         data: () => ({
-            currentPage: 0,
+            currentPage: 1,
             selectedNavigation: 0,
             navigation: [
                 {
                     color: 'primary',
+                    icon: 'users',
                     label: 'کل کاربران',
                     action () {
                     },
                 },
                 {
                     color: 'success',
+                    icon: 'user-check',
                     label: 'کاربران تایید شده',
                     action () {
                     },
@@ -103,6 +114,7 @@
                 {
                     bg: 'pink',
                     color: '',
+                    icon: 'user-cancel',
                     label: 'کاربران رد شده',
                     action () {
                     },

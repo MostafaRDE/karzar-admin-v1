@@ -5,6 +5,7 @@
                              class="mr-3"
                              :bg="filter.hasOwnProperty('bg') ? filter.bg : ''"
                              :color="filter.color"
+                             :icon="filter.hasOwnProperty('icon') ? filter.icon : ''"
                              :checked="model === index"
                              @click.native="clickOnFilterButton(index)">
             {{ filter.label }}
