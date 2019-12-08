@@ -45,7 +45,7 @@
                         case 'RSCheckBox':
                         case 'RSDropDown':
                         case 'RSDropDownPro':
-                        case 'RSInputMaterial':
+                        case 'RSInput':
                         case 'RSRadioButton':
                             // If child has name
                             if (child.name !== '') {
@@ -74,8 +74,9 @@
                         // Else go to next index of loop
                         continue;
 
-                    // Checking Rules
-                    RulesChecker.checkRuleOnData(rules, this.requestData, this.fields[i].name, this.errors, (errors) => this.errors = errors);
+                    if (rules.includes('required') || this.fields[i].value.trim() !== '')
+                        // Checking Rules
+                        RulesChecker.checkRuleOnData(rules, this.requestData, this.fields[i].name, this.errors, (errors) => this.errors = errors);
                 }
 
                 return Object.keys(this.errors).length === 0;

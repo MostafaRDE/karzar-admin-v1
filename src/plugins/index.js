@@ -1,5 +1,5 @@
 import './axios.js'
-import './d3.js'
-import './d3-tip.js'
+import './cxlt-vue2-toastr.js'
 import './moment.js'
 import './vue-meta.js'
+import './vue-persian-datetime-picker.js'

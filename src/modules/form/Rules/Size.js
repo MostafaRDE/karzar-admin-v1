@@ -45,13 +45,11 @@ export default class Size {
         switch (this.valueType) {
             case "number":
             case "bigint":
-                // return i18n.t('messages.rules.size.number', {number: this.length});
+                return `عدد ورودی باید برابر با ${this.length} باشد.`
 
             case "string":
-                // return i18n.t('messages.rules.size.string', {count: this.length});
-
             default:
-                return '';
+                return `تعداد حروف باید برابر با ${this.length} حرف باشد.`
         }
     }
 }

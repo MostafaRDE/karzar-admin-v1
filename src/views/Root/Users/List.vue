@@ -66,7 +66,7 @@
                                                color="light"
                                                icon="menu"
                                                rounded
-                                               @click.native=""/>
+                                               @click.native="$router.push({name: 'userShow', params: {id: 1}})"/>
                             </td>
                         </tr>
                     </template>

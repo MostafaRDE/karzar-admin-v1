@@ -36,7 +36,6 @@
             },
             maxlength: {
                 default: 0,
-                type: Number,
             },
             name: {
                 default: '',

@@ -74,6 +74,10 @@
     export default {
         name: 'Login',
 
+        metaInfo: {
+            title: "ورود"
+        },
+
         data: () => ({
             // Loader login button status
             logging: false,
@@ -121,10 +125,9 @@
 
                 // Call "login" api method
                 login(this.fields.username, this.fields.password).then(response => {
-                    setCookie(auth.AUTH_TOKEN, response.data['access_token'])
+                    window.setCookie(auth.AUTH_TOKEN, response.data['access_token'])
                     this.$router.push({name: 'dashboard'})
                 }).catch(error => {
-                    console.log(error)
                     // Show message server error
                     this.signInError = {
                         code: error.response.status,

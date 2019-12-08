@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import objectsAuth from './modules/objects/auth.js'
+
     export default {
 
         metaInfo: {
@@ -15,10 +17,15 @@
             $route: {
                 deep: true,
                 handler(route) {
-                    console.log(route)
                     if (route.matched[route.matched.length - 1].components.default.hasOwnProperty('breadcrumb'))
                         this.$store.commit('updateBreadcrumb', route.matched[route.matched.length - 1].components.default.breadcrumb());
                 },
+            }
+        },
+
+        mounted () {
+            if (window.userAuth()) {
+                this.$store.commit('user/updateUserData', window.parseJwt(window.getCookie(objectsAuth.AUTH_TOKEN)))
             }
         }
 

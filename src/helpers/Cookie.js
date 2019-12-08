@@ -4,11 +4,11 @@ window.deleteCooke = function (key) {
     }
 }
 window.hasCookie = function (key) {
-    return document.cookie.split(';').find(cookie => cookie.split('=')[0] === key) !== undefined
+    return document.cookie.split(';').find(cookie => cookie.split('=')[0].trim() === key) !== undefined
 }
 window.getCookie = function (key) {
-    if (this.hasCookie(key)) {
-        return document.cookie.split(';').find(cookie => cookie.split('=')[0] === key).split('=')[1]
+    if (window.hasCookie(key)) {
+        return document.cookie.split(';').find(cookie => cookie.split('=')[0].trim() === key).split('=')[1]
     }
     return null
 }

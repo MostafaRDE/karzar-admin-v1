@@ -2,10 +2,16 @@ export default {
     namespaced: true,
 
     state: {
-        name: 'مصطفی',
-        surname: 'رستم دخت عفتی',
+        id: 0,
+        name: 'نام',
+        surname: 'و نام خانوادگی',
         role: 'SUPER_ADMIN',
         userImage: require('@/assets/global_assets/images/image.png'),
+        username: '',
+        email: '',
+        permissions: [],
+        tokenCreatedAt: 0,
+        tokenExpiredAt: 0,
     },
 
     getters: {
@@ -15,6 +21,7 @@ export default {
         roleLabel(state) {
             switch (state.role) {
                 case 'SUPER_ADMIN':
+                case 'SUPPER_ADMIN':
                     return 'مدیر کل'
 
                 case 'ADMIN':
@@ -23,6 +30,19 @@ export default {
                 default:
                     return 'مشخص نشده'
             }
+        }
+    },
+
+    mutations: {
+        updateUserData(state, payload) {
+            state.id = payload.id;
+            state.name = payload.name;
+            state.role = payload.role;
+            state.username = payload.username;
+            state.email = payload.email;
+            state.permissions = payload.permissions;
+            state.tokenCreatedAt = payload.iat;
+            state.tokenExpiredAt = payload.exp;
         }
     }
 }

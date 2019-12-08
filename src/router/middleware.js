@@ -1,6 +1,8 @@
+import objectsAuth from '../modules/objects/auth'
+
 export function beforeEachCreator() {
     return function beforeEach(to, from, next) {
-        let userAuth = window.userAuth()
+        let userAuth = window.hasCookie('AUTH_TOKEN')
 
         // Check data of "meta"-key of routes
         // If "auth"-key in "meta"-key equals "true"
