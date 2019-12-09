@@ -26,7 +26,18 @@ export default [
                     {path: ':id/edit', name: 'userEdit', component: () => import('../views/Root/Users/Edit.vue')},
                     {path: ':id/fill-identities', name: 'userFillIdentities', component: () => import('../views/Root/Users/FillIdentities.vue')},
                 ]
-            }
+            },
+            {
+                path: 'coins',
+                component: () => import ('../views/Root/Coins.vue'),
+                children: [
+                    {path: '', name: 'coinsList', component: () => import('../views/Root/Coins/List.vue')},
+                    {path: 'create', name: 'coinCreate', component: () => import('../views/Root/Coins/Create.vue')},
+                    {path: ':id/show', name: 'coinShow', component: () => import('../views/Root/Coins/Show.vue')},
+                    {path: ':id/edit', name: 'userEdit', component: () => import('../views/Root/Users/Edit.vue')},
+                    {path: ':id/fill-identities', name: 'userFillIdentities', component: () => import('../views/Root/Users/FillIdentities.vue')},
+                ]
+            },
         ]
     },
     // </editor-fold>

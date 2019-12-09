@@ -8,13 +8,13 @@
                 </div>
             </div>
             <div class="text-right" style="direction: ltr">
-                <span style="line-height: 1">{{ cardNumber }}</span>
+                <span style="line-height: 1; font-size: 16px">{{ cardNumber }}</span>
                 <span class="cursor-pointer">
                     <i class="icon-copy3 mr-2"></i>
                 </span>
             </div>
             <div class="text-right d-flex align-items-center" style="direction: ltr">
-                <span style="line-height: 1">IR-{{ shebaNumber }}</span>
+                <span style="line-height: 1; font-size: 16px">IR-{{ shebaNumber }}</span>
                 <span class="cursor-pointer">
                     <i class="icon-copy3 mr-2"></i>
                 </span>

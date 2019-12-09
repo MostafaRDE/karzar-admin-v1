@@ -36,11 +36,16 @@
         methods: {
 
             // Get form fields
-            getFormFields() {
+            getFormFields(child) {
+                if (child.$children !== [])
+                    child.$children.forEach(childOfChild => {
+                        this.getFormFields(childOfChild)
+                    })
+
                 // Select all fields that can be validate
-                this.$children.find(child => {
+                child.$children.find(childOfChild => {
                     // Checking name of field (Child of components)
-                    switch (child.$options.name) {
+                    switch (childOfChild.$options.name) {
                         // Supported components as field
                         case 'RSCheckBox':
                         case 'RSDropDown':
@@ -48,10 +53,10 @@
                         case 'RSInput':
                         case 'RSRadioButton':
                             // If child has name
-                            if (child.name !== '') {
+                            if (childOfChild.name !== '') {
                                 // Add component as field that can be validate in "RSForm"
-                                this.fields.push(child);
-                                this.requestData[child.name] = child.model
+                                this.fields.push(childOfChild);
+                                this.requestData[childOfChild.name] = childOfChild.model
                             }
                     }
                 });
@@ -85,14 +90,16 @@
             // First check validation, if validate run "submit"-prop function or return error-message from rules
             initializeSubmit() {
                 // Call "getFormFields"-method
-                this.getFormFields();
+                this.getFormFields(this);
 
                 // Check validating fields is OK:
                 if (this.validating()) {
                     // Then if "submit"-function is not null:
-                    if (this.submit != null)
+                    if (this.submit != null) {
+                        this.$emit('errors', {})
                         // Then call "submit"-function
                         this.submit()
+                    }
                 }
                 else {
                     this.$emit('errors', this.errors)

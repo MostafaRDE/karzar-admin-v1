@@ -28,41 +28,48 @@
 
                 <rs-table>
                     <template slot="head">
-                        <th>نام و نام خانوادگی</th>
+                        <th>ردیف</th>
+                        <th>نام</th>
+                        <th>ایمیل</th>
                         <th>شماره همراه</th>
-                        <th>وضعیت احراز هویت</th>
+                        <th>وضعیت احراز</th>
+                        <th>وضعیت تایید</th>
                         <th>سطح کاربر</th>
-                        <th>تایید کاربر</th>
-                        <th>بلاک کردن کاربر</th>
-                        <th>جزییات</th>
+                        <th></th>
                     </template>
 
                     <template slot="body">
                         <tr>
+                            <td class="select-text">1</td>
                             <td class="select-text">مصطفی رستم دخت عفتی</td>
+                            <td class="select-text">mostafa.rostamdokht@gmail.com</td>
                             <td class="select-text">09383359523</td>
                             <td>
                                 <rs-badge color="success" pill>تایید شده</rs-badge>
                             </td>
                             <td>
+                                <rs-switchery v-model="change"/>
+                            </td>
+                            <td>
                                 <rs-badge pill>تریدر</rs-badge>
                             </td>
                             <td>
-                                <rs-badge-icon class="cursor-pointer"
+                                <rs-badge-icon class="cursor-pointer mr-2"
+                                               bg="teal-600"
+                                               icon="wallet"
+                                               rounded
+                                               @click.native=""/>
+                                <rs-badge-icon class="cursor-pointer mr-2"
                                                color="success"
                                                icon="user-check"
                                                rounded
                                                @click.native=""/>
-                            </td>
-                            <td>
-                                <rs-badge-icon class="cursor-pointer"
+                                <rs-badge-icon class="cursor-pointer mr-2"
                                                bg="pink-400"
                                                icon="user-cancel"
                                                rounded
                                                @click.native=""/>
-                            </td>
-                            <td>
-                                <rs-badge-icon class="cursor-pointer"
+                                <rs-badge-icon class="cursor-pointer mr-2"
                                                color="light"
                                                icon="menu"
                                                rounded
@@ -94,6 +101,7 @@
         ]),
 
         data: () => ({
+            change: false,
             currentPage: 1,
             selectedNavigation: 0,
             navigation: [
