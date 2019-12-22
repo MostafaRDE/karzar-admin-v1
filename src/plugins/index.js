@@ -1,5 +1,6 @@
 import './axios.js'
 import './cxlt-vue2-toastr.js'
 import './moment.js'
+import './vue-jalali-moment.js'
 import './vue-meta.js'
 import './vue-persian-datetime-picker.js'

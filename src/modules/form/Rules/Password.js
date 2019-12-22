@@ -27,6 +27,6 @@ export default class Password {
      * @return string
      */
     message() {
-        // return i18n.t('messages.rules.password')
+        return 'گذرواژه باید شامل حروف بزرگ و کوجک انگلیسی و اعداد باشد. (A-Z a-z 0-9)'
     }
 }

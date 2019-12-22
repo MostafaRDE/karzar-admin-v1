@@ -1,6 +1,7 @@
 <template>
     <button :type="type" class="btn alpha-pink text-pink-800 btn-icon" :class="classList">
-        <i :class="`icon-${icon}`"></i>
+        <i v-if="!$slots.hasOwnProperty('default')" :class="`icon-${icon}`"></i>
+        <slot v-else name="icon"/>
     </button>
 </template>
 
@@ -31,6 +32,10 @@
                     }
                 ]
             }
+        },
+
+        mounted () {
+            console.log(this.$slots)
         }
     }
 </script>

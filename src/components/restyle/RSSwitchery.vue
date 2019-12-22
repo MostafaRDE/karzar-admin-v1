@@ -21,6 +21,14 @@
                 default: false,
                 type: Boolean,
             },
+            activeColor: {
+                default: '#64BD63',
+                type: String
+            },
+            disableColor: {
+                default: '#fff',
+                type: String
+            },
         },
 
         computed: {
@@ -34,9 +42,9 @@
             },
             styleList() {
                 return {
-                    backgroundColor: this.active ? '#64BD63' : '#fff',
-                    borderColor: this.active ? '#64BD63' : '#DFDFDF',
-                    boxShadow: this.active ? '#64BD63 0 0 0 10px inset' : '#DFDFDF 0 0 0 0 inset',
+                    backgroundColor: this.active ? this.activeColor : this.disableColor,
+                    borderColor: this.active ? this.activeColor : '#DFDFDF',
+                    boxShadow: this.active ? `${this.activeColor} 0 0 0 10px inset` : '#DFDFDF 0 0 0 0 inset',
                     transition: this.active ? 'border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s' : 'border 0.4s ease 0s, box-shadow 0.4s ease 0s',
                 }
             },

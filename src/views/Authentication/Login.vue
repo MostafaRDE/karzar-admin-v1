@@ -128,6 +128,7 @@
                     window.setCookie(auth.AUTH_TOKEN, response.data['access_token'])
                     this.$router.push({name: 'dashboard'})
                 }).catch(error => {
+                    console.log(error.status, error.response)
                     // Show message server error
                     this.signInError = {
                         code: error.response.status,

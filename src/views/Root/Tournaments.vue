@@ -6,6 +6,6 @@
 
 <script>
     export default {
-        name: 'Coins',
+        name: 'Tournaments'
     }
 </script>

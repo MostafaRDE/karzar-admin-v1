@@ -20,8 +20,13 @@ export default class Required {
             case 'boolean':
                 return value;
 
+            case 'number':
+                return true;
+
             case 'object':
-                if (Array.isArray(value))
+                if (value === null)
+                    return false;
+                else if (Array.isArray(value))
                      return value.length > 0;
                 else
                     return Object.keys(value).length > 0;

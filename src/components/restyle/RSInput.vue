@@ -1,7 +1,7 @@
 <template>
     <div class="form-group"
          :class="{'form-group-feedback': icon !== '', 'form-group-feedback-left': icon !== '' && iconDirection === 'start', 'form-group-feedback-right': icon !== '' && iconDirection === 'end'}">
-        <input type="text" class="form-control" :maxlength="maxlength !== 0 ? maxlength : ''" :placeholder="placeholder" v-model="model"/>
+        <input :type="type" class="form-control" :maxlength="maxlength !== 0 ? maxlength : ''" :placeholder="placeholder" v-model="model"/>
         <div class="form-control-feedback" v-if="icon !== ''">
             <i :class="`icon-${icon} text-${iconColor}`"></i>
         </div>
@@ -48,10 +48,14 @@
             rules: {
                 default: null,
             },
+            type: {
+                default: 'text',
+                type: String,
+            },
             value: {
                 default: '',
-                type: String,
-            }
+                type: [String, Object, Array],
+            },
         },
 
         computed: {

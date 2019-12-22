@@ -25,6 +25,6 @@ export default class ConfirmPassword {
      * @return string
      */
     message() {
-        // return i18n.t('messages.rules.confirm_password')
+        return 'تکرار گذرواژه با اصل گذرواژه برابر نمی باشد.'
     }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "okex-exchange-dashboard",
-  "version": "0.1.0",
+  "name": "tournament-dashboard",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,6 +15,7 @@
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vue": "^2.6.10",
+    "vue-jalali-moment": "^1.0.0",
     "vue-meta": "^2.3.1",
     "vue-persian-datetime-picker": "^2.1.2",
     "vue-router": "^3.1.3",

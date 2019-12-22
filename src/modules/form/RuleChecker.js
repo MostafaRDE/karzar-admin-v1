@@ -36,6 +36,7 @@ export default class RuleChecker {
         const rule = new RulesTable[ruleKey](this.data);
         // Pass data to "passes"-method rule instance object for check is validate or not
         this.isValid = rule.passes(this.data[fieldName], this.ruleValue);
+
         // If is not validate
         if (!this.isValid) {
             // If errors has not key with the field name

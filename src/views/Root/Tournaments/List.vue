@@ -4,12 +4,13 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <rs-input placeholder="جستجو براساس نام، ایمیل، شماره واتس اپ و موجودی کیف پول"/>
+                    <rs-input placeholder="جستجو براساس عنوان، جایزه، فی، نام نقشه و لینک یوتیوب"/>
                     <div class="d-flex">
-                        <dashboard-navigation :source="navigation"
-                                              v-model="selectedNavigation"/>
-                        <rs-button color="light" icon="user-plus" @click.native="$router.push({name: 'userCreate'})">
-                            افزودن کاربر
+                        <rs-button class="mr-3" color="light" icon="medal-star" @click.native="$router.push({name: 'userCreate'})">
+                            ایجاد تورنومنت
+                        </rs-button>
+                        <rs-button class="mr-3" color="light" icon="googleplus5" @click.native="$router.push({name: 'userCreate'})">
+                            رزرو اتاق
                         </rs-button>
                     </div>
                 </div>
@@ -21,56 +22,54 @@
         <div>
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">{{ navigation[selectedNavigation].label }}</h5>
+                    <h5 class="card-title">تورنومنت ها</h5>
                 </div>
 
                 <rs-table>
                     <template slot="head">
                         <th>ردیف</th>
-                        <th>عکس</th>
-                        <th>نام</th>
-                        <th>ایمیل</th>
-                        <th>شماره واتس اپ</th>
-                        <th>موجودی کیف پول</th>
-                        <th>وضعیت بلاک</th>
+                        <th>عنوان</th>
+                        <th>تاریخ شروع</th>
+                        <th>ظرفیت کل</th>
+                        <th>اندازه هر گروه</th>
+                        <th>نقشه</th>
+                        <th>فی</th>
+                        <th>جایزه</th>
+                        <th>لینک یوتیوب</th>
                         <th></th>
                     </template>
 
                     <template slot="body">
-                        <tr v-for="(user, index) of users">
-                            <td class="select-text">{{ index + 1 }}</td>
-                            <td class="select-text">
-                                <img :src="user.profile_image !== null ? `http://localhost:8080/api/v1/uploads?id=${user.profile_image.id}` : require('./../../../../public/images/samples/circle-profile.svg')"
-                                     alt="" style="height: 40px"/>
+                        <tr v-for="(tournament, index) of tournaments">
+                            <td>{{ index + 1 }}</td>
+                            <td class="select-text">{{ tournament.title }}</td>
+                            <td class="select-text" style="direction: ltr">
+                                <rs-badge pill color="primary" class="font-size-sm">{{ tournament.start_date | moment("jYYYY/jMM/jDD H:m:s") }}</rs-badge>
                             </td>
-                            <td class="select-text">{{ user.name }}</td>
+                            <td class="select-text">{{ tournament.capacity }} نفر</td>
+                            <td class="select-text">{{ tournament.group_capacity }} نفر</td>
                             <td class="select-text">
-                                <rs-badge pill :color="user.email_verified_at === null ? 'danger' : 'success'">{{
-                                    user.email }}
-                                </rs-badge>
+                                <rs-badge pill color="primary" class="font-size-sm">{{ tournament.map.name }}</rs-badge>
                             </td>
-                            <td class="select-text">{{ user.whatsapp_number }}</td>
-                            <td class="select-text">{{ `${user.amount || 0}$` }}</td>
-                            <td>
-                                <rs-switchery class="d-inline-block" activeColor="#e91e63" disableColor="#64BD63"
-                                              v-model="user.blocked_at !== null"
-                                              @click.native="userBlockToggle(index)"/>
-                                <rs-loading v-if="user.loading_block" class="d-inline-block" icon="spinner4"/>
+                            <td class="select-text">{{ tournament.fee }}$</td>
+                            <td class="select-text">{{ tournament.reward_value }}</td>
+                            <td class="select-text">
+                                <a :href="tournament.youtube_link" target="_blank">{{ tournament.youtube_link }}</a>
                             </td>
                             <td>
-                                <rs-badge-icon class="cursor-pointer mr-2"
-                                               bg="teal-600"
-                                               icon="wallet"
-                                               rounded
-                                               @click.native="showChangeAmountWalletModal(user.wallet_id, index)"/>
                                 <rs-badge-icon class="cursor-pointer mr-2"
                                                color="primary"
                                                icon="pencil6"
                                                rounded
                                                @click.native="showEditProfileModal(index)"/>
                                 <rs-badge-icon class="cursor-pointer mr-2"
-                                               color="primary"
-                                               icon="key"
+                                               bg="teal-600"
+                                               icon="users2"
+                                               rounded
+                                               @click.native="showChangeAmountWalletModal(tournament.id, index)"/>
+                                <rs-badge-icon class="cursor-pointer mr-2"
+                                               color="danger"
+                                               icon="trash"
                                                rounded
                                                @click.native="showChangePasswordModal(index)"/>
                             </td>
@@ -202,13 +201,7 @@
 
 <script>
     import {
-        blockUser,
-        createWalletForUser,
-        unblockUser,
-        updatePassword,
-        updateWalletAmount,
-        users,
-        updateProfile
+        tournaments
     } from '../../../api'
 
     const moment = require('moment')
@@ -217,59 +210,20 @@
         name: 'List',
 
         metaInfo: {
-            title: 'کاربران'
+            title: 'تورنومنت ها'
         },
 
         breadcrumb: () => ([
             { label: 'پیشخوان', to: '/', icon: 'home4' },
-            { label: 'کاربران', to: '/', icon: 'users4' },
+            { label: 'تورنومنت ها', to: '/', icon: 'medal-star' },
         ]),
 
         data() {
-            let vm = this;
-
             return {
                 change: false,
                 currentPage: 1,
-                selectedNavigation: 0,
-                navigation: [
-                    {
-                        color: 'primary',
-                        icon: 'users',
-                        label: 'کل کاربران',
-                        action () {
-                            vm.getUsers()
-                        },
-                    },
-                    {
-                        color: 'success',
-                        icon: 'coins',
-                        label: 'کاربران با موجودی',
-                        action () {
-                            vm.getUsers('HAS_AMOUNT')
-                        },
-                    },
-                    {
-                        bg: 'indigo-400',
-                        color: '',
-                        icon: 'cart4',
-                        label: 'کاربران بدون موجودی',
-                        action () {
-                            vm.getUsers('HAS_NOT_AMOUNT')
-                        },
-                    },
-                    {
-                        bg: 'pink',
-                        color: '',
-                        icon: 'user-cancel',
-                        label: 'کاربران بلاک شده',
-                        action () {
-                            vm.getUsers('BLOCKED')
-                        },
-                    },
-                ],
 
-                users: [],
+                tournaments: [],
                 usersTotal: 0,
 
                 modals: {
@@ -330,14 +284,11 @@
         },
 
         methods: {
-            getUsers (filter = null) {
+            getUsers() {
 
-                users(filter).then(response => {
-                    this.usersTotal = response.data.total
-                    this.users = response.data.result.map(user => {
-                        user['loading_block'] = false
-                        return user
-                    })
+                tournaments().then(response => {
+                    this.tournaments = response.data.result
+                    console.log(this.tournaments[0].start_date , moment(this.tournaments[0].start_date).format( "jYYYY"))
                 }).catch(error => {
                     this.$toast.error({
                         title: '',
@@ -346,47 +297,6 @@
                 }).finally(() => {
 
                 })
-            },
-
-            userBlockToggle (index) {
-                this.users[index].loading_block = true
-                if (this.users[index].blocked_at === null) {
-                    blockUser(this.users[index].id)
-                        .then(response => {
-                            this.users[index].blocked_at = moment().format()
-                            this.$toast.success({
-                                title: 'وضعیت بلاک',
-                                message: 'کاربر با موفقیت بلاک شد',
-                            })
-                        })
-                        .catch(error => {
-                            this.$toast.error({
-                                title: 'وضعیت بلاک',
-                                message: 'کاربر با موفقیت بلاک شد',
-                            })
-                        })
-                        .finally(() => {
-                            this.users[index].loading_block = false
-                        })
-                } else {
-                    unblockUser(this.users[index].id)
-                        .then(response => {
-                            this.users[index].blocked_at = null
-                            this.$toast.success({
-                                title: 'وضعیت بلاک',
-                                message: 'کاربر با موفقیت آنبلاک شد',
-                            })
-                        })
-                        .catch(error => {
-                            this.$toast.error({
-                                title: 'وضعیت بلاک',
-                                message: 'کاربر با موفقیت آنبلاک شد',
-                            })
-                        })
-                        .finally(() => {
-                            this.users[index].loading_block = false
-                        })
-                }
             },
 
             // <editor-fold desc="Update amount wallet">
