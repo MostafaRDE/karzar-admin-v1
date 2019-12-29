@@ -4,7 +4,6 @@ export default {
     state: {
         id: 0,
         name: 'نام',
-        surname: 'و نام خانوادگی',
         role: 'SUPER_ADMIN',
         userImage: require('@/assets/global_assets/images/image.png'),
         username: '',
@@ -16,7 +15,7 @@ export default {
 
     getters: {
         fullName(state) {
-            return `${state.name} ${state.surname}`
+            return `${state.name}`
         },
         roleLabel(state) {
             switch (state.role) {

@@ -1,9 +1,9 @@
 <template>
     <div class="navbar navbar-expand-md navbar-dark bg-indigo navbar-static fixed-top">
         <div class="navbar-brand">
-            <a href="../full/index.html" class="d-inline-block">
-                <img src="@/assets/global_assets/images/logo_light.png" alt="">
-            </a>
+            <router-link to="/" class="d-inline-block">
+                <img src="@/assets/logo-header.png" alt="">
+            </router-link>
         </div>
 
         <div class="d-md-none">

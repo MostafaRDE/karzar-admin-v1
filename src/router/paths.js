@@ -32,6 +32,13 @@ export default [
                     {path: 'create', name: 'tournamentCreate', component: () => import('../views/Root/Tournaments/Create.vue')},
                 ]
             },
+            {
+                path: 'tournaments/maps',
+                component: () => import ('../views/Root/Maps.vue'),
+                children: [
+                    {path: '', name: 'mapsList', component: () => import('../views/Root/Tournaments/Maps/List.vue')},
+                ]
+            },
         ]
     },
     // </editor-fold>

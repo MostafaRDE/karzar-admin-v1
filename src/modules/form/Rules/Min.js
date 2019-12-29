@@ -45,13 +45,13 @@ export default class Min {
         switch (this.valueType) {
             case "number":
             case "bigint":
-                // return i18n.t('messages.rules.min.number', {number: this.length});
+                return `عدد ورودی باید بزرگتر مساوی با ${this.length} باشد.`;
 
             case "string":
-                // return i18n.t('messages.rules.min.string', {count: this.length});
+                return `حداقل تعداد حروف باید ${this.length} حرف باشد.`;
 
             default:
-                return '';
+                return `حداقل ورودی باید ${this.length} باشد.`;
         }
     }
 }

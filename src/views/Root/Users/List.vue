@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <rs-input placeholder="جستجو براساس نام، ایمیل، شماره واتس اپ و موجودی کیف پول"/>
+                    <rs-input placeholder="جستجو براساس نام، ایمیل، شماره واتس اپ و موجودی کیف پول" v-model="search" @input="getUsers"/>
                     <div class="d-flex">
                         <dashboard-navigation :source="navigation"
                                               v-model="selectedNavigation"/>
@@ -79,7 +79,7 @@
                 </rs-table>
 
                 <div class="card-body">
-                    <rs-pagination :count="20" v-model="currentPage"/>
+                    <rs-pagination :count="totalPages" v-model="currentPage" @change="updateListByPagination"/>
                 </div>
             </div>
 
@@ -202,6 +202,7 @@
 
 <script>
     import {
+        itemsPerPage,
         blockUser,
         createWalletForUser,
         unblockUser,
@@ -231,6 +232,10 @@
             return {
                 change: false,
                 currentPage: 1,
+                itemsPerPage,
+                loading: false,
+                filter: null,
+                search: '',
                 selectedNavigation: 0,
                 navigation: [
                     {
@@ -238,6 +243,7 @@
                         icon: 'users',
                         label: 'کل کاربران',
                         action () {
+                            vm.filter = null
                             vm.getUsers()
                         },
                     },
@@ -246,7 +252,8 @@
                         icon: 'coins',
                         label: 'کاربران با موجودی',
                         action () {
-                            vm.getUsers('HAS_AMOUNT')
+                            vm.filter = 'HAS_AMOUNT'
+                            vm.getUsers()
                         },
                     },
                     {
@@ -255,7 +262,8 @@
                         icon: 'cart4',
                         label: 'کاربران بدون موجودی',
                         action () {
-                            vm.getUsers('HAS_NOT_AMOUNT')
+                            vm.filter = 'HAS_NOT_AMOUNT'
+                            vm.getUsers()
                         },
                     },
                     {
@@ -264,13 +272,14 @@
                         icon: 'user-cancel',
                         label: 'کاربران بلاک شده',
                         action () {
-                            vm.getUsers('BLOCKED')
+                            vm.filter = 'BLOCKED'
+                            vm.getUsers()
                         },
                     },
                 ],
 
                 users: [],
-                usersTotal: 0,
+                totalPages: 0,
 
                 modals: {
                     wallet: {
@@ -325,27 +334,33 @@
                             }
                         }
                     }
-                }
+                },
             }
         },
 
         methods: {
-            getUsers (filter = null) {
+            getUsers () {
+                this.loading = true;
 
-                users(filter).then(response => {
-                    this.usersTotal = response.data.total
+                users(this.filter, this.search, this.currentPage).then(response => {
+                    let totalPages = response.data.total / this.itemsPerPage
+                    this.totalPages = (totalPages % 1 !== 0) ? Math.floor(totalPages) + 1 : totalPages
                     this.users = response.data.result.map(user => {
                         user['loading_block'] = false
                         return user
                     })
                 }).catch(error => {
                     this.$toast.error({
-                        title: '',
-                        message: '',
+                        title: 'خطا',
+                        message: 'خطا در دریافت کاربران',
                     })
                 }).finally(() => {
-
+                    this.loading = false;
                 })
+            },
+
+            updateListByPagination() {
+                this.getUsers()
             },
 
             userBlockToggle (index) {
