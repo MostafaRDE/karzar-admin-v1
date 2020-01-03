@@ -4,6 +4,56 @@
             <div class="card">
                 <div class="card-header header-elements-inline">
                     <h5 class="card-title">نقشه ها</h5>
+                    <rs-button @click.native="modals.addMap.visibility = true">افزودن نقشه</rs-button>
+
+                    {{ /* Start add map */ }}
+                    <rs-modal :dialogStyle="{minWidth: '600px'}"
+                              title="افزودن نقشه"
+                              v-model="modals.addMap.visibility">
+
+                        <rs-form>
+
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <label>عکس نقشه</label>
+                                    <rs-input type="file"
+                                              placeholder="عکس نقشه"
+                                              name="imageProfile"
+                                              :error="getInputErrorWallet('imageProfile')"
+                                              @change.native="changeProfileImage"/>
+                                </div>
+                                <div class="ml-2" style="width: 70px">
+                                    <img ref="profileImage"
+                                         :src="modals.edit.profileImageURL || modals.edit.profileDefaultImage"
+                                         alt="" class="w-100"/>
+                                </div>
+                            </div>
+
+                            {{ /* Start names */ }}
+                            <div class="col-sm-12">
+                                <rs-input placeholder="عنوان (en)"
+                                          name="titleEN"
+                                          :error="getInputError('titleEN')"
+                                          v-model="modals.addMap.fields.name.en"/>
+                            </div>
+                            <div class="col-sm-12">
+                                <rs-input placeholder="عنوان (af)"
+                                          name="titleAF"
+                                          :error="getInputError('titleAF')"
+                                          v-model="modals.addMap.fields.name.af"/>
+                            </div>
+                            {{ /* End names */ }}
+
+                        </rs-form>
+
+                        <template slot="footer">
+                            <rs-button type="button" color="link" @click.native="modals.addMap.visibility = false">بستن
+                            </rs-button>
+                            <rs-button type="submit" bg="primary" :loading="modals.addMap.loading">افزودن</rs-button>
+                        </template>
+
+                    </rs-modal>
+                    {{ /* End add map */ }}
                 </div>
 
                 <rs-table>
@@ -24,7 +74,7 @@
                             <td>
                                 <rs-badge-icon class="cursor-pointer mr-2"
                                                bg="teal-600"
-                                               icon="users2"
+                                               icon="pencil6"
                                                rounded
                                                @click.native="showMapUpdateModal(map.id, index)"/>
                             </td>
@@ -82,11 +132,13 @@
             totalPages: 0,
 
             modals: {
-                playerUpdate: {
+                addMap: {
                     visibility: false,
                     loading: false,
-                    mapId: 0,
-                    index: -1,
+                    formErrors: {},
+
+                    mapImageURL: null,
+                    mapDefaultImage: require('./../../../../public/images/samples/circle-profile.svg'),
 
                     fields: {
                         image: null,
@@ -95,7 +147,22 @@
                             af: '',
                         }
                     }
-                }
+                },
+                playerUpdate: {
+                    visibility: false,
+                    loading: false,
+                    mapId: 0,
+                    index: -1,
+                    formErrors: {},
+
+                    fields: {
+                        image: null,
+                        name: {
+                            en: '',
+                            af: '',
+                        }
+                    }
+                },
             }
         }),
 
