@@ -56,7 +56,6 @@ export async function updateProfile (user_id, name, email, whatsapp_number, imag
     formData.append('whatsapp_number', whatsapp_number)
     formData.append('image', image)
 
-    const data = {user_id, name, email, whatsapp_number, image}
     return axios.put(`users/${user_id}?lang=fa`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
 
@@ -91,7 +90,53 @@ export async function removeAuthenticationRoomToGroupPlayers(tournamentId, group
 }
 
 export async function maps() {
-    return axios.get('games/pubg/maps?lang=en')
+    return axios.get('games/pubg/maps')
+}
+
+export async function addMap(name, image = null) {
+    console.log(name)
+    let formData = new FormData()
+    formData.append('name', name)
+    formData.append('image', image)
+
+    return axios.post('games/pubg/maps?lang=fa', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
+export async function updateMap(map_id, name, image = null) {
+    console.log(name)
+    let formData = new FormData()
+    formData.append('name', name)
+    formData.append('image', image)
+
+    return axios.put(`games/pubg/maps/${map_id}?lang=fa`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
+// </editor-fold>
+
+// <editor-fold desc="Gateways">
+
+export async function gateways () {
+    return axios.get(`gateways`)
+}
+
+export async function storeGateway (name, key1, key2, image) {
+    let formData = new FormData()
+    formData.append('name', name)
+    formData.append('key1', key1)
+    formData.append('key2', key2)
+    formData.append('image', image)
+
+    return axios.post(`gateways`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
+export async function updateGateway (id, name, key1, key2, image) {
+    let formData = new FormData()
+    formData.append('name', name)
+    formData.append('key1', key1)
+    formData.append('key2', key2)
+    formData.append('image', image)
+
+    return axios.put(`gateways/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
 
 // </editor-fold>

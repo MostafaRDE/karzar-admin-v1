@@ -39,6 +39,13 @@ export default [
                     {path: '', name: 'mapsList', component: () => import('../views/Root/Tournaments/Maps/List.vue')},
                 ]
             },
+            {
+                path: 'gatewaysList',
+                component: () => import ('../views/Root/Gateways.vue'),
+                children: [
+                    {path: '', name: 'gatewaysList', component: () => import('../views/Root/Gateways/List.vue')},
+                ]
+            },
         ]
     },
     // </editor-fold>

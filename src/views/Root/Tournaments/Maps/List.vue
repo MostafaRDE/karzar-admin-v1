@@ -4,59 +4,10 @@
             <div class="card">
                 <div class="card-header header-elements-inline">
                     <h5 class="card-title">نقشه ها</h5>
-                    <rs-button @click.native="modals.addMap.visibility = true">افزودن نقشه</rs-button>
-
-                    {{ /* Start add map */ }}
-                    <rs-modal :dialogStyle="{minWidth: '600px'}"
-                              title="افزودن نقشه"
-                              v-model="modals.addMap.visibility">
-
-                        <rs-form>
-
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <label>عکس نقشه</label>
-                                    <rs-input type="file"
-                                              placeholder="عکس نقشه"
-                                              name="imageProfile"
-                                              :error="getInputErrorWallet('imageProfile')"
-                                              @change.native="changeProfileImage"/>
-                                </div>
-                                <div class="ml-2" style="width: 70px">
-                                    <img ref="profileImage"
-                                         :src="modals.edit.profileImageURL || modals.edit.profileDefaultImage"
-                                         alt="" class="w-100"/>
-                                </div>
-                            </div>
-
-                            {{ /* Start names */ }}
-                            <div class="col-sm-12">
-                                <rs-input placeholder="عنوان (en)"
-                                          name="titleEN"
-                                          :error="getInputError('titleEN')"
-                                          v-model="modals.addMap.fields.name.en"/>
-                            </div>
-                            <div class="col-sm-12">
-                                <rs-input placeholder="عنوان (af)"
-                                          name="titleAF"
-                                          :error="getInputError('titleAF')"
-                                          v-model="modals.addMap.fields.name.af"/>
-                            </div>
-                            {{ /* End names */ }}
-
-                        </rs-form>
-
-                        <template slot="footer">
-                            <rs-button type="button" color="link" @click.native="modals.addMap.visibility = false">بستن
-                            </rs-button>
-                            <rs-button type="submit" bg="primary" :loading="modals.addMap.loading">افزودن</rs-button>
-                        </template>
-
-                    </rs-modal>
-                    {{ /* End add map */ }}
+                    <rs-button @click.native="showMapAddModal">افزودن نقشه</rs-button>
                 </div>
 
-                <rs-table>
+                <rs-table v-if="!loading">
                     <template slot="head">
                         <th>ردیف</th>
                         <th>نام</th>
@@ -67,9 +18,10 @@
                     <template slot="body">
                         <tr v-for="(map, index) of maps">
                             <td>{{ index + 1 }}</td>
-                            <td>{{ map.name }}</td>
+                            <td>{{ map.name.en }}</td>
                             <td>
-                                <img :src="`http://localhost:8080/api/v1/uploads?id=${map.image.id}`" alt="" style="height: 50px"/>
+                                <img :src="`http://localhost:8080/api/v1/uploads?id=${map.image.id}`" alt=""
+                                     style="height: 50px"/>
                             </td>
                             <td>
                                 <rs-badge-icon class="cursor-pointer mr-2"
@@ -82,24 +34,58 @@
                     </template>
                 </rs-table>
 
+                <rs-loading v-if="loading" icon="spinner4"/>
+
                 <div class="card-body">
                     <rs-pagination :count="totalPages" v-model="currentPage" @change="updateListByPagination"/>
                 </div>
             </div>
 
-            {{ /* Start change wallet amount */ }}
-            <rs-modal :dialogStyle="{minWidth: '600px'}"
-                      title="ویرایش نقشه"
-                      v-model="modals.playerUpdate.visibility">
+            {{ /* Start map modal */ }}
+            <rs-form :submit="storeMap" @errors="setFormErrors">
+                <rs-modal :dialogStyle="{minWidth: '600px'}"
+                          :title="`${modals.map.type === 'ADD' ? 'افزودن' : 'ویرایش'} نقشه`"
+                          v-model="modals.map.visibility">
 
-                <template slot="footer">
-                    <rs-button type="button" color="link" @click.native="modals.playerUpdate.visibility = false">بستن
-                    </rs-button>
-                    <rs-button type="submit" bg="primary" :loading="modals.playerUpdate.loading">ویرایش</rs-button>
-                </template>
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <label>عکس نقشه</label>
+                            <rs-input type="file"
+                                      placeholder="عکس نقشه"
+                                      name="mapImage"
+                                      :error="getInputError('mapImage')"
+                                      @change.native="changeMapImage"/>
+                        </div>
+                        <div class="ml-2 d-flex align-items-center" style="width: 70px">
+                            <img ref="mapImage"
+                                 :src="modals.map.mapImageURL || modals.map.mapDefaultImage"
+                                 alt="" class="w-100"/>
+                        </div>
+                    </div>
 
-            </rs-modal>
-            {{ /* End change wallet amount */ }}
+                    {{ /* Start names */ }}
+                    <div class="col-sm-12">
+                        <rs-input placeholder="عنوان (en)"
+                                  v-model="modals.map.fields.name.en"/>
+                    </div>
+                    <div class="col-sm-12">
+                        <rs-input placeholder="عنوان (af)"
+                                  v-model="modals.map.fields.name.af"/>
+                    </div>
+                    {{ /* End names */ }}
+
+                    <template slot="footer">
+                        <rs-button type="button" color="link" @click.native="modals.map.visibility = false">بستن
+                        </rs-button>
+                        <rs-button type="submit" bg="primary" :loading="modals.map.loading">{{ modals.map.type === 'ADD'
+                            ?
+                            'افزودن' : 'بروزرسانی'}}
+                        </rs-button>
+                    </template>
+
+                </rs-modal>
+            </rs-form>
+            {{ /* End map modal */ }}
         </div>
     </div>
 </template>
@@ -107,7 +93,9 @@
 <script>
     import {
         itemsPerPage,
-        maps
+        maps,
+        addMap,
+        updateMap
     } from '../../../../api'
 
     export default {
@@ -132,34 +120,24 @@
             totalPages: 0,
 
             modals: {
-                addMap: {
+                map: {
+                    type: 'ADD', // {'ADD' | 'EDIT'}
+
                     visibility: false,
                     loading: false,
                     formErrors: {},
+
+                    mapId: -1,
+                    index: -1,
 
                     mapImageURL: null,
-                    mapDefaultImage: require('./../../../../public/images/samples/circle-profile.svg'),
+                    mapDefaultImage: require('./../../../../../public/images/samples/img-world-map.jpg'),
 
                     fields: {
                         image: null,
                         name: {
-                            en: '',
                             af: '',
-                        }
-                    }
-                },
-                playerUpdate: {
-                    visibility: false,
-                    loading: false,
-                    mapId: 0,
-                    index: -1,
-                    formErrors: {},
-
-                    fields: {
-                        image: null,
-                        name: {
                             en: '',
-                            af: '',
                         }
                     }
                 },
@@ -167,7 +145,7 @@
         }),
 
         methods: {
-            getMaps() {
+            getMaps () {
                 this.loading = true
 
                 maps()
@@ -191,13 +169,103 @@
                 this.getMaps()
             },
 
-            // <editor-fold desc="Map Update">
+            // <editor-fold desc="Map">
 
-            showMapUpdateModal(mapId, index) {
-                this.modals.playerUpdate.mapId = mapId
-                this.modals.playerUpdate.index = index
-                this.modals.playerUpdate.visibility = true
-            }
+            showMapAddModal () {
+                this.modals.map.type = 'ADD'
+
+                this.modals.map.loading = false
+                this.modals.map.formErrors = {}
+                this.modals.map.mapImageURL = null
+
+                this.modals.map.fields.image = null
+                this.modals.map.fields.name.af = ''
+                this.modals.map.fields.name.en = ''
+
+                this.modals.map.mapId = -1
+                this.modals.map.index = -1
+                this.modals.map.visibility = true
+            },
+
+            showMapUpdateModal (mapId, index) {
+                this.modals.map.type = 'EDIT'
+
+                this.modals.map.loading = false
+                this.modals.map.formErrors = {}
+                this.modals.map.fields.image = null
+
+                if (this.maps[index].image !== null) {
+                    this.modals.map.mapImageURL = `http://localhost:8080/api/v1/uploads?id=${this.maps[index].image.id}`
+                }
+                this.modals.map.fields.name.af = this.maps[index].name.af
+                this.modals.map.fields.name.en = this.maps[index].name.en
+
+                this.modals.map.mapId = mapId
+                this.modals.map.index = index
+                this.modals.map.visibility = true
+            },
+
+            changeMapImage (e) {
+                this.modals.map.fields.image = e.target.files[0]
+                this.modals.map.mapImageURL = URL.createObjectURL(e.target.files[0])
+            },
+
+            // Get errors from "rs-form"-component and set in "formErrors"-data-variable
+            setFormErrors (errors) {
+                this.modals.map.formErrors = errors
+            },
+
+            // Customizing error-message for show in view (below inputs)
+            getInputError (key) {
+                return (this.modals.map.formErrors.hasOwnProperty(key)) ? this.modals.map.formErrors[key][0] : ''
+            },
+
+            storeMap () {
+                this.modals.map.loading = true
+
+                switch (this.modals.map.type) {
+                    case 'ADD':
+                        addMap(JSON.stringify(this.modals.map.fields.name), this.modals.map.fields.image)
+                            .then(response => {
+                                this.$toast.success({
+                                    title: 'افزودن نقشه',
+                                    message: 'افزودن با موفقیت انجام شد',
+                                })
+                                this.getMaps()
+                            })
+                            .catch(error => {
+                                this.$toast.error({
+                                    title: 'افزودن نقشه',
+                                    message: 'افزودن با شکست مواجه شد',
+                                })
+                            })
+                            .finally(() => {
+                                this.modals.map.loading = false
+                            })
+                        break
+
+                    case 'EDIT':
+                        updateMap(this.modals.map.mapId, JSON.stringify(this.modals.map.fields.name), this.modals.map.fields.image)
+                            .then(response => {
+                                this.$toast.success({
+                                    title: 'ویرایش نقشه',
+                                    message: 'بروزرسانی با موفقیت انجام شد',
+                                })
+                                this.modals.map.visibility = false
+                                this.getMaps()
+                            })
+                            .catch(error => {
+                                this.$toast.error({
+                                    title: 'ویرایش نقشه',
+                                    message: 'بروزرسانی با شکست مواجه شد',
+                                })
+                            })
+                            .finally(() => {
+                                this.modals.map.loading = false
+                            })
+                        break
+                }
+            },
 
             // </editor-fold>
         },

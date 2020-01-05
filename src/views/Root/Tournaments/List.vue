@@ -28,7 +28,7 @@
                     <h5 class="card-title">تورنومنت ها</h5>
                 </div>
 
-                <rs-table>
+                <rs-table v-if="!loading">
                     <template slot="head">
                         <th>ردیف</th>
                         <th>عنوان</th>
@@ -74,6 +74,8 @@
                         </tr>
                     </template>
                 </rs-table>
+
+                <rs-loading v-if="loading" icon="spinner4"/>
 
                 <div class="card-body">
                     <rs-pagination :count="totalPages" v-model="currentPage" @change="updateListByPagination"/>

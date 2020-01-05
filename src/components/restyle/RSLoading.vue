@@ -1,12 +1,12 @@
 <template>
-    <i :class="`icon-${icon} spinner`"></i>
+    <i :class="`icon-${icon} spinner`" :style="{width}"></i>
 </template>
 
 <script>
     export default {
         name: 'RSLoading',
 
-        props: ['icon']
+        props: ['icon', 'width']
     }
 </script>
 
