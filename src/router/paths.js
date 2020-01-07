@@ -46,6 +46,13 @@ export default [
                     {path: '', name: 'gatewaysList', component: () => import('../views/Root/Gateways/List.vue')},
                 ]
             },
+            {
+                path: 'transactionsList',
+                component: () => import ('../views/Root/Transactions.vue'),
+                children: [
+                    {path: '', name: 'transactionsList', component: () => import('../views/Root/Transactions/List.vue')},
+                ]
+            },
         ]
     },
     // </editor-fold>

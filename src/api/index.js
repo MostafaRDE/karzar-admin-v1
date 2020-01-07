@@ -140,3 +140,15 @@ export async function updateGateway (id, name, key1, key2, image) {
 }
 
 // </editor-fold>
+
+// <editor-fold desc="Transactions">
+
+export async function transactions() {
+    return axios.get(`payments/transactions`)
+}
+
+export async function updateTransactionStatus(id) {
+    return axios.get(`payments/transactions/${id}/status`)
+}
+
+// </editor-fold>
