@@ -7,14 +7,58 @@ export async function create(name, whatsapp_number, email, password) {
     return axios.post('users?lang=fa', data)
 }
 
-export async function login(username, password) {
-    const data = {username, password}
+export async function login(username, password, g_code) {
+    const data = {username, password, g_code}
     return axios.post('login?lang=fa', data)
 }
 
+// <editor-fold desc="Admins">
+
+export async function permissions () {
+    return axios.get('permissions')
+}
+
+export async function admins () {
+    return axios.get('admins')
+}
+
+export async function storeAdmin (name, email, username, password, role) {
+    const data = {name, email, username, password, role}
+    return axios.post('admins', data)
+}
+
+export async function updateAdmin (id, name, email, username, role) {
+    const data = {name, email, username, role}
+    return axios.put(`admins/${id}`, data)
+}
+
+export async function updateAdmin2fa (id) {
+    return axios.put(`admins/${id}/2fa`)
+}
+
+export async function updateAdminPassword (id, password) {
+    const data = {password}
+    return axios.put(`admins/${id}/password`, data)
+}
+
+export async function updateAdminPermissions (id, permissions = []) {
+    const data = {permissions}
+    return axios.put(`admins/${id}/permissions?lang=fa`, data)
+}
+
+export async function blockAdmin (id) {
+    return axios.delete(`admins/${id}/block`)
+}
+
+export async function unblockAdmin (id) {
+    return axios.put(`admins/${id}/unblock`)
+}
+
+// </editor-fold>
+
 // <editor-fold desc="Users">
 
-export async function users(filter = null, search = null, page = null, size = itemsPerPage) {
+export async function users (filter = null, search = null, page = null, size = itemsPerPage) {
     let url = 'users?lang=fa';
     if (filter)
         url += `&filter=${filter}`;
@@ -94,7 +138,6 @@ export async function maps() {
 }
 
 export async function addMap(name, image = null) {
-    console.log(name)
     let formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
@@ -147,8 +190,10 @@ export async function transactions() {
     return axios.get(`payments/transactions`)
 }
 
-export async function updateTransactionStatus(id) {
-    return axios.get(`payments/transactions/${id}/status`)
+export async function updateTransactionStatus(id, status, status_description) {
+    let data = {status, status_description};
+
+    return axios.put(`payments/transactions/${id}/status`, data)
 }
 
 // </editor-fold>

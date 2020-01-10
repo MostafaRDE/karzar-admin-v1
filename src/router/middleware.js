@@ -1,4 +1,5 @@
 import objectsAuth from '../modules/objects/auth'
+import store from '../store'
 
 export function beforeEachCreator() {
     return function beforeEach(to, from, next) {
@@ -11,6 +12,18 @@ export function beforeEachCreator() {
             if (!userAuth)
             // Redirect to login route
                 return next({name: 'login'});
+            else {
+                if (to.matched.some(record => record.meta.hasOwnProperty('roles'))) {
+                    if (!to.matched.some(record => record.meta.hasOwnProperty('roles') && record.meta.roles.includes(store.state.user.role) )) {
+                        // Redirect trade console route
+                        return next({name: 'dashboard'});
+                    } else {
+                        return next();
+                    }
+                } else {
+                    return next();
+                }
+            }
         }
         // Else if "auth"-key in "meta"-key equals "false"
         else if (to.matched.some(record => record.meta.auth === false)) {
@@ -18,8 +31,8 @@ export function beforeEachCreator() {
             if (userAuth)
             // Redirect trade console route
                 return next({name: 'dashboard'});
+        } else {
+            return next()
         }
-
-        return next();
     }
 }

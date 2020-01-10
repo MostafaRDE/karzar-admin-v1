@@ -60,7 +60,7 @@
                 <ul class="nav nav-sidebar" data-nav-type="accordion">
 
                     {{ /* Content */ }}
-                    <li v-for="mainItem of MainSidebarData" class="nav-item">
+                    <li v-for="mainItem of sidebar" class="nav-item">
                         <router-link :to="mainItem.route" class="nav-link">
                             <i :class="`icon-${mainItem.icon}`"></i>
                             <span>{{ mainItem.title }}</span>
@@ -85,6 +85,18 @@
 
         data: () => ({
             MainSidebarData
-        })
+        }),
+
+        computed: {
+            sidebar() {
+                return this.MainSidebarData.filter(sidebar => {
+                    if (sidebar.hasOwnProperty('roles')) {
+                        return sidebar.roles.includes(this.$store.state.user.role)
+                    } else {
+                        return false
+                    }
+                })
+            }
+        }
     }
 </script>

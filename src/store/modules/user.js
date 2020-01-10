@@ -4,7 +4,7 @@ export default {
     state: {
         id: 0,
         name: 'نام',
-        role: 'SUPER_ADMIN',
+        role: '',
         userImage: require('@/assets/global_assets/images/image.png'),
         username: '',
         email: '',

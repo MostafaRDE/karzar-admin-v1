@@ -124,16 +124,23 @@
                 this.logging = true
 
                 // Call "login" api method
-                login(this.fields.username, this.fields.password).then(response => {
-                    window.setCookie(auth.AUTH_TOKEN, response.data['access_token'])
-                    this.$router.push({name: 'dashboard'})
+                login(this.fields.username, this.fields.password, this.fields.g2f).then(response => {
+                    if (response.data.status) {
+                        window.setCookie(auth.AUTH_TOKEN, response.data['access_token'])
+                        this.$router.push({name: 'dashboard'})
+                    } else {
+                        this.signInError = {
+                            code: response.status,
+                            message: response.data.msg,
+                        };
+                    }
                 }).catch(error => {
-                    console.log(error.status, error.response)
+                    // console.log(error.response)
                     // Show message server error
-                    this.signInError = {
-                        code: error.response.status,
-                        message: error.response.data.msg,
-                    };
+                    // this.signInError = {
+                    //     code: error.response.status,
+                    //     message: error.response.data.msg,
+                    // };
                 }).finally(() => {
                     // Set "false" flag's loading in submit button & hide it
                     this.logging = false

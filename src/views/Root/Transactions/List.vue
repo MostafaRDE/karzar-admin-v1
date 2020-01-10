@@ -24,14 +24,23 @@
                         <tr v-for="(item, index) of list">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
-                            <td>{{ item.amount }}</td>
-                            <td>{{ item.gateway }}</td>
-                            <td>{{ item.in_order_to }}</td>
+                            <td>{{ item.amount }}$</td>
+                            <td>{{ item.gateway_name }}</td>
+                                <td>{{ item.in_order_to }}</td>
                             <td>{{ type(item.type) }}</td>
-                            <td>{{  }}</td>
-                            <td>{{  }}</td>
+                            <td>{{ getKey1(item.description) }}</td>
+                            <td>{{ getKey2(item.description) }}</td>
                             <td>{{ item.status_description }}</td>
-                            <td>{{ item.status }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <rs-drop-down class="flex-grow-1" :source="statuses" v-model="item.status" @input="updateStatus(item.id, index)"/>
+                                    <rs-badge-icon class="cursor-pointer ml-2 mr-2"
+                                                   color="primary"
+                                                   icon="bubble-lines4"
+                                                   rounded
+                                                   @click.native="showUpdateModal(item.id, index)"/>
+                                </div>
+                            </td>
                         </tr>
                     </template>
                 </rs-table>
@@ -50,7 +59,7 @@
                           v-model="modals.transaction.visibility">
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="توضیحات" v-model="modals.transaction.fields.description"/>
+                        <rs-input textarea placeholder="توضیحات" v-model="modals.transaction.fields.status_description"/>
                     </div>
 
                     <template slot="footer">
@@ -97,6 +106,12 @@
             list: [],
             totalPages: 0,
 
+            statuses: [
+                {key: 0, value: 'در انتظار تایید'},
+                {key: 1, value: 'تایید'},
+                {key: 2, value: 'رد شده'},
+            ],
+
             modals: {
                 transaction: {
                     type: 'ADD', // {'ADD' | 'EDIT'}
@@ -109,7 +124,7 @@
                     index: -1,
 
                     fields: {
-                        description: '',
+                        status_description: '',
                     }
                 },
             }
@@ -146,7 +161,7 @@
                 this.modals.transaction.loading = false
                 this.modals.transaction.formErrors = {}
 
-                this.modals.transaction.fields.description = this.list[index].description
+                this.modals.transaction.fields.status_description = this.list[index].status_description
 
                 this.modals.transaction.id = id
                 this.modals.transaction.index = index
@@ -163,10 +178,10 @@
                 return (this.modals.transaction.formErrors.hasOwnProperty(key)) ? this.modals.transaction.formErrors[key][0] : ''
             },
 
-            updateStatus () {
+            updateStatus (id = undefined, index = -1) {
                 this.modals.transaction.loading = true
 
-                updateTransactionStatus(this.modals.transaction.id, this.modals.transaction.fields.description)
+                updateTransactionStatus(id || this.modals.transaction.id, this.list[index > -1 ? index : this.modals.transaction.index].status, index > -1 ? this.list[index].status_description : this.modals.transaction.fields.status_description)
                     .then(response => {
                         this.$toast.success({
                             title: 'ویرایش گزارش',
@@ -201,8 +216,40 @@
                 }
             },
 
-            getStatus() {
+            getKey1(description) {
+                try {
+                    let keys = JSON.parse(description)
+                    if (keys.hasOwnProperty('key1')) {
+                        switch (keys.key1.type) {
+                            case 'string':
+                                return keys.key1.value
+                            case 'image':
+                                return keys.key1.value
+                        }
+                    } else {
+                        return ''
+                    }
+                } catch (e) {
+                    return ''
+                }
+            },
 
+            getKey2(description) {
+                try {
+                    let keys = JSON.parse(description)
+                    if (keys.hasOwnProperty('key2')) {
+                        switch (keys.key2.type) {
+                            case 'string':
+                                return keys.key2.value
+                            case 'image':
+                                return keys.key2.value
+                        }
+                    } else {
+                        return ''
+                    }
+                } catch (e) {
+                    return ''
+                }
             },
         },
 

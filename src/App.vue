@@ -24,6 +24,8 @@
         },
 
         mounted () {
+            console.log(process.env)
+
             if (window.userAuth()) {
                 this.$store.commit('user/updateUserData', window.parseJwt(window.getCookie(objectsAuth.AUTH_TOKEN)))
             }
