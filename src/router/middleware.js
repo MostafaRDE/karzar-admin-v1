@@ -31,8 +31,8 @@ export function beforeEachCreator() {
             if (userAuth)
             // Redirect trade console route
                 return next({name: 'dashboard'});
-        } else {
-            return next()
         }
+
+        return next()
     }
 }
