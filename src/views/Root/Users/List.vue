@@ -40,7 +40,7 @@
                         <tr v-for="(user, index) of users">
                             <td class="select-text">{{ index + 1 }}</td>
                             <td class="select-text">
-                                <img :src="user.profile_image !== null ? `http://localhost:8080/api/v1/uploads?id=${user.profile_image.id}` : require('./../../../../public/images/samples/circle-profile.svg')"
+                                <img :src="user.profile_image !== null ? `${process.env.VUE_APP_API_URL}uploads?id=${user.profile_image.id}` : require('./../../../../public/images/samples/circle-profile.svg')"
                                      alt="" style="height: 40px"/>
                             </td>
                             <td class="select-text">{{ user.name }}</td>
@@ -480,7 +480,7 @@
                 this.modals.edit.fields.email = this.users[index].email
                 this.modals.edit.fields.whatsappNumber = this.users[index].whatsapp_number
                 if (this.users[index].profile_image !== null)
-                    this.modals.edit.profileImageURL = `http://localhost:8080/api/v1/uploads?id=${this.users[index].profile_image.id}`
+                    this.modals.edit.profileImageURL = `${process.env.VUE_APP_API_URL}uploads?id=${this.users[index].profile_image.id}`
             },
 
             changeProfileImage(e) {

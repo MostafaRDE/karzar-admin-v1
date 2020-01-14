@@ -13,15 +13,21 @@ export function beforeEachCreator() {
             // Redirect to login route
                 return next({name: 'login'});
             else {
-                if (to.matched.some(record => record.meta.hasOwnProperty('roles'))) {
-                    if (!to.matched.some(record => record.meta.hasOwnProperty('roles') && record.meta.roles.includes(store.state.user.role) )) {
-                        // Redirect trade console route
-                        return next({name: 'dashboard'});
+                try {
+                    store.commit('user/updateUserData', window.parseJwt(window.getCookie(objectsAuth.AUTH_TOKEN)))
+                    if (to.matched.some(record => record.meta.hasOwnProperty('roles'))) {
+                        if (!to.matched.some(record => record.meta.hasOwnProperty('roles') && record.meta.roles.includes(store.state.user.role) )) {
+                            // Redirect trade console route
+                            return next({name: 'dashboard'});
+                        } else {
+                            return next();
+                        }
                     } else {
                         return next();
                     }
-                } else {
-                    return next();
+                } catch (e) {
+                    console.log('What are you doing ???')
+                    return;
                 }
             }
         }

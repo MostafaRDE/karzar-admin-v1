@@ -20,5 +20,14 @@ yarn build
 yarn lint
 ```
 
+### Status
+```
+0: Pending
+1: Accepted
+2: Rejected
+3: Published
+4: Suspend
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

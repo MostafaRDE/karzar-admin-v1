@@ -24,7 +24,7 @@
                             <td>{{ item.key_1.af }}</td>
                             <td>{{ item.key_2.af }}</td>
                             <td>
-                                <img :src="`http://localhost:8080/api/v1/uploads?id=${item.image.id}`" alt=""
+                                <img :src="`${process.env.VUE_APP_API_URL}uploads?id=${item.image.id}`" alt=""
                                      style="height: 50px"/>
                             </td>
                             <td>
@@ -218,7 +218,7 @@
                 this.modals.gateway.imageURL = null
 
                 if (this.list[index].image !== null) {
-                    this.modals.gateway.imageURL = `http://localhost:8080/api/v1/uploads?id=${this.list[index].image.id}`
+                    this.modals.gateway.imageURL = `${process.env.VUE_APP_API_URL}uploads?id=${this.list[index].image.id}`
                 }
                 this.modals.gateway.fields.image = null
                 this.modals.gateway.fields.name = this.list[index].name

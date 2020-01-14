@@ -24,9 +24,16 @@
                         <tr v-for="(item, index) of list">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
-                            <td>{{ item.amount }}$</td>
+                            <td>
+                                {{ item.amount }}$
+                                <rs-badge-icon class="cursor-pointer ml-2 mr-2"
+                                               color="primary"
+                                               icon="pencil6"
+                                               rounded
+                                               @click.native="showUpdateAmountModal(item.id, index)"/>
+                            </td>
                             <td>{{ item.gateway_name }}</td>
-                                <td>{{ item.in_order_to }}</td>
+                            <td>{{ item.in_order_to }}</td>
                             <td>{{ type(item.type) }}</td>
                             <td>{{ getKey1(item.description) }}</td>
                             <td>{{ getKey2(item.description) }}</td>
@@ -52,7 +59,7 @@
                 </div>
             </div>
 
-            {{ /* Start map modal */ }}
+            {{ /* Start status description modal */ }}
             <rs-form :submit="updateStatus" @errors="setFormErrors">
                 <rs-modal :dialogStyle="{minWidth: '600px'}"
                           :title="`${modals.transaction.type === 'ADD' ? 'افزودن' : 'ویرایش'} نقشه`"
@@ -74,7 +81,27 @@
 
                 </rs-modal>
             </rs-form>
-            {{ /* End map modal */ }}
+            {{ /* End status description modal */ }}
+
+            {{ /* Start amount modal */ }}
+            <rs-form :submit="updateAmount" @errors="setFormErrors">
+                <rs-modal :dialogStyle="{minWidth: '600px'}"
+                          title="ویرایش موچودی"
+                          v-model="modals.transactionAmount.visibility">
+
+                    <div class="col-sm-12">
+                        <rs-input placeholder="موجودی" type="number" v-model="modals.transactionAmount.fields.amount"/>
+                    </div>
+
+                    <template slot="footer">
+                        <rs-button type="button" color="link" @click.native="modals.transactionAmount.visibility = false">بستن
+                        </rs-button>
+                        <rs-button type="submit" bg="primary" :loading="modals.transactionAmount.loading">بروزرسانی</rs-button>
+                    </template>
+
+                </rs-modal>
+            </rs-form>
+            {{ /* End amount modal */ }}
         </div>
     </div>
 </template>
@@ -82,7 +109,7 @@
 <script>
     import {
         itemsPerPage,
-        transactions,
+        transactions, updateTransactionAmount,
         updateTransactionStatus
     } from '../../../api'
 
@@ -127,6 +154,18 @@
                         status_description: '',
                     }
                 },
+                transactionAmount: {
+                    visibility: false,
+                    loading: false,
+                    formErrors: {},
+
+                    id: -1,
+                    index: -1,
+
+                    fields: {
+                        amount: '',
+                    }
+                },
             }
         }),
 
@@ -143,7 +182,7 @@
                     .catch(error => {
                         this.$toast.error({
                             title: 'خطا',
-                            message: 'خطا در بارگیری درگاه ها',
+                            message: 'خطا در بارگیری گزارشات',
                         })
                     })
                     .finally(() => {
@@ -155,7 +194,17 @@
                 this.getAll()
             },
 
-            // <editor-fold desc="Map">
+            // Get errors from "rs-form"-component and set in "formErrors"-data-variable
+            setFormErrors (errors) {
+                this.modals.transaction.formErrors = errors
+            },
+
+            // Customizing error-message for show in view (below inputs)
+            getInputError (key) {
+                return (this.modals.transaction.formErrors.hasOwnProperty(key)) ? this.modals.transaction.formErrors[key][0] : ''
+            },
+
+            // <editor-fold desc="Transaction">
 
             showUpdateModal (id, index) {
                 this.modals.transaction.loading = false
@@ -166,16 +215,6 @@
                 this.modals.transaction.id = id
                 this.modals.transaction.index = index
                 this.modals.transaction.visibility = true
-            },
-
-            // Get errors from "rs-form"-component and set in "formErrors"-data-variable
-            setFormErrors (errors) {
-                this.modals.transaction.formErrors = errors
-            },
-
-            // Customizing error-message for show in view (below inputs)
-            getInputError (key) {
-                return (this.modals.transaction.formErrors.hasOwnProperty(key)) ? this.modals.transaction.formErrors[key][0] : ''
             },
 
             updateStatus (id = undefined, index = -1) {
@@ -198,6 +237,44 @@
                     })
                     .finally(() => {
                         this.modals.transaction.loading = false
+                    })
+            },
+
+            // </editor-fold>
+
+            // <editor-fold desc="Transaction">
+
+            showUpdateAmountModal (id, index) {
+                this.modals.transactionAmount.loading = false
+                this.modals.transactionAmount.formErrors = {}
+
+                this.modals.transactionAmount.fields.amount = this.list[index].amount
+
+                this.modals.transactionAmount.id = id
+                this.modals.transactionAmount.index = index
+                this.modals.transactionAmount.visibility = true
+            },
+
+            updateAmount() {
+                this.modals.transactionAmount.loading = true
+
+                updateTransactionAmount(this.modals.transactionAmount.id, this.modals.transactionAmount.fields.amount)
+                    .then(response => {
+                        this.$toast.success({
+                            title: 'ویرایش موجودی گزارش',
+                            message: 'بروزرسانی با موفقیت انجام شد',
+                        })
+                        this.modals.transactionAmount.visibility = false
+                        this.getAll()
+                    })
+                    .catch(error => {
+                        this.$toast.error({
+                            title: 'ویرایش موجودی گزارش',
+                            message: 'بروزرسانی با شکست مواجه شد',
+                        })
+                    })
+                    .finally(() => {
+                        this.modals.transactionAmount.loading = false
                     })
             },
 

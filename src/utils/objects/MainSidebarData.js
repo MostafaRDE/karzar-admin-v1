@@ -10,5 +10,5 @@ export default [
     { title: 'سود ها', icon: 'stats-growth2', route: { name: 'profits' } },
     { title: 'گزارشات', icon: 'stack-empty', route: { name: 'reportsList' } },
     { title: 'اطلاعات وب سایت', icon: 'certificate', route: { name: 'siteInfo' } },
-    { title: 'آموزش ها', icon: 'book', route: { name: 'tutorials' } },
+    { title: 'آموزش ها', icon: 'book', route: { name: 'tutorialsList' }, roles: [ROLES.SUPER_ADMIN, ROLES.EXECUTOR] },
 ]

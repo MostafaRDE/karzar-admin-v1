@@ -19,6 +19,16 @@ export default [
         children: [
             {path: '', name: 'dashboard', component: () => import('../views/Root/Dashboard.vue')},
             {
+                path: 'profile',
+                meta: {
+                    roles: [Roles.SUPER_ADMIN, Roles.EXECUTOR],
+                },
+                component: () => import ('../views/Root/Profile.vue'),
+                children: [
+                    {path: 'change-password', name: 'profileChangePassword', component: () => import('../views/Root/Profile/ChangePassword.vue')},
+                ]
+            },
+            {
                 path: 'users',
                 meta: {
                     roles: [Roles.SUPER_ADMIN, Roles.EXECUTOR],
@@ -78,6 +88,16 @@ export default [
                 component: () => import ('../views/Root/Admins.vue'),
                 children: [
                     {path: '', name: 'adminsList', component: () => import('../views/Root/Admins/List.vue')},
+                ]
+            },
+            {
+                path: 'tutorials',
+                meta: {
+                    roles: [Roles.SUPER_ADMIN],
+                },
+                component: () => import ('../views/Root/Tutorials.vue'),
+                children: [
+                    {path: '', name: 'tutorialsList', component: () => import('../views/Root/Tutorials/List.vue')},
                 ]
             },
         ]

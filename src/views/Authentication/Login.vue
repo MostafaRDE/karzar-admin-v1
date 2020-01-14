@@ -30,7 +30,8 @@
                                       :rules="fields.rules.username"
                                       v-model="fields.username"/>
 
-                            <rs-input placeholder="گذرواژه"
+                            <rs-input type="password"
+                                      placeholder="گذرواژه"
                                       icon="lock2"
                                       name="password"
                                       :error="getInputError('password')"
@@ -127,6 +128,7 @@
                 login(this.fields.username, this.fields.password, this.fields.g2f).then(response => {
                     if (response.data.status) {
                         window.setCookie(auth.AUTH_TOKEN, response.data['access_token'])
+                        this.$store.commit('user/updateUserData', window.parseJwt(window.getCookie(auth.AUTH_TOKEN)))
                         this.$router.push({name: 'dashboard'})
                     } else {
                         this.signInError = {
@@ -135,12 +137,12 @@
                         };
                     }
                 }).catch(error => {
-                    // console.log(error.response)
+                    console.log(error.response)
                     // Show message server error
-                    // this.signInError = {
-                    //     code: error.response.status,
-                    //     message: error.response.data.msg,
-                    // };
+                    this.signInError = {
+                        code: error.response.status,
+                        message: error.response.data.msg,
+                    };
                 }).finally(() => {
                     // Set "false" flag's loading in submit button & hide it
                     this.logging = false

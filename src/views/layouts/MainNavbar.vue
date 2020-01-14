@@ -27,14 +27,15 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item dropdown dropdown-user">
-                    <a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+                    <router-link  :to="{name: 'profileChangePassword'}" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="@/assets/global_assets/images/image.png" class="rounded-circle" alt="">
                         <span>{{ $store.state.user.name }}</span>
-                    </a>
+                    </router-link>
 
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item"><i class="icon-cog5"></i> تنظیمات حساب</a>
-                        <a href="#" class="dropdown-item"><i class="icon-switch2"></i> خروج</a>
+                        <a href="#" class="dropdown-item"><i class="icon-key"></i> تغییر گذرواژه</a>
+                        <a href="javascript:void(0)" class="dropdown-item" @click="logout"><i class="icon-switch2"></i>
+                            خروج</a>
                     </div>
                 </li>
             </ul>
@@ -43,11 +44,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'MainNavbar'
-  }
+    export default {
+        name: 'MainNavbar',
+
+        methods: {
+            logout() {
+                window.deleteCooke('AUTH_TOKEN')
+                this.$router.push({name: 'login'})
+            }
+        }
+    }
 </script>
-
-<style scoped>
-
-</style>

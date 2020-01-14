@@ -10,7 +10,7 @@
 
         <div class="navbar-collapse collapse" id="navbar-footer">
             <span class="navbar-text">
-                &copy; ۲۰۱۹. تمام حقوق مطعلق به <a href="https://www.gametour.co" target="_blank">گیم تور</a> می باشد.
+                &copy; ۲۰۲۰. تمام حقوق مطعلق به <a href="https://www.gametour.co" target="_blank">گیم تور</a> می باشد.
             </span>
 
             <ul class="navbar-nav ml-lg-auto">

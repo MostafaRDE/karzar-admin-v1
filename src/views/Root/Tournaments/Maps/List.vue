@@ -20,7 +20,7 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ map.name.en }}</td>
                             <td>
-                                <img :src="`http://localhost:8080/api/v1/uploads?id=${map.image.id}`" alt=""
+                                <img :src="`${process.env.VUE_APP_API_URL}uploads?id=${map.image.id}&thumb=128`" alt=""
                                      style="height: 50px"/>
                             </td>
                             <td>
@@ -195,7 +195,7 @@
                 this.modals.map.fields.image = null
 
                 if (this.maps[index].image !== null) {
-                    this.modals.map.mapImageURL = `http://localhost:8080/api/v1/uploads?id=${this.maps[index].image.id}`
+                    this.modals.map.mapImageURL = `${process.env.VUE_APP_API_URL}uploads?id=${this.maps[index].image.id}`
                 }
                 this.modals.map.fields.name.af = this.maps[index].name.af
                 this.modals.map.fields.name.en = this.maps[index].name.en

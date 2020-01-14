@@ -1,7 +1,7 @@
 <template>
     <div class="form-group"
          :class="{'form-group-feedback': icon !== '', 'form-group-feedback-left': icon !== '' && iconDirection === 'start', 'form-group-feedback-right': icon !== '' && iconDirection === 'end'}">
-        <input v-if="!textarea" :type="type" class="form-control" :maxlength="maxlength !== 0 ? maxlength : ''" :placeholder="placeholder" v-model="model"/>
+        <input v-if="!textarea" :type="type" class="form-control" :min="min" :maxlength="maxlength !== 0 ? maxlength : ''" :placeholder="placeholder" v-model="model"/>
         <textarea v-if="textarea" class="form-control" :maxlength="maxlength !== 0 ? maxlength : ''" :placeholder="placeholder" v-model="model"></textarea>
         <div class="form-control-feedback" v-if="icon !== ''">
             <i :class="`icon-${icon} text-${iconColor}`"></i>
@@ -38,6 +38,9 @@
             maxlength: {
                 default: 0,
             },
+            min: {
+                default: null,
+            },
             name: {
                 default: '',
                 type: String,
@@ -59,7 +62,7 @@
             },
             value: {
                 default: '',
-                type: [String, Object, Array],
+                type: [String, Number, Object, Array],
             },
         },
 

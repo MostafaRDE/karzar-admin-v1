@@ -12,6 +12,11 @@ export async function login(username, password, g_code) {
     return axios.post('login?lang=fa', data)
 }
 
+export async function profileChangePassword (current_password, new_password) {
+    let data = {current_password, new_password}
+    return axios.put('profile/change-password?lang=fa', data)
+}
+
 // <editor-fold desc="Admins">
 
 export async function permissions () {
@@ -121,6 +126,17 @@ export async function tournament(id) {
     return axios.get(`games/pubg/tournaments/${id}?lang=af`)
 }
 
+export async function tournamentUpdate(id, title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password) {
+    let data = {title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password}
+    console.log(data)
+    return axios.put(`games/pubg/tournaments/${id}?lang=af`, data)
+}
+
+export async function tournamentSetWinningTeam(id, group_number) {
+    let data = {group_number}
+    return axios.put(`games/pubg/tournaments/${id}/set-winner-team?lang=af`, data)
+}
+
 export async function tournamentPlayers(id) {
     return axios.get(`games/pubg/tournaments/${id}/players?lang=af`)
 }
@@ -190,10 +206,23 @@ export async function transactions() {
     return axios.get(`payments/transactions`)
 }
 
+export async function updateTransactionAmount (id, amount) {
+    let data = {amount};
+    return axios.put(`payments/transactions/${id}/amount`, data)
+}
+
 export async function updateTransactionStatus(id, status, status_description) {
     let data = {status, status_description};
 
     return axios.put(`payments/transactions/${id}/status`, data)
+}
+
+// </editor-fold>
+
+// <editor-fold desc="Tutorials">
+
+export async function tutorials () {
+    return axios.get('tutorials?lang=fa')
 }
 
 // </editor-fold>

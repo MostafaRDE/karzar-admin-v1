@@ -2,7 +2,7 @@ import axios from 'axios'
 import authObject from '../modules/objects/auth.js'
 
 let instance = axios.create({
-    baseURL: process.env.VUE_APP_API_URL,
+    baseURL: `${process.env.VUE_APP_API_URL}admin/`,
     timeout: 30000,
 })
 
@@ -19,7 +19,7 @@ instance.interceptors.response.use(response => {
         window.deleteCooke(authObject.AUTH_TOKEN)
         window.location.replace('/login')
     }
-    return error;
+    return Promise.reject(error);
 });
 
 export default instance

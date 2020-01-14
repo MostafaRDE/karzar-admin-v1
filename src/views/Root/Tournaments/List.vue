@@ -39,6 +39,7 @@
                         <th>فی</th>
                         <th>جایزه</th>
                         <th>لینک یوتیوب</th>
+                        <th>تیم برنده</th>
                         <th></th>
                     </template>
 
@@ -65,11 +66,24 @@
                                     'ندارد' }}</a>
                             </td>
                             <td>
+                                <div class="d-flex align-items-center">
+                                    <rs-drop-down :source="tournament.groups"
+                                                  v-model="tournament.winning_group"
+                                                  @change.native="updateGroup(tournament.id, index)"/>
+                                    <rs-loading v-if="tournament.updatingWinningGroup" icon="spinner4" class="ml-2"/>
+                                </div>
+                            </td>
+                            <td>
                                 <rs-badge-icon class="cursor-pointer mr-2"
                                                bg="teal-600"
                                                icon="users2"
                                                rounded
                                                @click.native="showPlayersModal(tournament.id, index)"/>
+                                <rs-badge-icon class="cursor-pointer mr-2"
+                                               bg="teal-600"
+                                               icon="pencil6"
+                                               rounded
+                                               @click.native="showTournamentModal(tournament.id, index)"/>
                             </td>
                         </tr>
                     </template>
@@ -103,7 +117,8 @@
                             <td>{{ player.created_at | moment('jYYYY/jMM/jDD HH:mm:ss') }}</td>
                             <td>{{ player.group_number }}</td>
                             <td class="d-flex align-items-center">
-                                <input type="checkbox" v-model="player.is_authentication_room_get" @click="toggleAuthenticationRoom(index)"/>
+                                <input type="checkbox" v-model="player.is_authentication_room_get"
+                                       @click="toggleAuthenticationRoom(index)"/>
                                 <rs-loading v-if="player.loading" icon="spinner4" class="ml-2"/>
                             </td>
                         </tr>
@@ -118,6 +133,123 @@
 
             </rs-modal>
             {{ /* End change wallet amount */ }}
+
+            {{ /* Start edit tournament */ }}
+            <rs-form :submit="updateTournament" @errors="setFormErrors">
+                <rs-modal :dialogStyle="{minWidth: '600px'}"
+                          title="ویرایش تورنومنت"
+                          v-model="modals.tournament.visibility">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <rs-drop-down :source="statuses"
+                                          v-model="modals.tournament.fields.status"/>
+                        </div>
+
+                        {{ /* Start titles */ }}
+                        <div class="col-sm-12 mt-3">
+                            <rs-input placeholder="عنوان (en)"
+                                      v-model="modals.tournament.fields.title.en"/>
+                        </div>
+                        <div class="col-sm-12">
+                            <rs-input placeholder="عنوان (af)"
+                                      v-model="modals.tournament.fields.title.af"/>
+                        </div>
+                        {{ /* End titles */ }}
+
+                        {{ /* Start descriptions */ }}
+                        <div class="col-sm-12">
+                            <rs-input textarea placeholder="توضیحات (en)"
+                                      v-model="modals.tournament.fields.description.en"/>
+                        </div>
+                        <div class="col-sm-12">
+                            <rs-input textarea placeholder="توضیحات (af)"
+                                      v-model="modals.tournament.fields.description.af"/>
+                        </div>
+                        {{ /* End descriptions */ }}
+
+                        <div class="col-sm-6">
+                            <rs-input type="number"
+                                      placeholder="ظرفیت هر گروه"
+                                      min="1"
+                                      name="groupCapacity"
+                                      :error="getInputError('groupCapacity')"
+                                      :rule="modals.tournament.fields.groupCapacity"
+                                      v-model="modals.tournament.fields.groupCapacity"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <rs-input type="number"
+                                      placeholder="ظرفیت کل"
+                                      min="10"
+                                      name="capacity"
+                                      :error="getInputError('capacity')"
+                                      :rule="modals.tournament.fields.capacity"
+                                      v-model="modals.tournament.fields.capacity"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <rs-input type="number"
+                                      placeholder="فی ورود"
+                                      name="fee"
+                                      :error="getInputError('fee')"
+                                      :rule="modals.tournament.fields.fee"
+                                      v-model="modals.tournament.fields.fee"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <rs-input placeholder="جایزه"
+                                      name="fee"
+                                      :error="getInputError('rewardValue')"
+                                      :rule="modals.tournament.fields.rewardValue"
+                                      v-model="modals.tournament.fields.rewardValue"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <rs-input placeholder="لینک یوتیوب"
+                                      name="youtubeLink"
+                                      :error="getInputError('youtubeLink')"
+                                      :rule="modals.tournament.fields.youtubeLink"
+                                      v-model="modals.tournament.fields.youtubeLink"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <date-picker format="YYYY-MM-DD"
+                                         display-format="jYYYY/jMM/jDD"
+                                         name="startDate"
+                                         :error="getInputError('startDate')"
+                                         :rule="modals.tournament.fields.startDate"
+                                         v-model="modals.tournament.fields.startDate"/>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <rs-drop-down :source="maps"
+                                          name="mapId"
+                                          :error="getInputError('mapId')"
+                                          :rule="modals.tournament.fields.mapId"
+                                          v-model="modals.tournament.fields.mapId"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <rs-input placeholder="نام کاربری"
+                                      v-model="modals.tournament.fields.username"/>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <rs-input placeholder="گذرواژه"
+                                      v-model="modals.tournament.fields.password"/>
+                        </div>
+                    </div>
+
+                    <template slot="footer">
+                        <rs-button type="button" color="link" @click.native="modals.tournament.visibility = false">بستن
+                        </rs-button>
+                        <rs-button type="submit" bg="primary" :loading="modals.tournament.loading">ویرایش</rs-button>
+                    </template>
+
+                </rs-modal>
+            </rs-form>
+            {{ /* End edit tournament */ }}
         </div>
     </div>
 </template>
@@ -129,6 +261,7 @@
         tournamentPlayers,
         addAuthenticationRoomToGroupPlayers,
         removeAuthenticationRoomToGroupPlayers,
+        tournamentSetWinningTeam, maps, tournamentUpdate,
     } from '../../../api'
 
     const moment = require('moment')
@@ -156,6 +289,15 @@
                 totalPages: 0,
                 search: '',
 
+                formErrors: {},
+
+                maps: [],
+                statuses: [
+                    { key: 0, value: 'در انتظار' },
+                    { key: 3, value: 'منتشر شده' },
+                    { key: 4, value: 'معلق شده' },
+                ],
+
                 modals: {
                     players: {
                         loading: false,
@@ -163,6 +305,44 @@
                         index: 0,
                         tournamentId: 0,
                         players: [],
+                    },
+                    tournament: {
+                        loading: false,
+                        visibility: false,
+                        index: 0,
+                        tournamentId: 0,
+
+                        fields: {
+                            title: {
+                                af: '',
+                                en: '',
+                            },
+                            description: {
+                                af: '',
+                                en: '',
+                            },
+                            capacity: 0,
+                            startDate: '',
+                            rewardValue: '',
+                            fee: 0,
+                            status: 0,
+                            youtubeLink: '',
+                            mapId: 0,
+                            groupCapacity: 0,
+                            username: 0,
+                            password: 0,
+
+                            rules: {
+                                capacity: 'required',
+                                startDate: 'required',
+                                rewardValue: 'required|string',
+                                fee: 'required',
+                                status: 'required',
+                                youtubeLink: '',
+                                mapId: 'required',
+                                groupCapacity: 'required',
+                            }
+                        }
                     },
                 }
             }
@@ -175,6 +355,18 @@
                 tournaments(this.search, this.currentPage).then(response => {
                     let totalPages = response.data.total / this.itemsPerPage
                     this.totalPages = (totalPages % 1 !== 0) ? Math.floor(totalPages) + 1 : totalPages
+                    for (let i = 0; i < response.data.result.length; i++) {
+                        response.data.result[i]['groups'] = response.data.result[i].groups.split(',').map((group, index) => ({
+                            key: index + 1,
+                            value: group,
+                        }))
+                        response.data.result[i]['groups'].unshift({
+                            key: 0,
+                            value: 'مشخص نشده'
+                        })
+                        response.data.result[i]['winning_group'] = response.data.result[i]['winning_group'] || 0
+                        response.data.result[i]['updatingWinningGroup'] = false
+                    }
                     this.tournaments = response.data.result
                 }).catch(error => {
                     this.$toast.error({
@@ -186,9 +378,102 @@
                 })
             },
 
+            updateGroup (tournamentId, index) {
+                console.log(tournamentId, index)
+                this.tournaments[index].updatingWinningGroup = true
+
+                tournamentSetWinningTeam(tournamentId, this.tournaments[index].winning_group)
+                    .then(response => {
+                        this.$toast.success({
+                            title: 'تیم برنده',
+                            message: 'تیم برنده با موفقیت بروزرسانی شد',
+                        })
+                        this.getTournaments()
+                    })
+                    .catch(error => {
+                        this.$toast.error({
+                            title: 'خطا',
+                            message: 'خطا در بروزرسانی تیم برنده',
+                        })
+                    })
+                    .finally(() => {
+                        this.tournaments[index].updatingWinningGroup = false
+                    })
+            },
+
             updateListByPagination () {
                 this.getUsers()
             },
+
+            // Get errors from "rs-form"-component and set in "formErrors"-data-variable
+            setFormErrors (errors) {
+                this.formErrors = errors
+            },
+
+            // Customizing error-message for show in view (below inputs)
+            getInputError (key) {
+                return (this.formErrors.hasOwnProperty(key)) ? this.formErrors[key][0] : ''
+            },
+
+            // <editor-fold desc="Tournament">
+
+            showTournamentModal (tournamentId, index) {
+                this.modals.tournament.visibility = true
+                this.modals.tournament.index = index
+                this.modals.tournament.tournamentId = tournamentId
+
+                this.modals.tournament.fields.title.af = this.tournaments[index].title.af
+                this.modals.tournament.fields.title.en = this.tournaments[index].title.en
+                this.modals.tournament.fields.description.af = this.tournaments[index].description.af
+                this.modals.tournament.fields.description.en = this.tournaments[index].description.en
+                this.modals.tournament.fields.capacity = this.tournaments[index].capacity
+                this.modals.tournament.fields.startDate = this.tournaments[index].start_date
+                this.modals.tournament.fields.rewardValue = this.tournaments[index].reward_value
+                this.modals.tournament.fields.fee = this.tournaments[index].fee
+                this.modals.tournament.fields.status = this.tournaments[index].status
+                this.modals.tournament.fields.youtubeLink = this.tournaments[index].youtube_link
+                this.modals.tournament.fields.mapId = this.tournaments[index].map_id
+                this.modals.tournament.fields.groupCapacity = this.tournaments[index].group_capacity
+                this.modals.tournament.fields.username = this.tournaments[index].username
+                this.modals.tournament.fields.password = this.tournaments[index].password
+            },
+
+            updateTournament () {
+                this.modals.tournament.loading = true
+
+                tournamentUpdate(
+                    this.modals.tournament.tournamentId,
+                    this.modals.tournament.fields.title,
+                    this.modals.tournament.fields.description,
+                    this.modals.tournament.fields.capacity,
+                    this.modals.tournament.fields.startDate,
+                    this.modals.tournament.fields.rewardValue,
+                    this.modals.tournament.fields.fee,
+                    this.modals.tournament.fields.status,
+                    this.modals.tournament.fields.youtubeLink,
+                    this.modals.tournament.fields.mapId,
+                    this.modals.tournament.fields.groupCapacity,
+                    this.modals.tournament.fields.username,
+                    this.modals.tournament.fields.password
+                ).then(response => {
+                    this.$toast.success({
+                        title: 'ویرایش تورنومنت',
+                        message: 'بروزرسانی با موفقیت انجام شد',
+                    })
+
+                    this.modals.tournament.visibility = false
+                    this.getTournaments()
+                }).catch(error => {
+                    this.$toast.error({
+                        title: 'ویرایش تورنومنت',
+                        message: 'بروزرسانی با شکست مواجه شد',
+                    })
+                }).finally(() => {
+                    this.modals.tournament.loading = false
+                })
+            },
+
+            // </editor-fold>
 
             // <editor-fold desc="Update amount wallet">
 
@@ -220,7 +505,7 @@
                     })
             },
 
-            toggleAuthenticationRoom(index) {
+            toggleAuthenticationRoom (index) {
                 this.modals.players.players[index].loading = true
 
                 if (!this.modals.players.players[index].is_authentication_room_get) {
@@ -253,6 +538,16 @@
 
         mounted () {
             this.getTournaments()
+            maps()
+                .then(response => {
+                    this.maps = response.data.result.map(map => ({
+                        key: map.id,
+                        value: map.name.en
+                    }))
+                })
+                .catch(error => {
+
+                })
         }
     }
 </script>

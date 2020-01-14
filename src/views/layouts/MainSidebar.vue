@@ -39,13 +39,13 @@
                 <div class="collapse" id="user-nav">
                     <ul class="nav nav-sidebar">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="icon-cog5"></i>
-                                <span>تنظیمات حساب</span>
-                            </a>
+                            <router-link :to="{name: 'profileChangePassword'}" class="nav-link">
+                                <i class="icon-key"></i>
+                                <span>تغییر گذرواژه</span>
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="javascript:void(0)" class="nav-link" @click="logout">
                                 <i class="icon-switch2"></i>
                                 <span>خروج</span>
                             </a>
@@ -96,6 +96,13 @@
                         return false
                     }
                 })
+            }
+        },
+
+        methods: {
+            logout() {
+                window.deleteCooke('AUTH_TOKEN')
+                this.$router.push({name: 'login'})
             }
         }
     }
