@@ -21,7 +21,7 @@
                         <tr v-for="(item, index) of list">
                             <td>{{ index + 1 }}</td>
                             <td>
-                                <img :src="`${process.env.VUE_APP_API_URL}uploads?id=${map.image.id}&thumb=128`"
+                                <img :src="`${env.VUE_APP_API_URL}uploads?id=${item.image_media_id}&thumb=128`"
                                      alt=""
                                      style="height: 50px"/>
                             </td>
@@ -37,7 +37,8 @@
                                                color="danger"
                                                icon="trash"
                                                rounded
-                                               @click.native="showUpdateModal(item.id, index)"/>
+                                               @click.native="deleteItem(item.id, index)"/>
+                                <rs-loading v-if="deletingIndex === index" icon="spinner4"/>
                             </td>
                         </tr>
                     </template>
@@ -56,6 +57,53 @@
                           :title="`${modals.tutorial.type === 'ADD' ? 'افزودن' : 'ویرایش'} آموزش`"
                           v-model="modals.tutorial.visibility">
 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <label>عکس شاخص</label>
+                                    <rs-input type="file"
+                                              placeholder="عکس نقشه"
+                                              name="image"
+                                              :error="getInputError('image')"
+                                              @change.native="changeImage"/>
+                                </div>
+                                <div class="ml-2 d-flex align-items-center" style="width: 70px">
+                                    <img ref="mapImage"
+                                         :src="modals.tutorial.imageURL || modals.tutorial.defaultImage"
+                                         alt="" class="w-100"/>
+                                </div>
+                            </div>
+
+                            {{ /* Start titles */ }}
+                            <div class="col-sm-12 mt-3">
+                                <rs-input placeholder="عنوان (en)"
+                                          v-model="modals.tutorial.fields.title.en"/>
+                            </div>
+                            <div class="col-sm-12">
+                                <rs-input placeholder="عنوان (af)"
+                                          v-model="modals.tutorial.fields.title.af"/>
+                            </div>
+                            {{ /* End titles */ }}
+
+                            {{ /* Start descriptions */ }}
+                            <div class="col-sm-12">
+                                <rs-input textarea placeholder="توضیحات (en)"
+                                          v-model="modals.tutorial.fields.text.en"/>
+                            </div>
+                            <div class="col-sm-12">
+                                <rs-input textarea placeholder="توضیحات (af)"
+                                          v-model="modals.tutorial.fields.text.af"/>
+                            </div>
+                            {{ /* End descriptions */ }}
+
+                            <div class="col-sm-12">
+                                <rs-input placeholder="لینک یوتیوب"
+                                          v-model="modals.tutorial.fields.youtube_link"/>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <template slot="footer">
                         <rs-button type="button" color="link" @click.native="modals.tutorial.visibility = false">بستن
@@ -74,8 +122,9 @@
 
 <script>
     import {
-        itemsPerPage,
-
+        deleteTutorial,
+        itemsPerPage, storeTutorial,
+        tutorials, updateTutorial,
     } from '../../../api'
 
     export default {
@@ -91,9 +140,12 @@
         ]),
 
         data: () => ({
+            env: process.env,
+
             currentPage: 1,
             itemsPerPage,
             loading: false,
+            deletingIndex: -1,
 
             list: [],
             totalPages: 0,
@@ -114,8 +166,8 @@
 
                     fields: {
                         image: '',
-                        title: {af: '', en: ''},
-                        text: {af: '', en: ''},
+                        title: { af: '', en: '' },
+                        text: { af: '', en: '' },
                         youtube_link: '',
                     }
                 },
@@ -124,27 +176,32 @@
 
         methods: {
             getAll () {
-                // this.loading = true
+                this.loading = true
 
-                // transactions()
-                //     .then(response => {
-                //         this.list = response.data.result
-                //         let totalPages = response.data.total / this.itemsPerPage
-                //         this.totalPages = (totalPages % 1 !== 0) ? Math.floor(totalPages) + 1 : totalPages
-                //     })
-                //     .catch(error => {
-                //         this.$toast.error({
-                //             title: 'خطا',
-                //             message: 'خطا در بارگیری گزارشات',
-                //         })
-                //     })
-                //     .finally(() => {
-                //         this.loading = false
-                //     })
+                tutorials()
+                    .then(response => {
+                        this.list = response.data.result
+                        let totalPages = response.data.total / this.itemsPerPage
+                        this.totalPages = (totalPages % 1 !== 0) ? Math.floor(totalPages) + 1 : totalPages
+                    })
+                    .catch(error => {
+                        this.$toast.error({
+                            title: 'خطا',
+                            message: 'خطا در بارگیری آموزش ها',
+                        })
+                    })
+                    .finally(() => {
+                        this.loading = false
+                    })
             },
 
             updateListByPagination () {
                 this.getAll()
+            },
+
+            changeImage (e) {
+                this.modals.tutorial.fields.image = e.target.files[0]
+                this.modals.tutorial.imageURL = URL.createObjectURL(e.target.files[0])
             },
 
             // Get errors from "rs-form"-component and set in "formErrors"-data-variable
@@ -165,8 +222,8 @@
                 this.modals.tutorial.imageURL = null
 
                 this.modals.tutorial.fields.image = null
-                this.modals.tutorial.fields.title = {af:'', en: ''}
-                this.modals.tutorial.fields.text = {af:'', en: ''}
+                this.modals.tutorial.fields.title = { af: '', en: '' }
+                this.modals.tutorial.fields.text = { af: '', en: '' }
                 this.modals.tutorial.fields.youtube_link = ''
 
                 this.modals.tutorial.id = -1
@@ -185,20 +242,93 @@
                 if (this.list[index].image_media_id !== null) {
                     this.modals.tutorial.imageURL = `${process.env.VUE_APP_API_URL}uploads?id=${this.list[index].image_media_id}&thumb=128`
                 }
-                this.fields.title = this.list[index].title
-                this.fields.text = this.list[index].text
-                this.fields.youtube_link = this.list[index].youtube_link
+                this.modals.tutorial.fields.title = this.list[index].title
+                this.modals.tutorial.fields.text = this.list[index].text
+                this.modals.tutorial.fields.youtube_link = this.list[index].youtube_link
 
                 this.modals.tutorial.id = id
                 this.modals.tutorial.index = index
                 this.modals.tutorial.visibility = true
             },
 
-            store() {
+            store () {
+                this.modals.tutorial.loading = true
 
+                if (this.modals.tutorial.type === 'ADD') {
+                    storeTutorial(
+                        JSON.stringify(this.modals.tutorial.fields.title),
+                        JSON.stringify(this.modals.tutorial.fields.text),
+                        this.modals.tutorial.fields.youtube_link,
+                        this.modals.tutorial.fields.image
+                    )
+                        .then(response => {
+                            this.$toast.success({
+                                title: 'افزودن آموزش',
+                                message: 'آموزش با موفقیت اضافه شد',
+                            })
+                            this.modals.tutorial.visibility = false
+                            this.getAll()
+                        })
+                        .catch(error => {
+                            this.$toast.error({
+                                title: 'افزودن آموزش',
+                                message: error.response.data.msg,
+                            })
+                        })
+                        .finally(() => {
+                            this.modals.tutorial.loading = false
+                        })
+                } else {
+                    updateTutorial(
+                        this.modals.tutorial.id,
+                        JSON.stringify(this.modals.tutorial.fields.title),
+                        JSON.stringify(this.modals.tutorial.fields.text),
+                        this.modals.tutorial.fields.youtube_link,
+                        this.modals.tutorial.fields.image
+                    )
+                        .then(response => {
+                            this.$toast.success({
+                                title: 'ویرایش آموزش',
+                                message: 'آموزش با موفقیت بروزرسانی شد',
+                            })
+                            this.modals.tutorial.visibility = false
+                            this.getAll()
+                        })
+                        .catch(error => {
+                            this.$toast.error({
+                                title: 'ویرایش آموزش',
+                                message: error.response.data.msg,
+                            })
+                        })
+                        .finally(() => {
+                            this.modals.tutorial.loading = false
+                        })
+                }
             },
 
             // </editor-fold>
+
+            deleteItem (id, index) {
+                this.deletingIndex = index
+
+                deleteTutorial(id)
+                    .then(response => {
+                        this.$toast.success({
+                            title: 'حذف آموزش',
+                            message: 'آموزش با موفقیت حذف شد',
+                        })
+                        this.getAll()
+                    })
+                    .catch(error => {
+                        this.$toast.error({
+                            title: 'حذف آموزش',
+                            message: 'حذف آموزش با شکست مواجه شد',
+                        })
+                    })
+                    .finally(() => {
+                        this.deletingIndex = -1
+                    })
+            },
         },
 
         mounted () {

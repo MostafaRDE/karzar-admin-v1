@@ -24,7 +24,7 @@
                             <td>{{ item.key_1.af }}</td>
                             <td>{{ item.key_2.af }}</td>
                             <td>
-                                <img :src="`${process.env.VUE_APP_API_URL}uploads?id=${item.image.id}`" alt=""
+                                <img :src="`${env.VUE_APP_API_URL}uploads?id=${item.image.id}`" alt=""
                                      style="height: 50px"/>
                             </td>
                             <td>
@@ -127,6 +127,8 @@
         ]),
 
         data: () => ({
+            env: process.env,
+
             currentPage: 1,
             itemsPerPage,
             loading: false,

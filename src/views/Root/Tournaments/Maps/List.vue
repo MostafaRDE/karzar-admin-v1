@@ -20,7 +20,7 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ map.name.en }}</td>
                             <td>
-                                <img :src="`${process.env.VUE_APP_API_URL}uploads?id=${map.image.id}&thumb=128`" alt=""
+                                <img :src="`${env.VUE_APP_API_URL}uploads?id=${map.image.id}&thumb=128`" alt=""
                                      style="height: 50px"/>
                             </td>
                             <td>
@@ -112,6 +112,8 @@
         ]),
 
         data: () => ({
+            env: process.env,
+
             currentPage: 1,
             itemsPerPage,
             loading: false,

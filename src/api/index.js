@@ -225,4 +225,28 @@ export async function tutorials () {
     return axios.get('tutorials?lang=fa')
 }
 
+export async function storeTutorial (title, text, youtube_link, image) {
+    let formData = new FormData()
+    formData.append('title', title)
+    formData.append('text', text)
+    formData.append('youtube_link', youtube_link)
+    formData.append('image', image)
+
+    return axios.post('tutorials?lang=fa', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
+export async function updateTutorial (id, title, text, youtube_link, image) {
+    let formData = new FormData()
+    formData.append('title', title)
+    formData.append('text', text)
+    formData.append('youtube_link', youtube_link)
+    formData.append('image', image)
+
+    return axios.put(`tutorials/${id}?lang=fa`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
+export async function deleteTutorial (id) {
+    return axios.delete(`tutorials/${id}?lang=fa`)
+}
+
 // </editor-fold>
