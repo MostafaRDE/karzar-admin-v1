@@ -23,10 +23,12 @@ yarn lint
 ### Status
 ```
 0: Pending
-1: Accepted
+1: Accepted|Success
 2: Rejected
 3: Published
 4: Suspend
+5: Accepted
+6: Failed
 ```
 
 ### Customize configuration

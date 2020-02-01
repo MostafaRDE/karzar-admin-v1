@@ -354,21 +354,27 @@
 
                 tournaments(this.search, this.currentPage).then(response => {
                     let totalPages = response.data.total / this.itemsPerPage
-                    this.totalPages = (totalPages % 1 !== 0) ? Math.floor(totalPages) + 1 : totalPages
+                    this.totalPages = (totalPages % 1 !== 0) ? Math.floor(totalPages) + 1 : totalPages;
+                    console.log(0)
                     for (let i = 0; i < response.data.result.length; i++) {
-                        response.data.result[i]['groups'] = response.data.result[i].groups.split(',').map((group, index) => ({
+                        let tempGroups = response.data.result[i].groups || '';
+                        response.data.result[i]['groups'] = tempGroups.split(',').map((group, index) => ({
                             key: index + 1,
                             value: group,
                         }))
+                        console.log(1)
                         response.data.result[i]['groups'].unshift({
                             key: 0,
                             value: 'مشخص نشده'
                         })
+                        console.log(2)
                         response.data.result[i]['winning_group'] = response.data.result[i]['winning_group'] || 0
                         response.data.result[i]['updatingWinningGroup'] = false
+                        console.log(3)
                     }
                     this.tournaments = response.data.result
                 }).catch(error => {
+                    console.log(error)
                     this.$toast.error({
                         title: 'خطا',
                         message: 'خطا در دریافت توزنومنت ها',
