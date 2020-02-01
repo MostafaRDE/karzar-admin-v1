@@ -39,6 +39,7 @@
                         <th>فی</th>
                         <th>جایزه</th>
                         <th>لینک یوتیوب</th>
+                        <th>پایان یافته</th>
                         <th>تیم برنده</th>
                         <th></th>
                     </template>
@@ -64,6 +65,12 @@
                                 <a :href="tournament.youtube_link || 'javascript:void(0)'"
                                    :target="tournament.youtube_link ? '_blank' : ''">{{ tournament.youtube_link ||
                                     'ندارد' }}</a>
+                            </td>
+                            <td>
+                                <rs-switchery class="d-inline-block" activeColor="#e91e63" disableColor="#64BD63"
+                                              v-model="tournament.finished_at !== null"
+                                              @click.native="tournamentFinishedToggle(index)"/>
+                                <rs-loading v-if="tournament.loading_finished" class="d-inline-block" icon="spinner4"/>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
@@ -405,6 +412,47 @@
                     .finally(() => {
                         this.tournaments[index].updatingWinningGroup = false
                     })
+            },
+
+            tournamentFinishedToggle (index) {
+                this.tournaments[index].loading_finished = true
+                if (this.tournaments[index].finished_at === null) {
+                    blockUser(this.tournaments[index].id)
+                        .then(response => {
+                            this.tournaments[index].finished_at = moment().format()
+                            this.$toast.success({
+                                title: 'وضعیت پایان',
+                                message: 'تورنومنت با موفقیت پایان یافت',
+                            })
+                        })
+                        .catch(error => {
+                            this.$toast.error({
+                                title: 'وضعیت پایان',
+                                message: 'پایان دادن به تورنومنت با شکست مواجه شد',
+                            })
+                        })
+                        .finally(() => {
+                            this.users[index].loading_finished = false
+                        })
+                } else {
+                    unblockUser(this.users[index].id)
+                        .then(response => {
+                            this.users[index].finished_at = null
+                            this.$toast.success({
+                                title: 'وضعیت پایان',
+                                message: 'تورنومنت با موفقیت از حالت پایان یافته خارج شد',
+                            })
+                        })
+                        .catch(error => {
+                            this.$toast.error({
+                                title: 'وضعیت پایان',
+                                message: 'از سرگیری مجدد تورنومنت شکست خورد',
+                            })
+                        })
+                        .finally(() => {
+                            this.users[index].loading_finished = false
+                        })
+                }
             },
 
             updateListByPagination () {
