@@ -3,7 +3,7 @@
         <div>
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">درگاه ها</h5>
+                    <h5 class="card-title">درگاه های خروجی</h5>
                     <rs-button @click.native="showAddModal">افزودن درگاه</rs-button>
                 </div>
 
@@ -76,6 +76,7 @@
                         <rs-input placeholder="کلید 1 (en)"
                                   v-model="modals.gateway.fields.key1.en"/>
                     </div>
+
                     <div class="col-sm-12">
                         <rs-input placeholder="کلید 1 (af)"
                                   v-model="modals.gateway.fields.key1.af"/>
@@ -85,6 +86,7 @@
                         <rs-input placeholder="کلید 2 (en)"
                                   v-model="modals.gateway.fields.key2.en"/>
                     </div>
+
                     <div class="col-sm-12">
                         <rs-input placeholder="کلید 12 (af)"
                                   v-model="modals.gateway.fields.key2.af"/>
@@ -112,18 +114,18 @@
         gateways,
         storeGateway,
         updateGateway
-    } from '../../../api'
+    } from '../../../../api'
 
     export default {
         name: 'List',
 
         metaInfo: {
-            title: 'درگاه ها'
+            title: 'درگاه های خروجی'
         },
 
         breadcrumb: () => ([
             { label: 'پیشخوان', to: '/', icon: 'home4' },
-            { label: 'درگاه ها', to: '/gateways', icon: 'wallet' },
+            { label: 'درگاه های خروجی', to: '/gateways', icon: 'wallet' },
         ]),
 
         data: () => ({
@@ -148,7 +150,7 @@
                     index: -1,
 
                     imageURL: null,
-                    defaultImage: require('./../../../../public/images/samples/img-world-map.jpg'),
+                    defaultImage: require('../../../../../public/images/samples/img-world-map.jpg'),
 
                     fields: {
                         image: null,
@@ -170,7 +172,7 @@
             getAll () {
                 this.loading = true
 
-                gateways()
+                gateways(1)
                     .then(response => {
                         this.list = response.data.result
                         let totalPages = response.data.total / this.itemsPerPage
@@ -254,7 +256,7 @@
 
                 switch (this.modals.gateway.type) {
                     case 'ADD':
-                        storeGateway(this.modals.gateway.fields.name, JSON.stringify(this.modals.gateway.fields.key1), JSON.stringify(this.modals.gateway.fields.key2), this.modals.gateway.fields.image)
+                        storeGateway(this.modals.gateway.fields.name, JSON.stringify(this.modals.gateway.fields.key1), JSON.stringify(this.modals.gateway.fields.key2), this.modals.gateway.fields.image, 1)
                             .then(response => {
                                 this.$toast.success({
                                     title: 'افزودن درگاه',
@@ -275,7 +277,7 @@
                         break
 
                     case 'EDIT':
-                        updateGateway(this.modals.gateway.id, this.modals.gateway.fields.name, JSON.stringify(this.modals.gateway.fields.key1), JSON.stringify(this.modals.gateway.fields.key2), this.modals.gateway.fields.image)
+                        updateGateway(this.modals.gateway.id, this.modals.gateway.fields.name, JSON.stringify(this.modals.gateway.fields.key1), JSON.stringify(this.modals.gateway.fields.key2), this.modals.gateway.fields.image, 1)
                             .then(response => {
                                 this.$toast.success({
                                     title: 'ویرایش درگاه',

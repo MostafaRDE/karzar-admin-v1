@@ -61,13 +61,14 @@ export default [
                 ]
             },
             {
-                path: 'gateways',
+                path: 'gateways/',
                 meta: {
                     roles: [Roles.SUPER_ADMIN],
                 },
                 component: () => import ('../views/Root/Gateways.vue'),
                 children: [
-                    {path: '', name: 'gatewaysList', component: () => import('../views/Root/Gateways/List.vue')},
+                    { path: 'deposit', name: 'depositGatewaysList', component: () => import('../views/Root/Gateways/Deposit/List.vue') },
+                    { path: 'withdraw', name: 'withdrawGatewaysList', component: () => import('../views/Root/Gateways/Withdraw/List.vue') },
                 ]
             },
             {
@@ -77,7 +78,8 @@ export default [
                 },
                 component: () => import ('../views/Root/Transactions.vue'),
                 children: [
-                    {path: '', name: 'transactionsList', component: () => import('../views/Root/Transactions/List.vue')},
+                    {path: 'deposit', name: 'depositTransactionsList', component: () => import('../views/Root/Transactions/Deposit/List.vue')},
+                    {path: 'withdraw', name: 'withdrawTransactionsList', component: () => import('../views/Root/Transactions/Withdraw/List.vue')},
                 ]
             },
             {

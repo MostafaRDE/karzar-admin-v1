@@ -137,7 +137,6 @@
                         };
                     }
                 }).catch(error => {
-                    console.log(error.response)
                     // Show message server error
                     this.signInError = {
                         code: error.response.status,

@@ -128,7 +128,7 @@ export async function tournament(id) {
 
 export async function tournamentUpdate(id, title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password) {
     let data = {title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password}
-    console.log(data)
+
     return axios.put(`games/pubg/tournaments/${id}?lang=af`, data)
 }
 
@@ -162,7 +162,6 @@ export async function addMap(name, image = null) {
 }
 
 export async function updateMap(map_id, name, image = null) {
-    console.log(name)
     let formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
@@ -174,26 +173,49 @@ export async function updateMap(map_id, name, image = null) {
 
 // <editor-fold desc="Gateways">
 
-export async function gateways () {
-    return axios.get(`gateways`)
+/**
+ * @param type => 0: Deposit , 1: Withdraw
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export async function gateways (type) {
+    return axios.get(`gateways?&type=${type}`)
 }
 
-export async function storeGateway (name, key1, key2, image) {
+/**
+ * @param name
+ * @param key1
+ * @param key2
+ * @param image
+ * @param type => 0: Deposit , 1: Withdraw
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export async function storeGateway (name, key1, key2, image, type) {
     let formData = new FormData()
     formData.append('name', name)
     formData.append('key1', key1)
     formData.append('key2', key2)
     formData.append('image', image)
+    formData.append('type', type)
 
     return axios.post(`gateways`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
 
-export async function updateGateway (id, name, key1, key2, image) {
+/**
+ * @param id
+ * @param name
+ * @param key1
+ * @param key2
+ * @param image
+ * @param type => 0: Deposit , 1: Withdraw
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export async function updateGateway (id, name, key1, key2, image, type) {
     let formData = new FormData()
     formData.append('name', name)
     formData.append('key1', key1)
     formData.append('key2', key2)
     formData.append('image', image)
+    formData.append('type', type)
 
     return axios.put(`gateways/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
@@ -202,8 +224,12 @@ export async function updateGateway (id, name, key1, key2, image) {
 
 // <editor-fold desc="Transactions">
 
-export async function transactions() {
-    return axios.get(`payments/transactions`)
+/**
+ * @param type => INPUT | OUTPUT
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export async function transactions(type) {
+    return axios.get(`payments/transactions?type=${type}`)
 }
 
 export async function updateTransactionAmount (id, amount) {

@@ -13,7 +13,6 @@
                         <th>مقدار</th>
                         <th>درگاه</th>
                         <th>به چهت</th>
-                        <th>نوع</th>
                         <th>کلید 1</th>
                         <th>کلید 2</th>
                         <th>توضیحات وضعیت</th>
@@ -34,9 +33,8 @@
                             </td>
                             <td>{{ item.gateway_name }}</td>
                             <td>{{ item.in_order_to }}</td>
-                            <td>{{ type(item.type) }}</td>
-                            <td>{{ getKey1(item.description) }}</td>
-                            <td>{{ getKey2(item.description) }}</td>
+                            <td>{{ getKey1(item) }}</td>
+                            <td>{{ getKey2(item) }}</td>
                             <td>{{ item.status_description }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
@@ -111,7 +109,7 @@
         itemsPerPage,
         transactions, updateTransactionAmount,
         updateTransactionStatus
-    } from '../../../api'
+    } from '../../../../api'
 
     export default {
         name: 'List',
@@ -173,7 +171,7 @@
             getAll () {
                 this.loading = true
 
-                transactions()
+                transactions('OUTPUT')
                     .then(response => {
                         this.list = response.data.result
                         let totalPages = response.data.total / this.itemsPerPage
@@ -293,9 +291,9 @@
                 }
             },
 
-            getKey1(description) {
+            getKey1(item) {
                 try {
-                    let keys = JSON.parse(description)
+                    let keys = JSON.parse(item.data)
                     if (keys.hasOwnProperty('key1')) {
                         switch (keys.key1.type) {
                             case 'string':
@@ -311,9 +309,9 @@
                 }
             },
 
-            getKey2(description) {
+            getKey2(item) {
                 try {
-                    let keys = JSON.parse(description)
+                    let keys = JSON.parse(item.data)
                     if (keys.hasOwnProperty('key2')) {
                         switch (keys.key2.type) {
                             case 'string':
