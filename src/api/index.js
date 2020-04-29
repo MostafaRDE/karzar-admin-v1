@@ -126,6 +126,10 @@ export async function tournament(id) {
     return axios.get(`games/pubg/tournaments/${id}?lang=af`)
 }
 
+export async function finishTournament (id) {
+    return axios.put(`games/pubg/tournaments/${id}/end?lang=fa`)
+}
+
 export async function tournamentUpdate(id, title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password) {
     let data = {title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password}
 
@@ -139,6 +143,10 @@ export async function tournamentSetWinningTeam(id, group_number) {
 
 export async function tournamentPlayers(id) {
     return axios.get(`games/pubg/tournaments/${id}/players?lang=af`)
+}
+
+export async function updateTournamentPlayers(id) {
+    return axios.put(`games/pubg/tournaments/${id}/players?lang=af`)
 }
 
 export async function addAuthenticationRoomToGroupPlayers(tournamentId, groupId) {

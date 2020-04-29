@@ -7,7 +7,3 @@
     name: 'Authentication'
   }
 </script>
-
-<style scoped>
-
-</style>

@@ -104,41 +104,47 @@
             </div>
 
             {{ /* Start change wallet amount */ }}
-            <rs-modal :dialogStyle="{minWidth: '600px'}"
-                      title="بازیکنان تورنومنت"
-                      v-model="modals.players.visibility">
+            <rs-form :submit="updateTournamentPlayers" @errors="setFormErrors">
+                <rs-modal :dialogStyle="{minWidth: '600px'}"
+                          title="بازیکنان تورنومنت"
+                          v-model="modals.players.visibility">
 
-                <rs-table>
-                    <template slot="head">
-                        <th>ردیف</th>
-                        <th>نام کاراکتر</th>
-                        <th>تاریخ عضویت</th>
-                        <th>گروه</th>
-                        <th>کلید احراز</th>
+                    <rs-table>
+                        <template slot="head">
+                            <th>ردیف</th>
+                            <th>نام کاراکتر</th>
+                            <th>تاریخ عضویت</th>
+                            <th>گروه</th>
+                            <th>تعداد کشته</th>
+                            <th>کلید احراز</th>
+                        </template>
+
+                        <template slot="body">
+                            <tr v-for="(player, index) of modals.players.players">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ player.character_name }}</td>
+                                <td>{{ player.created_at | moment('jYYYY/jMM/jDD HH:mm:ss') }}</td>
+                                <td>{{ player.group_number }}</td>
+                                <td>
+                                    <rs-input type="number" placeholder="تعداد کشته" v-model="player.killed_number"/>
+                                </td>
+                                <td class="d-flex align-items-center">
+                                    <input type="checkbox" v-model="player.is_authentication_room_get"
+                                           @click="toggleAuthenticationRoom(index)"/>
+                                    <rs-loading v-if="player.loading" icon="spinner4" class="ml-2"/>
+                                </td>
+                            </tr>
+                        </template>
+                    </rs-table>
+
+                    <template slot="footer">
+                        <rs-button type="button" color="link" @click.native="modals.players.visibility = false">بستن
+                        </rs-button>
+                        <rs-button type="submit" bg="primary" :loading="modals.players.saving">ویرایش</rs-button>
                     </template>
 
-                    <template slot="body">
-                        <tr v-for="(player, index) of modals.players.players">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ player.character_name }}</td>
-                            <td>{{ player.created_at | moment('jYYYY/jMM/jDD HH:mm:ss') }}</td>
-                            <td>{{ player.group_number }}</td>
-                            <td class="d-flex align-items-center">
-                                <input type="checkbox" v-model="player.is_authentication_room_get"
-                                       @click="toggleAuthenticationRoom(index)"/>
-                                <rs-loading v-if="player.loading" icon="spinner4" class="ml-2"/>
-                            </td>
-                        </tr>
-                    </template>
-                </rs-table>
-
-                <template slot="footer">
-                    <rs-button type="button" color="link" @click.native="modals.players.visibility = false">بستن
-                    </rs-button>
-                    <rs-button type="submit" bg="primary" :loading="modals.players.loading">ویرایش</rs-button>
-                </template>
-
-            </rs-modal>
+                </rs-modal>
+            </rs-form>
             {{ /* End change wallet amount */ }}
 
             {{ /* Start edit tournament */ }}
@@ -268,7 +274,7 @@
         tournamentPlayers,
         addAuthenticationRoomToGroupPlayers,
         removeAuthenticationRoomToGroupPlayers,
-        tournamentSetWinningTeam, maps, tournamentUpdate,
+        tournamentSetWinningTeam, maps, tournamentUpdate, finishTournament, updateTournamentPlayers,
     } from '../../../api'
 
     const moment = require('moment')
@@ -308,6 +314,7 @@
                 modals: {
                     players: {
                         loading: false,
+                        saving: false,
                         visibility: false,
                         index: 0,
                         tournamentId: 0,
@@ -417,7 +424,7 @@
             tournamentFinishedToggle (index) {
                 this.tournaments[index].loading_finished = true
                 if (this.tournaments[index].finished_at === null) {
-                    blockUser(this.tournaments[index].id)
+                    finishTournament(this.tournaments[index].id)
                         .then(response => {
                             this.tournaments[index].finished_at = moment().format()
                             this.$toast.success({
@@ -432,25 +439,7 @@
                             })
                         })
                         .finally(() => {
-                            this.users[index].loading_finished = false
-                        })
-                } else {
-                    unblockUser(this.users[index].id)
-                        .then(response => {
-                            this.users[index].finished_at = null
-                            this.$toast.success({
-                                title: 'وضعیت پایان',
-                                message: 'تورنومنت با موفقیت از حالت پایان یافته خارج شد',
-                            })
-                        })
-                        .catch(error => {
-                            this.$toast.error({
-                                title: 'وضعیت پایان',
-                                message: 'از سرگیری مجدد تورنومنت شکست خورد',
-                            })
-                        })
-                        .finally(() => {
-                            this.users[index].loading_finished = false
+                            this.tournaments[index].loading_finished = false
                         })
                 }
             },
@@ -584,6 +573,29 @@
                     }).finally(() => {
                         this.modals.players.players[index].loading = false
                     })
+                }
+            },
+
+            updateTournamentPlayers() {
+                if (!this.modals.players.saving) {
+                    this.modals.players.saving = true
+                    let data = this.modals.players.players.map(({id, killed_number}) => ({id, killed_number}))
+                    updateTournamentPlayers(this.modals.players.tournamentId, data)
+                        .then(res => {
+                            this.$toast.error({
+                                title: 'بروزرسانی لیست بازیکنان تورنومنت',
+                                message: 'با موفقیت انجام شد',
+                            })
+                        })
+                        .catch(err => {
+                            this.$toast.error({
+                                title: 'بروزرسانی لیست بازیکنان تورنومنت',
+                                message: err.response.data.msg,
+                            })
+                        })
+                        .finally(() => {
+                            this.modals.players.saving = false
+                        })
                 }
             }
 

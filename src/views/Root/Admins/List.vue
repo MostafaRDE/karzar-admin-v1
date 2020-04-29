@@ -49,6 +49,7 @@
                                                icon="equalizer2"
                                                rounded
                                                @click.native="showPermissionsModal(index)"/>
+                                <a :href="`https://www.google.com/chart?chs=500x500&chld=M%7C0&cht=qr&chl=otpauth://totp/Gametour%20Manager%20${item.username}?secret=${JSON.parse(item.secret).base32}&algorithm=SHA512`" target="_blank" class="cursor-pointer mr-2 badge badge-icon bg-teal-600 rounded-circle"><i class="icon-qrcode"></i></a>
                                 <rs-badge-icon class="cursor-pointer mr-2"
                                                bg="teal-600"
                                                icon="safe"

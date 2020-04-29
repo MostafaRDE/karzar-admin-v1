@@ -10,7 +10,7 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
                 <i class="icon-tree5"></i>
             </button>
-            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button" @click="toggleNavbarMobile">
                 <i class="icon-paragraph-justify3"></i>
             </button>
         </div>
@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
+                    <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block" @click="toggleNavbar">
                         <i class="icon-paragraph-justify3"></i>
                     </a>
                 </li>
@@ -51,6 +51,12 @@
             logout() {
                 window.deleteCooke('AUTH_TOKEN')
                 this.$router.push({name: 'login'})
+            },
+            toggleNavbar() {
+                document.body.classList.toggle('sidebar-xs')
+            },
+            toggleNavbarMobile() {
+                document.body.classList.toggle('sidebar-mobile-main')
             }
         }
     }

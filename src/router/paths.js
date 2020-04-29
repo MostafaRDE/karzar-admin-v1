@@ -95,7 +95,7 @@ export default [
             {
                 path: 'tutorials',
                 meta: {
-                    roles: [Roles.SUPER_ADMIN],
+                    roles: [Roles.SUPER_ADMIN, Roles.EXECUTOR],
                 },
                 component: () => import ('../views/Root/Tutorials.vue'),
                 children: [
