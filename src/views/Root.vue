@@ -15,10 +15,6 @@
             <!-- Main content -->
             <div class="content-wrapper">
 
-                <!-- Page header -->
-                <main-header/>
-                <!-- /page header -->
-
                 <!-- Content area -->
                 <div class="content">
 
@@ -26,9 +22,6 @@
 
                 </div>
                 <!-- /content area -->
-
-                <!-- Footer -->
-                <main-footer/>
 
                 <!-- /main content -->
 

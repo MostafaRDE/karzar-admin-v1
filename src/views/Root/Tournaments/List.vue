@@ -121,17 +121,19 @@
 
                         <template slot="body">
                             <tr v-for="(player, index) of modals.players.players">
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ player.character_name }}</td>
-                                <td>{{ player.created_at | moment('jYYYY/jMM/jDD HH:mm:ss') }}</td>
-                                <td>{{ player.group_number }}</td>
+                                <td class="font-weight-normal">{{ index + 1 }}</td>
+                                <td class="font-weight-normal">{{ player.character_name }}</td>
+                                <td class="font-weight-normal">{{ player.created_at | moment('jYYYY/jMM/jDD HH:mm:ss') }}</td>
+                                <td class="font-weight-normal">{{ player.group_number }}</td>
                                 <td>
-                                    <rs-input type="number" placeholder="تعداد کشته" v-model="player.killed_number"/>
+                                    <rs-input class="mb-0" type="number" placeholder="تعداد کشته" v-model="player.killed_number"/>
                                 </td>
-                                <td class="d-flex align-items-center">
-                                    <input type="checkbox" v-model="player.is_authentication_room_get"
-                                           @click="toggleAuthenticationRoom(index)"/>
-                                    <rs-loading v-if="player.loading" icon="spinner4" class="ml-2"/>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="checkbox" v-model="player.is_authentication_room_get"
+                                               @click="toggleAuthenticationRoom(index)"/>
+                                        <rs-loading v-if="player.loading" icon="spinner4" class="ml-2"/>
+                                    </div>
                                 </td>
                             </tr>
                         </template>
@@ -579,10 +581,10 @@
             updateTournamentPlayers() {
                 if (!this.modals.players.saving) {
                     this.modals.players.saving = true
-                    let data = this.modals.players.players.map(({id, killed_number}) => ({id, killed_number}))
+                    let data = this.modals.players.players.map(({player_id, killed_number}) => ({id: player_id, killed_number}))
                     updateTournamentPlayers(this.modals.players.tournamentId, data)
                         .then(res => {
-                            this.$toast.error({
+                            this.$toast.success({
                                 title: 'بروزرسانی لیست بازیکنان تورنومنت',
                                 message: 'با موفقیت انجام شد',
                             })

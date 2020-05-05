@@ -60,7 +60,7 @@
             {{ /* Start status description modal */ }}
             <rs-form :submit="updateStatus" @errors="setFormErrors">
                 <rs-modal :dialogStyle="{minWidth: '600px'}"
-                          :title="`${modals.transaction.type === 'ADD' ? 'افزودن' : 'ویرایش'} نقشه`"
+                          :title="`${modals.transaction.type === 'ADD' ? 'افزودن' : 'ویرایش'} توضیحات`"
                           v-model="modals.transaction.visibility">
 
                     <div class="col-sm-12">

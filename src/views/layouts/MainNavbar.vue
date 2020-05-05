@@ -27,13 +27,13 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item dropdown dropdown-user">
-                    <router-link  :to="{name: 'profileChangePassword'}" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+                    <a href="javascript:void(0)" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="@/assets/global_assets/images/image.png" class="rounded-circle" alt="">
                         <span>{{ $store.state.user.name }}</span>
-                    </router-link>
+                    </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item"><i class="icon-key"></i> تغییر گذرواژه</a>
+                        <router-link :to="{name: 'profileChangePassword'}" class="dropdown-item"><i class="icon-key"></i> تغییر گذرواژه</router-link>
                         <a href="javascript:void(0)" class="dropdown-item" @click="logout"><i class="icon-switch2"></i>
                             خروج</a>
                     </div>

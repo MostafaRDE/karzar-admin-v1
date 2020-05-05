@@ -145,8 +145,8 @@ export async function tournamentPlayers(id) {
     return axios.get(`games/pubg/tournaments/${id}/players?lang=af`)
 }
 
-export async function updateTournamentPlayers(id) {
-    return axios.put(`games/pubg/tournaments/${id}/players?lang=af`)
+export async function updateTournamentPlayers(id, data) {
+    return axios.put(`games/pubg/tournaments/${id}/players?lang=af`, data)
 }
 
 export async function addAuthenticationRoomToGroupPlayers(tournamentId, groupId) {
