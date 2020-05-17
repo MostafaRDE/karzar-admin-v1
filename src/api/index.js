@@ -230,6 +230,82 @@ export async function updateGateway (id, name, key1, key2, image, type) {
 
 // </editor-fold>
 
+// <editor-fold desc="Tickets">
+
+export async function tickets (page = null, itemsPerPage = itemsPerPage, status, category, ticket_id, mobile) {
+    let query = `lang=fa`
+    if (page)
+        query += `&page=${page}&size=${itemsPerPage}`
+    if (status)
+        query += `&status=${status}`
+    if (category)
+        query += `&category=${category}`
+    if (ticket_id)
+        query += `&ticket_id=${ticket_id}`
+    if (mobile)
+        query += `&mobile=${mobile}`
+
+    return axios.get(`ticket?${query}`)
+}
+
+export async function ticketMessages (ticket_id, page = null, itemsPerPage = itemsPerPage) {
+    let query = `lang=fa`
+    if (page)
+        query += `&page=${page}&size=${itemsPerPage}`
+
+    return axios.get(`ticket/message/${ticket_id}/a?${query}`)
+}
+
+export async function ticketUpdateFileMessage (ticket_id, file) {
+    let query = `lang=fa`
+    let formData = new FormData()
+    formData.append('ticket_id', ticket_id)
+    formData.append('file', file)
+
+    return axios.post(`ticket/message/file/a?${query}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+}
+
+export async function ticketUpdateTextMessage (ticket_id, message) {
+    let query = `lang=fa`
+    let data = {ticket_id, message}
+
+    return axios.post(`ticket/message/text/a?${query}`, data)
+}
+
+export async function ticketChangeStatus (ticket_id, status) {
+    let query = `lang=fa`,
+        data = {ticket_id, status}
+    return axios.put(`ticket/status?${query}`, data)
+}
+
+export async function ticketCategories () {
+    let query = `lang=fa`
+
+    return axios.get(`ticket/category?${query}`)
+}
+
+export async function ticketAddCategory (name, parent = null, des = '') {
+    let query = `lang=fa`,
+        data = {name, parent, des}
+
+    return axios.post(`ticket/category?${query}`, data)
+}
+
+export async function ticketUpdateCategory (category_id = null, name, status = true, des = '') {
+    let query = `lang=fa`,
+        data = {name, status, category_id, des}
+
+    return axios.put(`ticket/category?${query}`, data)
+}
+
+export async function ticketDeleteCategory (category_id) {
+    let query = `lang=fa`
+
+    return axios.delete(`ticket/category/${category_id}?${query}`)
+}
+
+// </editor-fold>
+
 // <editor-fold desc="Transactions">
 
 /**
