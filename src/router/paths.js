@@ -61,14 +61,13 @@ export default [
                 ]
             },
             {
-                path: 'gateways/',
+                path: 'gateways',
                 meta: {
                     roles: [Roles.SUPER_ADMIN],
                 },
                 component: () => import ('../views/Root/Gateways.vue'),
                 children: [
-                    { path: 'deposit', name: 'depositGatewaysList', component: () => import('../views/Root/Gateways/Deposit/List.vue') },
-                    { path: 'withdraw', name: 'withdrawGatewaysList', component: () => import('../views/Root/Gateways/Withdraw/List.vue') },
+                    { path: '', name: 'gatewaysList', component: () => import('../views/Root/Gateways/List.vue') },
                 ]
             },
             {

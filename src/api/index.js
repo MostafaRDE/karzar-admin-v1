@@ -182,28 +182,35 @@ export async function updateMap(map_id, name, image = null) {
 // <editor-fold desc="Gateways">
 
 /**
- * @param type => 0: Deposit , 1: Withdraw
  * @returns {Promise<AxiosResponse<T>>}
  */
-export async function gateways (type) {
-    return axios.get(`gateways?&type=${type}`)
+export async function gateways () {
+    return axios.get(`gateways`)
 }
 
 /**
  * @param name
- * @param key1
- * @param key2
+ * @param is_active
+ * @param is_deposit
+ * @param is_withdrawal
+ * @param key1_deposit
+ * @param key2_deposit
+ * @param key1_withdrawal
+ * @param key2_withdrawal
  * @param image
- * @param type => 0: Deposit , 1: Withdraw
  * @returns {Promise<AxiosResponse<T>>}
  */
-export async function storeGateway (name, key1, key2, image, type) {
+export async function storeGateway (name, is_active, is_deposit, is_withdrawal, key1_deposit, key2_deposit, key1_withdrawal, key2_withdrawal, image, type) {
     let formData = new FormData()
     formData.append('name', name)
-    formData.append('key1', key1)
-    formData.append('key2', key2)
+    formData.append('is_active', is_active)
+    formData.append('is_deposit', is_deposit)
+    formData.append('is_withdrawal', is_withdrawal)
+    formData.append('key1_deposit', key1_deposit)
+    formData.append('key2_deposit', key2_deposit)
+    formData.append('key1_withdrawal', key1_withdrawal)
+    formData.append('key2_withdrawal', key2_withdrawal)
     formData.append('image', image)
-    formData.append('type', type)
 
     return axios.post(`gateways`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
@@ -211,19 +218,27 @@ export async function storeGateway (name, key1, key2, image, type) {
 /**
  * @param id
  * @param name
- * @param key1
- * @param key2
+ * @param is_active
+ * @param is_deposit
+ * @param is_withdrawal
+ * @param key1_deposit
+ * @param key2_deposit
+ * @param key1_withdrawal
+ * @param key2_withdrawal
  * @param image
- * @param type => 0: Deposit , 1: Withdraw
  * @returns {Promise<AxiosResponse<T>>}
  */
-export async function updateGateway (id, name, key1, key2, image, type) {
+export async function updateGateway (id, name, is_active, is_deposit, is_withdrawal, key1_deposit, key2_deposit, key1_withdrawal, key2_withdrawal, image) {
     let formData = new FormData()
     formData.append('name', name)
-    formData.append('key1', key1)
-    formData.append('key2', key2)
+    formData.append('is_active', is_active)
+    formData.append('is_deposit', is_deposit)
+    formData.append('is_withdrawal', is_withdrawal)
+    formData.append('key1_deposit', key1_deposit)
+    formData.append('key2_deposit', key2_deposit)
+    formData.append('key1_withdrawal', key1_withdrawal)
+    formData.append('key2_withdrawal', key2_withdrawal)
     formData.append('image', image)
-    formData.append('type', type)
 
     return axios.put(`gateways/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
