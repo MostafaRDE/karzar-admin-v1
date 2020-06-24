@@ -73,6 +73,11 @@
                                                icon="key"
                                                rounded
                                                @click.native="showChangePasswordModal(index)"/>
+                                <router-link :to="{name: 'userShow', params: {id: user.id}}" class="cursor-pointer mr-2">
+                                    <rs-badge-icon bg="transparent"
+                                                   icon="menu"
+                                                   rounded/>
+                                </router-link>
                             </td>
                         </tr>
                     </template>
@@ -503,7 +508,13 @@
                 this.modals.edit.loading = true
                 this.modals.edit.formErrors = {}
 
-                updateProfile(this.users[this.modals.password.index].id, this.modals.edit.fields.name, this.modals.edit.fields.email, this.modals.edit.fields.whatsappNumber, this.modals.edit.fields.image).then(response => {
+                updateProfile({
+                    user_id: this.users[this.modals.password.index].id,
+                    name: this.modals.edit.fields.name,
+                    email: this.modals.edit.fields.email,
+                    whatsapp_number: this.modals.edit.fields.whatsappNumber,
+                    image: this.modals.edit.fields.image
+                }).then(response => {
                     this.modals.edit.fields.name = ''
                     this.modals.edit.fields.email = ''
                     this.modals.edit.fields.whatsappNumber = ''

@@ -75,6 +75,10 @@ export async function users (filter = null, search = null, page = null, size = i
     return axios.get(url)
 }
 
+export async function user(id) {
+    return axios.get(`users/${id}?lang=fa`)
+}
+
 export async function createWalletForUser (user_id, amount = 0) {
     const data = {amount}
     return axios.post(`users/${user_id}/create-wallet?lang=fa`, data)
@@ -98,7 +102,7 @@ export async function updatePassword (user_id, password) {
     return axios.put(`users/${user_id}/update-password?lang=fa`, data)
 }
 
-export async function updateProfile (user_id, name, email, whatsapp_number, image = null) {
+export async function updateProfile ({user_id, name, email, whatsapp_number, image = null}) {
     let formData = new FormData()
     formData.append('name', name)
     formData.append('email', email)

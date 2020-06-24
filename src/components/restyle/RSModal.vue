@@ -54,7 +54,7 @@
         props: {
             dialogStyle: {
                 default: () => ({}),
-                type: Object,
+                type: [Object, String],
             },
             title: {
                 default: '',

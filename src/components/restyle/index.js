@@ -14,4 +14,6 @@ Vue.component('rs-loading', () => import('./RSLoading.vue'));
 Vue.component('rs-modal', () => import('./RSModal.vue'));
 Vue.component('rs-pagination', () => import('./RSPagination.vue'));
 Vue.component('rs-table', () => import('./RSTable.vue'));
+Vue.component('rs-textarea', () => import('./RSTextArea.vue'));
 Vue.component('rs-switchery', () => import('./RSSwitchery.vue'));
+Vue.component('rs-switchery-2', () => import('./RSSwitchery2.vue'));

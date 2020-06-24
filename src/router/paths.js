@@ -37,6 +37,7 @@ export default [
                 children: [
                     {path: '', name: 'usersList', component: () => import('../views/Root/Users/List.vue')},
                     {path: 'create', name: 'userCreate', component: () => import('../views/Root/Users/Create.vue')},
+                    {path: ':id/show', name: 'userShow', component: () => import('../views/Root/Users/Show.vue')},
                 ]
             },
             {
@@ -58,6 +59,16 @@ export default [
                 component: () => import ('../views/Root/Maps.vue'),
                 children: [
                     {path: '', name: 'mapsList', component: () => import('../views/Root/Tournaments/Maps/List.vue')},
+                ]
+            },
+            {
+                path: 'characters',
+                meta: {
+                    roles: [Roles.SUPER_ADMIN, Roles.EXECUTOR],
+                },
+                component: () => import ('../views/Root/Characters.vue'),
+                children: [
+                    {path: '', name: 'charactersList', component: () => import('../views/Root/Characters/List.vue')},
                 ]
             },
             {
