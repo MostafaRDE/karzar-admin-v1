@@ -21,8 +21,8 @@
                         <tr v-for="(item, index) of list">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
-                            <td>{{ item.key_1.af }}</td>
-                            <td>{{ item.key_2.af }}</td>
+                            <td>{{ item.key_1.fa }}</td>
+                            <td>{{ item.key_2.fa }}</td>
                             <td>
                                 <img :src="`${env.VUE_APP_API_URL}uploads?id=${item.image.id}`" alt=""
                                      style="height: 50px"/>
@@ -78,8 +78,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="کلید 1 (af)"
-                                  v-model="modals.gateway.fields.key1.af"/>
+                        <rs-input placeholder="کلید 1 (fa)"
+                                  v-model="modals.gateway.fields.key1.fa"/>
                     </div>
 
                     <div class="col-sm-12">
@@ -88,8 +88,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="کلید 12 (af)"
-                                  v-model="modals.gateway.fields.key2.af"/>
+                        <rs-input placeholder="کلید 12 (fa)"
+                                  v-model="modals.gateway.fields.key2.fa"/>
                     </div>
 
                     <template slot="footer">
@@ -156,11 +156,11 @@
                         image: null,
                         name: '',
                         key1: {
-                            af: '',
+                            fa: '',
                             en: '',
                         },
                         key2: {
-                            af: '',
+                            fa: '',
                             en: '',
                         },
                     }
@@ -204,9 +204,9 @@
 
                 this.modals.gateway.fields.image = null
                 this.modals.gateway.fields.name = ''
-                this.modals.gateway.fields.key1.af = ''
+                this.modals.gateway.fields.key1.fa = ''
                 this.modals.gateway.fields.key1.en = ''
-                this.modals.gateway.fields.key2.af = ''
+                this.modals.gateway.fields.key2.fa = ''
                 this.modals.gateway.fields.key2.en = ''
 
                 this.modals.gateway.id = -1
@@ -226,9 +226,9 @@
                 }
                 this.modals.gateway.fields.image = null
                 this.modals.gateway.fields.name = this.list[index].name
-                this.modals.gateway.fields.key1.af = this.list[index].key_1.af || ''
+                this.modals.gateway.fields.key1.fa = this.list[index].key_1.fa || ''
                 this.modals.gateway.fields.key1.en = this.list[index].key_1.en || ''
-                this.modals.gateway.fields.key2.af = this.list[index].key_2.af || ''
+                this.modals.gateway.fields.key2.fa = this.list[index].key_2.fa || ''
                 this.modals.gateway.fields.key2.en = this.list[index].key_2.en || ''
 
                 this.modals.gateway.id = id

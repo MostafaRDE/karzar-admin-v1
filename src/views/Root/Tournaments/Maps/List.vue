@@ -69,8 +69,8 @@
                                   v-model="modals.map.fields.name.en"/>
                     </div>
                     <div class="col-sm-12">
-                        <rs-input placeholder="عنوان (af)"
-                                  v-model="modals.map.fields.name.af"/>
+                        <rs-input placeholder="عنوان (fa)"
+                                  v-model="modals.map.fields.name.fa"/>
                     </div>
                     {{ /* End names */ }}
 
@@ -138,7 +138,7 @@
                     fields: {
                         image: null,
                         name: {
-                            af: '',
+                            fa: '',
                             en: '',
                         }
                     }
@@ -181,7 +181,7 @@
                 this.modals.map.mapImageURL = null
 
                 this.modals.map.fields.image = null
-                this.modals.map.fields.name.af = ''
+                this.modals.map.fields.name.fa = ''
                 this.modals.map.fields.name.en = ''
 
                 this.modals.map.mapId = -1
@@ -199,7 +199,7 @@
                 if (this.maps[index].image !== null) {
                     this.modals.map.mapImageURL = `${process.env.VUE_APP_API_URL}uploads?id=${this.maps[index].image.id}`
                 }
-                this.modals.map.fields.name.af = this.maps[index].name.af
+                this.modals.map.fields.name.fa = this.maps[index].name.fa
                 this.modals.map.fields.name.en = this.maps[index].name.en
 
                 this.modals.map.mapId = mapId

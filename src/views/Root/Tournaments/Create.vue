@@ -20,11 +20,11 @@
                                   v-model="fields.title.en"/>
                     </div>
                     <div class="col-sm-12">
-                        <rs-input placeholder="عنوان (af)"
-                                  name="titleAF"
-                                  :error="getInputError('titleAF')"
-                                  :rules="fields.rules.title.af"
-                                  v-model="fields.title.af"/>
+                        <rs-input placeholder="عنوان (fa)"
+                                  name="titleFA"
+                                  :error="getInputError('titleFA')"
+                                  :rules="fields.rules.title.fa"
+                                  v-model="fields.title.fa"/>
                     </div>
                     {{ /* End titles */ }}
 
@@ -37,11 +37,11 @@
                                   v-model="fields.description.en"/>
                     </div>
                     <div class="col-sm-12">
-                        <rs-input placeholder="توضیحات (af)"
+                        <rs-input placeholder="توضیحات (fa)"
                                   textarea
-                                  name="descriptionAF"
-                                  :error="getInputError('descriptionAF')"
-                                  v-model="fields.description.af"/>
+                                  name="descriptionFA"
+                                  :error="getInputError('descriptionFA')"
+                                  v-model="fields.description.fa"/>
                     </div>
                     {{ /* End descriptions */ }}
 
@@ -141,11 +141,11 @@
             fields: {
                 title: {
                     en: '',
-                    af: '',
+                    fa: '',
                 },
                 description: {
                     en: '',
-                    af: '',
+                    fa: '',
                 },
                 capacity: '',
                 teamCapacity: '',
@@ -159,7 +159,7 @@
                 rules: {
                     title: {
                         en: 'required|string',
-                        af: 'required|string',
+                        fa: 'required|string',
                     },
                     capacity: 'required|string:digits|min:1',
                     teamCapacity: 'required|string:digits|min:1',

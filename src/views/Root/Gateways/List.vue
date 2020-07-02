@@ -35,10 +35,10 @@
                             <td>
                                 <rs-switchery :active="item.is_withdrawal"/>
                             </td>
-                            <td>{{ item.key_1_deposit.af }}</td>
-                            <td>{{ item.key_2_deposit.af }}</td>
-                            <td>{{ item.key_1_withdrawal.af }}</td>
-                            <td>{{ item.key_2_withdrawal.af }}</td>
+                            <td>{{ item.key_1_deposit.fa }}</td>
+                            <td>{{ item.key_2_deposit.fa }}</td>
+                            <td>{{ item.key_1_withdrawal.fa }}</td>
+                            <td>{{ item.key_2_withdrawal.fa }}</td>
                             <td>
                                 <img :src="`${env.VUE_APP_API_URL}uploads?id=${item.image.id}`" alt=""
                                      style="height: 50px"/>
@@ -119,8 +119,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="کلید ورودی 1 (af)"
-                                  v-model="modals.gateway.fields.key1Deposit.af"/>
+                        <rs-input placeholder="کلید ورودی 1 (fa)"
+                                  v-model="modals.gateway.fields.key1Deposit.fa"/>
                     </div>
 
                     <div class="col-sm-12">
@@ -129,8 +129,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="کلید ورودی 2 (af)"
-                                  v-model="modals.gateway.fields.key2Deposit.af"/>
+                        <rs-input placeholder="کلید ورودی 2 (fa)"
+                                  v-model="modals.gateway.fields.key2Deposit.fa"/>
                     </div>
 
                     <div class="col-sm-12">
@@ -139,8 +139,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="کلید خروجی 1 (af)"
-                                  v-model="modals.gateway.fields.key1Withdrawal.af"/>
+                        <rs-input placeholder="کلید خروجی 1 (fa)"
+                                  v-model="modals.gateway.fields.key1Withdrawal.fa"/>
                     </div>
 
                     <div class="col-sm-12">
@@ -149,8 +149,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <rs-input placeholder="کلید خروجی 2 (af)"
-                                  v-model="modals.gateway.fields.key2Withdrawal.af"/>
+                        <rs-input placeholder="کلید خروجی 2 (fa)"
+                                  v-model="modals.gateway.fields.key2Withdrawal.fa"/>
                     </div>
 
                     <template slot="footer">
@@ -220,19 +220,19 @@
                         is_deposit: false,
                         is_withdrawal: false,
                         key1Deposit: {
-                            af: '',
+                            fa: '',
                             en: '',
                         },
                         key2Deposit: {
-                            af: '',
+                            fa: '',
                             en: '',
                         },
                         key1Withdrawal: {
-                            af: '',
+                            fa: '',
                             en: '',
                         },
                         key2Withdrawal: {
-                            af: '',
+                            fa: '',
                             en: '',
                         },
                     }
@@ -279,13 +279,13 @@
                 this.modals.gateway.fields.is_active = false
                 this.modals.gateway.fields.is_deposit = false
                 this.modals.gateway.fields.is_withdrawal = false
-                this.modals.gateway.fields.key1Deposit.af = ''
+                this.modals.gateway.fields.key1Deposit.fa = ''
                 this.modals.gateway.fields.key1Deposit.en = ''
-                this.modals.gateway.fields.key2Deposit.af = ''
+                this.modals.gateway.fields.key2Deposit.fa = ''
                 this.modals.gateway.fields.key2Deposit.en = ''
-                this.modals.gateway.fields.key1Withdrawal.af = ''
+                this.modals.gateway.fields.key1Withdrawal.fa = ''
                 this.modals.gateway.fields.key1Withdrawal.en = ''
-                this.modals.gateway.fields.key2Withdrawal.af = ''
+                this.modals.gateway.fields.key2Withdrawal.fa = ''
                 this.modals.gateway.fields.key2Withdrawal.en = ''
 
                 this.modals.gateway.id = -1
@@ -308,13 +308,13 @@
                 this.modals.gateway.fields.is_active = this.list[index].is_active
                 this.modals.gateway.fields.is_deposit = this.list[index].is_deposit
                 this.modals.gateway.fields.is_withdrawal = this.list[index].is_withdrawal
-                this.modals.gateway.fields.key1Deposit.af = this.list[index].key_1_deposit.af || ''
+                this.modals.gateway.fields.key1Deposit.fa = this.list[index].key_1_deposit.fa || ''
                 this.modals.gateway.fields.key1Deposit.en = this.list[index].key_1_deposit.en || ''
-                this.modals.gateway.fields.key2Deposit.af = this.list[index].key_2_deposit.af || ''
+                this.modals.gateway.fields.key2Deposit.fa = this.list[index].key_2_deposit.fa || ''
                 this.modals.gateway.fields.key2Deposit.en = this.list[index].key_2_deposit.en || ''
-                this.modals.gateway.fields.key1Withdrawal.af = this.list[index].key_1_withdrawal.af || ''
+                this.modals.gateway.fields.key1Withdrawal.fa = this.list[index].key_1_withdrawal.fa || ''
                 this.modals.gateway.fields.key1Withdrawal.en = this.list[index].key_1_withdrawal.en || ''
-                this.modals.gateway.fields.key2Withdrawal.af = this.list[index].key_2_withdrawal.af || ''
+                this.modals.gateway.fields.key2Withdrawal.fa = this.list[index].key_2_withdrawal.fa || ''
                 this.modals.gateway.fields.key2Withdrawal.en = this.list[index].key_2_withdrawal.en || ''
 
                 this.modals.gateway.id = id

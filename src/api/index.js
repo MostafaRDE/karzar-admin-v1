@@ -117,17 +117,17 @@ export async function updateProfile ({user_id, name, email, whatsapp_number, ima
 // <editor-fold desc="Tournaments">
 
 export async function tournaments(search = null, page = null, size = itemsPerPage) {
-    return axios.get('games/pubg/tournaments?lang=af')
+    return axios.get('games/pubg/tournaments?lang=fa')
 }
 
 export async function createTournament(title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, groupCapacity, mapId) {
     let data = {title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity}
 
-    return axios.post(`games/pubg/tournaments?lang=af`, data)
+    return axios.post(`games/pubg/tournaments?lang=fa`, data)
 }
 
 export async function tournament(id) {
-    return axios.get(`games/pubg/tournaments/${id}?lang=af`)
+    return axios.get(`games/pubg/tournaments/${id}?lang=fa`)
 }
 
 export async function finishTournament (id) {
@@ -137,20 +137,20 @@ export async function finishTournament (id) {
 export async function tournamentUpdate(id, title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password) {
     let data = {title, description, capacity, startDate, rewardValue, fee, status, youtubeLink, mapId, groupCapacity, username, password}
 
-    return axios.put(`games/pubg/tournaments/${id}?lang=af`, data)
+    return axios.put(`games/pubg/tournaments/${id}?lang=fa`, data)
 }
 
 export async function tournamentSetWinningTeam(id, group_number) {
     let data = {group_number}
-    return axios.put(`games/pubg/tournaments/${id}/set-winner-team?lang=af`, data)
+    return axios.put(`games/pubg/tournaments/${id}/set-winner-team?lang=fa`, data)
 }
 
 export async function tournamentPlayers(id) {
-    return axios.get(`games/pubg/tournaments/${id}/players?lang=af`)
+    return axios.get(`games/pubg/tournaments/${id}/players?lang=fa`)
 }
 
 export async function updateTournamentPlayers(id, data) {
-    return axios.put(`games/pubg/tournaments/${id}/players?lang=af`, data)
+    return axios.put(`games/pubg/tournaments/${id}/players?lang=fa`, data)
 }
 
 export async function addAuthenticationRoomToGroupPlayers(tournamentId, groupId) {

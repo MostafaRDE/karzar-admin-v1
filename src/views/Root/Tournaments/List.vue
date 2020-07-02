@@ -47,7 +47,7 @@
                     <template slot="body">
                         <tr v-for="(tournament, index) of tournaments">
                             <td>{{ index + 1 }}</td>
-                            <td class="select-text">{{ tournament.title.af }}</td>
+                            <td class="select-text">{{ tournament.title.fa }}</td>
                             <td class="select-text" style="direction: ltr">
                                 <rs-badge pill color="primary" class="font-size-sm">{{ tournament.start_date |
                                     moment('jYYYY/jMM/jDD HH:mm:ss') }}
@@ -167,8 +167,8 @@
                                       v-model="modals.tournament.fields.title.en"/>
                         </div>
                         <div class="col-sm-12">
-                            <rs-input placeholder="عنوان (af)"
-                                      v-model="modals.tournament.fields.title.af"/>
+                            <rs-input placeholder="عنوان (fa)"
+                                      v-model="modals.tournament.fields.title.fa"/>
                         </div>
                         {{ /* End titles */ }}
 
@@ -178,8 +178,8 @@
                                       v-model="modals.tournament.fields.description.en"/>
                         </div>
                         <div class="col-sm-12">
-                            <rs-input textarea placeholder="توضیحات (af)"
-                                      v-model="modals.tournament.fields.description.af"/>
+                            <rs-input textarea placeholder="توضیحات (fa)"
+                                      v-model="modals.tournament.fields.description.fa"/>
                         </div>
                         {{ /* End descriptions */ }}
 
@@ -330,11 +330,11 @@
 
                         fields: {
                             title: {
-                                af: '',
+                                fa: '',
                                 en: '',
                             },
                             description: {
-                                af: '',
+                                fa: '',
                                 en: '',
                             },
                             capacity: 0,
@@ -467,9 +467,9 @@
                 this.modals.tournament.index = index
                 this.modals.tournament.tournamentId = tournamentId
 
-                this.modals.tournament.fields.title.af = this.tournaments[index].title.af
+                this.modals.tournament.fields.title.fa = this.tournaments[index].title.fa
                 this.modals.tournament.fields.title.en = this.tournaments[index].title.en
-                this.modals.tournament.fields.description.af = this.tournaments[index].description.af
+                this.modals.tournament.fields.description.fa = this.tournaments[index].description.af
                 this.modals.tournament.fields.description.en = this.tournaments[index].description.en
                 this.modals.tournament.fields.capacity = this.tournaments[index].capacity
                 this.modals.tournament.fields.startDate = this.tournaments[index].start_date

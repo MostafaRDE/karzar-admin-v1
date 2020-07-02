@@ -25,8 +25,8 @@
                                      alt=""
                                      style="height: 50px"/>
                             </td>
-                            <td>{{ item.title.af }}</td>
-                            <td>{{ item.text.af }}</td>
+                            <td>{{ item.title.fa }}</td>
+                            <td>{{ item.text.fa }}</td>
                             <td>{{ item.youtube_link }}</td>
                             <td>
                                 <rs-badge-icon class="cursor-pointer ml-2 mr-2"
@@ -81,8 +81,8 @@
                                           v-model="modals.tutorial.fields.title.en"/>
                             </div>
                             <div class="col-sm-12">
-                                <rs-input placeholder="عنوان (af)"
-                                          v-model="modals.tutorial.fields.title.af"/>
+                                <rs-input placeholder="عنوان (fa)"
+                                          v-model="modals.tutorial.fields.title.fa"/>
                             </div>
                             {{ /* End titles */ }}
 
@@ -92,8 +92,8 @@
                                           v-model="modals.tutorial.fields.text.en"/>
                             </div>
                             <div class="col-sm-12">
-                                <rs-input textarea placeholder="توضیحات (af)"
-                                          v-model="modals.tutorial.fields.text.af"/>
+                                <rs-input textarea placeholder="توضیحات (fa)"
+                                          v-model="modals.tutorial.fields.text.fa"/>
                             </div>
                             {{ /* End descriptions */ }}
 
@@ -166,8 +166,8 @@
 
                     fields: {
                         image: '',
-                        title: { af: '', en: '' },
-                        text: { af: '', en: '' },
+                        title: { fa: '', en: '' },
+                        text: { fa: '', en: '' },
                         youtube_link: '',
                     }
                 },
@@ -222,8 +222,8 @@
                 this.modals.tutorial.imageURL = null
 
                 this.modals.tutorial.fields.image = null
-                this.modals.tutorial.fields.title = { af: '', en: '' }
-                this.modals.tutorial.fields.text = { af: '', en: '' }
+                this.modals.tutorial.fields.title = { fa: '', en: '' }
+                this.modals.tutorial.fields.text = { fa: '', en: '' }
                 this.modals.tutorial.fields.youtube_link = ''
 
                 this.modals.tutorial.id = -1
