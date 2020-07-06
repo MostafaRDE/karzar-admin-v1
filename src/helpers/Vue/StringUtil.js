@@ -30,8 +30,16 @@ Vue.mixin({
             return result;
 
         },
-        moneyFormat() {
-
+        moneyFormat(number, pointsNumber) {
+            if (typeof number === 'string')
+                number = parseFloat(number);
+            if (number % 1 > 0 && pointsNumber > 0) {
+                return number.trunc(pointsNumber).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+            } else if (pointsNumber > 0) {
+                return number.trunc(pointsNumber).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+            } else {
+                return Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
         },
 
     },

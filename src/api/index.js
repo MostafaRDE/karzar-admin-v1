@@ -161,6 +161,23 @@ export async function removeAuthenticationRoomToGroupPlayers(tournamentId, group
     return axios.put(`games/pubg/tournaments/${tournamentId}/players/${groupId}/remove-room-details`)
 }
 
+export async function characters(page, size = itemsPerPage, status) {
+    let query = '?lang=fa'
+    if (page) {
+        query += `&page=${page}&size=${size}`
+    }
+    if (status) {
+        query += `&status=${status}`
+    }
+    return axios.get(`games/pubg/characters${query}`)
+}
+
+export async function updateCharacterStatus(id, status, status_reason) {
+    let data = {status, status_reason};
+
+    return axios.put(`games/pubg/characters/${id}/status`, data)
+}
+
 export async function maps() {
     return axios.get('games/pubg/maps')
 }

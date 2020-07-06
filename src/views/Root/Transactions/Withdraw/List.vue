@@ -13,8 +13,8 @@
                         <th>مقدار</th>
                         <th>درگاه</th>
                         <th>به چهت</th>
-                        <th>کلید 1</th>
-                        <th>کلید 2</th>
+                        <th>شماره کارت</th>
+                        <th>نام صاحب کارت</th>
                         <th>توضیحات وضعیت</th>
                         <th>وضعیت</th>
                     </template>
@@ -23,8 +23,8 @@
                         <tr v-for="(item, index) of list">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
-                            <td>
-                                {{ item.amount }}$
+                            <td class="text-nowrap">
+                                {{ moneyFormat(item.amount ) }} تومان
                                 <rs-badge-icon class="cursor-pointer ml-2 mr-2"
                                                color="primary"
                                                icon="pencil6"
@@ -32,9 +32,9 @@
                                                @click.native="showUpdateAmountModal(item.id, index)"/>
                             </td>
                             <td>{{ item.gateway_name }}</td>
-                            <td>{{ item.in_order_to }}</td>
-                            <td>{{ getKey1(item) }}</td>
-                            <td>{{ getKey2(item) }}</td>
+                            <td>{{ inOrderTo(item.in_order_to) }}</td>
+                            <td class="text-nowrap">{{ getKey1(item) }}</td>
+                            <td class="text-nowrap">{{ getKey2(item) }}</td>
                             <td>{{ item.status_description }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
@@ -191,7 +191,6 @@
             updateListByPagination () {
                 this.getAll()
             },
-
             // Get errors from "rs-form"-component and set in "formErrors"-data-variable
             setFormErrors (errors) {
                 this.modals.transaction.formErrors = errors
@@ -285,6 +284,22 @@
 
                     case 'OUTPUT':
                         return 'خروجی';
+
+                    default:
+                        return 'مشخص نشده';
+                }
+            },
+
+            inOrderTo(key) {
+                switch (key) {
+                    case 'ACCOUNT_CHARGING':
+                        return 'شارژ حساب';
+
+                    case 'WITHDRAW_FROM_ACCOUNT':
+                        return 'برداشت از حساب';
+
+                    case 'JOIN_IN_TOURNAMENT':
+                        return 'عضویت در تورنومنت';
 
                     default:
                         return 'مشخص نشده';

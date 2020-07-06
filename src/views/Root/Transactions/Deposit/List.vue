@@ -13,8 +13,7 @@
                         <th>مقدار</th>
                         <th>درگاه</th>
                         <th>به چهت</th>
-                        <th>پیوست</th>
-                        <th>توضیحات وضعیت</th>
+<!--                        <th>توضیحات وضعیت</th>-->
                         <th>وضعیت</th>
                     </template>
 
@@ -22,8 +21,8 @@
                         <tr v-for="(item, index) of list">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
-                            <td>
-                                {{ item.amount }}$
+                            <td class="text-nowrap">
+                                {{ moneyFormat(item.amount) }} تومان
                                 <rs-badge-icon class="cursor-pointer ml-2 mr-2"
                                                color="primary"
                                                icon="pencil6"
@@ -31,14 +30,8 @@
                                                @click.native="showUpdateAmountModal(item.id, index)"/>
                             </td>
                             <td>{{ item.gateway_name }}</td>
-                            <td>{{ item.in_order_to }}</td>
-                            <td>
-                                <a href="">
-                                    <img :src="`${env.VUE_APP_API_URL}uploads?id=${item.attachment_media_id}`"
-                                                alt="" style="height: 30px"/>
-                                </a>
-                            </td>
-                            <td>{{ item.status_description }}</td>
+                            <td>{{ inOrderTo(item.in_order_to) }}</td>
+<!--                            <td>{{ item.status_description }}</td>-->
                             <td>
                                 <div class="d-flex align-items-center">
                                     <rs-drop-down class="flex-grow-1" :source="statuses" v-model="item.status" @input="updateStatus(item.id, index)"/>
@@ -290,6 +283,22 @@
 
                     case 'OUTPUT':
                         return 'خروجی';
+
+                    default:
+                        return 'مشخص نشده';
+                }
+            },
+
+            inOrderTo(key) {
+                switch (key) {
+                    case 'ACCOUNT_CHARGING':
+                        return 'شارژ حساب';
+
+                    case 'WITHDRAW_FROM_ACCOUNT':
+                        return 'برداشت از حساب';
+
+                    case 'JOIN_IN_TOURNAMENT':
+                        return 'عضویت در تورنومنت';
 
                     default:
                         return 'مشخص نشده';
