@@ -61,9 +61,9 @@
                             </td>
                             <td class="select-text">{{ tournament.fee }}$</td>
                             <td class="select-text">{{ tournament.reward_value }}</td>
-                            <td :class="{'select-text': tournament.youtube_link}">
-                                <a :href="tournament.youtube_link || 'javascript:void(0)'"
-                                   :target="tournament.youtube_link ? '_blank' : ''">{{ tournament.youtube_link ||
+                            <td :class="{'select-text': tournament.link}">
+                                <a :href="tournament.link || 'javascript:void(0)'"
+                                   :target="tournament.link ? '_blank' : ''">{{ tournament.link ||
                                     'ندارد' }}</a>
                             </td>
                             <td>
@@ -342,7 +342,7 @@
                             rewardValue: '',
                             fee: 0,
                             status: 0,
-                            youtubeLink: '',
+                            link: '',
                             mapId: 0,
                             groupCapacity: 0,
                             username: 0,
@@ -476,7 +476,7 @@
                 this.modals.tournament.fields.rewardValue = this.tournaments[index].reward_value
                 this.modals.tournament.fields.fee = this.tournaments[index].fee
                 this.modals.tournament.fields.status = this.tournaments[index].status
-                this.modals.tournament.fields.youtubeLink = this.tournaments[index].youtube_link
+                this.modals.tournament.fields.link = this.tournaments[index].link
                 this.modals.tournament.fields.mapId = this.tournaments[index].map_id
                 this.modals.tournament.fields.groupCapacity = this.tournaments[index].group_capacity
                 this.modals.tournament.fields.username = this.tournaments[index].username
@@ -495,7 +495,7 @@
                     this.modals.tournament.fields.rewardValue,
                     this.modals.tournament.fields.fee,
                     this.modals.tournament.fields.status,
-                    this.modals.tournament.fields.youtubeLink,
+                    this.modals.tournament.fields.link,
                     this.modals.tournament.fields.mapId,
                     this.modals.tournament.fields.groupCapacity,
                     this.modals.tournament.fields.username,
