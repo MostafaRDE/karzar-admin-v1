@@ -30,7 +30,7 @@
                         <th>عکس</th>
                         <th>نام</th>
                         <th>ایمیل</th>
-                        <th>شماره واتس اپ</th>
+                        <th>شماره موبایل</th>
                         <th>موجودی کیف پول</th>
                         <th>وضعیت بلاک</th>
                         <th></th>
@@ -45,12 +45,16 @@
                             </td>
                             <td class="select-text">{{ user.name }}</td>
                             <td class="select-text">
-                                <rs-badge pill :color="user.email_verified_at === null ? 'danger' : 'success'">{{
-                                    user.email }}
+                                <rs-badge pill :color="user.email_verified_at === null ? 'danger' : 'success'">
+                                    {{ user.email }}
                                 </rs-badge>
                             </td>
-                            <td class="select-text">{{ user.whatsapp_number }}</td>
-                            <td class="select-text">{{ `${user.amount || 0}$` }}</td>
+                            <td class="select-text">
+                                <rs-badge pill :color="user.mobile_number_verified_at === null ? 'danger' : 'success'">
+                                    {{ user.mobile_number }}
+                                </rs-badge>
+                            </td>
+                            <td class="select-text font-weight-normal">{{ user.amount || 0 }} تومان</td>
                             <td>
                                 <rs-switchery class="d-inline-block" activeColor="#e91e63" disableColor="#64BD63"
                                               v-model="user.blocked_at !== null"
@@ -58,18 +62,18 @@
                                 <rs-loading v-if="user.loading_block" class="d-inline-block" icon="spinner4"/>
                             </td>
                             <td>
+<!--                                <rs-badge-icon class="cursor-pointer mr-2"-->
+<!--                                               bg="teal-600"-->
+<!--                                               icon="wallet"-->
+<!--                                               rounded-->
+<!--                                               @click.native="showChangeAmountWalletModal(user.wallet_id, index)"/>-->
                                 <rs-badge-icon class="cursor-pointer mr-2"
-                                               bg="teal-600"
-                                               icon="wallet"
-                                               rounded
-                                               @click.native="showChangeAmountWalletModal(user.wallet_id, index)"/>
-                                <rs-badge-icon class="cursor-pointer mr-2"
-                                               color="primary"
+                                               color="transparent"
                                                icon="pencil6"
                                                rounded
                                                @click.native="showEditProfileModal(index)"/>
                                 <rs-badge-icon class="cursor-pointer mr-2"
-                                               color="primary"
+                                               color="transparent"
                                                icon="key"
                                                rounded
                                                @click.native="showChangePasswordModal(index)"/>
@@ -91,29 +95,29 @@
             </div>
 
             {{ /* Start change wallet amount */ }}
-            <rs-form :submit="updateWalletAmount"
-                     @errors="setFormErrorsWallet($event)">
-                <rs-modal :dialogStyle="{minWidth: '400px'}"
-                          title="موجودی کیف پول"
-                          v-model="modals.wallet.visibility">
+<!--            <rs-form :submit="updateWalletAmount"-->
+<!--                     @errors="setFormErrorsWallet($event)">-->
+<!--                <rs-modal :dialogStyle="{minWidth: '400px'}"-->
+<!--                          title="موجودی کیف پول"-->
+<!--                          v-model="modals.wallet.visibility">-->
 
-                    <rs-input placeholder="موجودیا"
-                              class="mb-0"
-                              maxlength="24"
-                              name="amount"
-                              :rules="modals.wallet.fields.rules.amount"
-                              :error="getInputErrorWallet('amount')"
-                              v-model="modals.wallet.fields.amount"/>
+<!--                    <rs-input placeholder="موجودیا"-->
+<!--                              class="mb-0"-->
+<!--                              maxlength="24"-->
+<!--                              name="amount"-->
+<!--                              :rules="modals.wallet.fields.rules.amount"-->
+<!--                              :error="getInputErrorWallet('amount')"-->
+<!--                              v-model="modals.wallet.fields.amount"/>-->
 
-                    <template slot="footer">
-                        <rs-button type="button" color="link" @click.native="modals.wallet.visibility = false">بستن
-                        </rs-button>
-                        <rs-button type="submit" bg="primary" :loading="modals.wallet.loading">ویرایش</rs-button>
-                    </template>
+<!--                    <template slot="footer">-->
+<!--                        <rs-button type="button" color="link" @click.native="modals.wallet.visibility = false">بستن-->
+<!--                        </rs-button>-->
+<!--                        <rs-button type="submit" bg="primary" :loading="modals.wallet.loading">ویرایش</rs-button>-->
+<!--                    </template>-->
 
-                </rs-modal>
+<!--                </rs-modal>-->
 
-            </rs-form>
+<!--            </rs-form>-->
             {{ /* End change wallet amount */ }}
 
             {{ /* Start update profile */ }}
@@ -316,13 +320,13 @@
                         fields: {
                             name: '',
                             email: '',
-                            whatsappNumber: '',
+                            mobileNumber: '',
                             image: null,
 
                             rules: {
                                 name: 'required|string|min:2',
                                 email: 'required|email',
-                                whatsappNumber: 'required|string:digits',
+                                mobileNumber: 'required|string:digits',
                             }
                         }
                     },
@@ -484,7 +488,7 @@
 
                 this.modals.edit.fields.name = this.users[index].name
                 this.modals.edit.fields.email = this.users[index].email
-                this.modals.edit.fields.whatsappNumber = this.users[index].whatsapp_number
+                this.modals.edit.fields.mobileNumber = this.users[index].mobile_number
                 if (this.users[index].profile_image !== null)
                     this.modals.edit.profileImageURL = process.env.VUE_APP_URL + this.users[index].profile_image.url_static
             },
@@ -512,12 +516,12 @@
                     user_id: this.users[this.modals.password.index].id,
                     name: this.modals.edit.fields.name,
                     email: this.modals.edit.fields.email,
-                    whatsapp_number: this.modals.edit.fields.whatsappNumber,
+                    mobile_number: this.modals.edit.fields.mobileNumber,
                     image: this.modals.edit.fields.image
                 }).then(response => {
                     this.modals.edit.fields.name = ''
                     this.modals.edit.fields.email = ''
-                    this.modals.edit.fields.whatsappNumber = ''
+                    this.modals.edit.fields.mobileNumber = ''
                     this.modals.edit.fields.image = null
                     this.modals.edit.profileImageURL = null
                     this.$toast.success({

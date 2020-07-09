@@ -25,9 +25,9 @@
             }
         },
 
-        data() {
-            return {
-                classList: [
+        computed: {
+            classList() {
+                return [
                     this.bg !== '' ? `bg-${this.bg}` : '',
                     this.bg === '' ? `badge-${this.color}` : '',
                     this.rounded ? `rounded-circle` : '',

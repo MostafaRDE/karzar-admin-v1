@@ -38,6 +38,9 @@ export default [
                     {path: '', name: 'usersList', component: () => import('../views/Root/Users/List.vue')},
                     {path: 'create', name: 'userCreate', component: () => import('../views/Root/Users/Create.vue')},
                     {path: ':id/show', name: 'userShow', component: () => import('../views/Root/Users/Show.vue')},
+                    {path: ':id/show', name: 'userTournaments', component: () => import('../views/Root/Users/Show.vue')},
+                    {path: ':id/show', name: 'userDeposits', component: () => import('../views/Root/Users/Show.vue')},
+                    {path: ':id/show', name: 'userWithdraws', component: () => import('../views/Root/Users/Show.vue')},
                 ]
             },
             {
@@ -68,7 +71,7 @@ export default [
                 },
                 component: () => import ('../views/Root/Characters.vue'),
                 children: [
-                    {path: '', name: 'charactersList', component: () => import('../views/Root/Characters/List.vue')},
+                    {path: ':status', name: 'charactersList', component: () => import('../views/Root/Characters/List.vue')},
                 ]
             },
             {
@@ -110,6 +113,16 @@ export default [
                 component: () => import ('../views/Root/Tutorials.vue'),
                 children: [
                     {path: '', name: 'tutorialsList', component: () => import('../views/Root/Tutorials/List.vue')},
+                ]
+            },
+            {
+                path: 'contact-us',
+                meta: {
+                    roles: [Roles.SUPER_ADMIN, Roles.EXECUTOR],
+                },
+                component: () => import ('../views/Root/ContactUs.vue'),
+                children: [
+                    {path: '', name: 'contactUsList', component: () => import('../views/Root/ContactUs/List.vue')},
                 ]
             },
         ]

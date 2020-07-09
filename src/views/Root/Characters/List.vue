@@ -5,9 +5,9 @@
             <div class="card-header header-elements-inline">
                 <h5 class="card-title">کاراکتر ها</h5>
                 <div>
-                    <rs-button class="mr-2" :color="filters.status === 'PENDING' ? 'primary' : 'light'" @click.native="changeTab('PENDING')">منتظر تایید</rs-button>
-                    <rs-button class="mr-2" :color="filters.status === 'ACCEPTED' ? 'primary' : 'light'" @click.native="changeTab('ACCEPTED')">تایید شده</rs-button>
-                    <rs-button class="mr-2" :color="filters.status === 'REJECTED' ? 'primary' : 'light'" @click.native="changeTab('REJECTED')">رد شده</rs-button>
+                    <rs-button class="mr-2" :color="filters.status === 'pending' ? 'primary' : 'light'" @click.native="changeTab('pending')">منتظر تایید</rs-button>
+                    <rs-button class="mr-2" :color="filters.status === 'accepted' ? 'primary' : 'light'" @click.native="changeTab('accepted')">تایید شده</rs-button>
+                    <rs-button class="mr-2" :color="filters.status === 'rejected' ? 'primary' : 'light'" @click.native="changeTab('rejected')">رد شده</rs-button>
                 </div>
             </div>
 
@@ -29,8 +29,10 @@
                         <template slot="body">
                             <tr v-for="(item, index) of items">
                                 <td class="font-weight-normal">{{ index + 1 }}</td>
-                                <td class="font-weight-normal">{{ item.owner_name || item.email }}</td>
-                                <td class="font-weight-normal">{{ item.name }}</td>
+                                <td class="font-weight-normal">
+                                    <router-link :to="{name: 'userShow', params: {id: item.user_id}}">{{ item.owner_name || item.email }}</router-link>
+                                </td>
+                                <td class="font-weight-normal" style="direction: ltr">{{ item.name }}</td>
                                 <td class="font-weight-normal">{{ item.id }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -97,9 +99,6 @@
             itemsPerPage,
             totalPages: 0,
             loading: false,
-            filters: {
-                status: 'PENDING',
-            },
 
             statuses: [
                 {key: 0, value: 'در انتظار تایید'},
@@ -125,11 +124,19 @@
             },
         }),
 
+        computed: {
+            filters() {
+                return {
+                    status: this.$route.params.status,
+                }
+            },
+        },
+
         methods: {
             getItems() {
                 this.loading = true
 
-                characters(this.currentPage, this.itemsPerPage, this.filters.status)
+                characters(this.currentPage, this.itemsPerPage, this.filters.status.toUpperCase())
                     .then(response => {
                         this.items = response.data.result
                         let totalPages = response.data.total / this.itemsPerPage
@@ -151,8 +158,7 @@
             },
 
             changeTab(tab) {
-                this.filters.status = tab
-                this.getItems()
+                this.$router.push({name: '', params: {status: tab}})
             },
 
             // Get errors from "rs-form"-component and set in "formErrors"-data-variable
@@ -216,6 +222,12 @@
 
         mounted() {
             this.getItems()
+        },
+
+        watch: {
+            $route() {
+                this.getItems();
+            }
         }
     }
 </script>

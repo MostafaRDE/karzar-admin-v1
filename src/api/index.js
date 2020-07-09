@@ -79,6 +79,10 @@ export async function user(id) {
     return axios.get(`users/${id}?lang=fa`)
 }
 
+export async function userBalance(id) {
+    return axios.get(`users/${id}/balance?lang=fa`)
+}
+
 export async function createWalletForUser (user_id, amount = 0) {
     const data = {amount}
     return axios.post(`users/${user_id}/create-wallet?lang=fa`, data)
@@ -102,12 +106,24 @@ export async function updatePassword (user_id, password) {
     return axios.put(`users/${user_id}/update-password?lang=fa`, data)
 }
 
-export async function updateProfile ({user_id, name, email, whatsapp_number, image = null}) {
+export async function updateProfile ({user_id, name, description, email, email_verified_at, mobile_number, mobile_number_verified_at, blocked_at, image = null}) {
     let formData = new FormData()
-    formData.append('name', name)
-    formData.append('email', email)
-    formData.append('whatsapp_number', whatsapp_number)
-    formData.append('image', image)
+    if (name)
+        formData.append('name', name)
+    if (typeof description !== 'undefined')
+        formData.append('description', description)
+    if (email)
+        formData.append('email', email)
+    if (typeof email_verified_at !== 'undefined')
+        formData.append('email_verified_at', email_verified_at)
+    if (mobile_number)
+        formData.append('mobile_number', mobile_number)
+    if (typeof mobile_number_verified_at !== 'undefined')
+        formData.append('mobile_number_verified_at', mobile_number_verified_at)
+    if (typeof blocked_at !== 'undefined')
+        formData.append('blocked_at', blocked_at)
+    if (image)
+        formData.append('image', image)
 
     return axios.put(`users/${user_id}?lang=fa`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
@@ -170,6 +186,14 @@ export async function characters(page, size = itemsPerPage, status) {
         query += `&status=${status}`
     }
     return axios.get(`games/pubg/characters${query}`)
+}
+
+export async function myCharacters(page, size = itemsPerPage, id) {
+    let query = '?lang=fa'
+    if (page) {
+        query += `&page=${page}&size=${size}`
+    }
+    return axios.get(`users/${id}/characters${query}`)
 }
 
 export async function updateCharacterStatus(id, status, status_reason) {
@@ -396,3 +420,15 @@ export async function deleteTutorial (id) {
 }
 
 // </editor-fold>
+
+// <editor-fold desc="Contact Us">
+
+export async function contactUs (page = null, itemsPerPage = itemsPerPage) {
+    let query = `lang=fa`
+    if (page)
+        query += `&page=${page}&size=${itemsPerPage}`
+    return axios.get(`contact-us?${query}`)
+}
+
+// </editor-fold>
+

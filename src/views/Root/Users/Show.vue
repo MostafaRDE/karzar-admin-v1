@@ -6,37 +6,57 @@
             <rs-loading icon="spinner4"/>
         </div>
 
-        <rs-form :submit="updateUser">
-            <rs-modal title="ویرایش کاربر" v-model="modals.edit.visibility">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label>نام</label>
-                        <rs-input placeholder="نام"
-                                  v-model="modals.edit.fields.name"/>
+        <rs-form :submit="updateProfile"
+                 @errors="setFormErrorsEditProfile($event)">
+
+            <rs-modal :dialogStyle="{minWidth: '600px'}"
+                      title="ویرایش پروفایل"
+                      v-model="modals.edit.visibility">
+
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <label>عکس پروفایل</label>
+                        <rs-input type="file"
+                                  placeholder="عکس پروفایل"
+                                  name="imageProfile"
+                                  :error="getInputEditProfile('imageProfile')"
+                                  @change.native="changeProfileImage"/>
                     </div>
-                    <div class="col-sm-6">
-                        <label>کد معرف</label>
-                        <rs-input placeholder="کد معرف"
-                                  v-model="modals.edit.fields.refer"/>
-                    </div>
-                    <div class="col-sm-6">
-                        <label>ایمیل</label>
-                        <rs-input placeholder="ایمیل"
-                                  v-model="modals.edit.fields.email"/>
-                    </div>
-                    <div class="col-sm-6">
-                        <label>شماره واتس آپ</label>
-                        <rs-input placeholder="شماره واتس آپ"
-                                  v-model="modals.edit.fields.whatsappNumber"/>
+                    <div class="ml-2" style="width: 70px">
+                        <img ref="profileImage"
+                             :src="modals.edit.profileImageURL || modals.edit.profileDefaultImage"
+                             alt="" class="w-100"/>
                     </div>
                 </div>
+
+                <rs-input placeholder="نام"
+                          name="name"
+                          :rules="modals.edit.fields.rules.name"
+                          :error="getInputEditProfile('name')"
+                          v-model="modals.edit.fields.name"/>
+
+                <rs-input type="email"
+                          placeholder="ایمیل"
+                          name="email"
+                          :rules="modals.edit.fields.rules.email"
+                          :error="getInputEditProfile('email')"
+                          v-model="modals.edit.fields.email"/>
+
+                <rs-input type="tel"
+                          placeholder="شماره موبایل"
+                          name="mobileNumber"
+                          :rules="modals.edit.fields.rules.mobileNumber"
+                          :error="getInputEditProfile('mobileNumber')"
+                          v-model="modals.edit.fields.mobileNumber"/>
 
                 <template slot="footer">
                     <rs-button type="button" color="link" @click.native="modals.edit.visibility = false">بستن
                     </rs-button>
                     <rs-button type="submit" bg="primary" :loading="modals.edit.loading">ویرایش</rs-button>
                 </template>
+
             </rs-modal>
+
         </rs-form>
 
         <rs-form :submit="setDescription">
@@ -82,21 +102,26 @@
         </rs-form>
 
         <div class="card-header header-elements-inline pb-0">
-            <div class="d-flex flex-wrap">
-                <rs-button icon="vcard" class="mb-3 mr-3" @click.native="showEditModal">ویرایش کاربر</rs-button>
+            <div class="d-flex flex-wrap w-100">
+                <rs-button icon="vcard" class="mb-3 mr-3" @click.native="showEditProfileModal">ویرایش کاربر</rs-button>
                 <rs-button icon="comments" class="mb-3 mr-3" @click.native="showSetDescriptionModal">ثبت توضیحات
                 </rs-button>
                 <rs-button icon="sync" color="primary" class="mb-3 mr-3"
-                           @click.native="$router.push({name: 'userTradesHistory', params: {id: $route.params.id}})">
+                           @click.native="$router.push({name: 'userTournaments', params: {id: $route.params.id}})">
                     تورنومنت ها
                 </rs-button>
                 <rs-button icon="credit-card" color="primary" class="mb-3 mr-3"
-                           @click.native="$router.push({name: 'userDeposits', params: {id: $route.params.id}})">واریز و برداشت
+                           @click.native="$router.push({name: 'userDeposits', params: {id: $route.params.id}})">واریز
                 </rs-button>
-                <rs-button icon="wallet" color="primary" class="mb-3 mr-3"
-                           @click.native="$router.push({name: 'userWallets', params: {id: $route.params.id}})">کیف پول
+                <rs-button icon="credit-card" color="primary" class="mb-3 mr-3"
+                           @click.native="$router.push({name: 'userWithdraws', params: {id: $route.params.id}})">برداشت
                 </rs-button>
                 <rs-button icon="lock" color="primary" class="mb-3 mr-3" @click.native="showChangePassword">تغییر رمز عبور</rs-button>
+
+                <div class="mb-3 flex-grow-1 d-flex justify-content-end align-items-center">
+                    <span class="mr-2 font-weight-bold font-size-lg">{{ moneyFormat(balance, 0) }}</span>
+                    <span class="font-weight-bold font-size-lg">تومان</span>
+                </div>
             </div>
         </div>
 
@@ -107,7 +132,7 @@
                 <h3 class="mb-0">اطلاعات پایه</h3>
                 <div class="d-flex">
                     <div class="d-flex align-items-center ml-2">
-                        <rs-switchery-2 :active="!getUserData('locked')" @click.native="changeLock()">
+                        <rs-switchery-2 :active="getUserData('blocked_at') == null" @click.native="changeLock">
                             <mdi-shield-account size="21px" slot="icon"/>
                         </rs-switchery-2>
                         <rs-loading v-if="lockChanging" icon="spinner4" class="ml-2"/>
@@ -116,50 +141,126 @@
             </div>
             <div class="row mb-2">
                 <div class="col-sm-3 d-flex align-items-center">
-                    <span>نام</span>
+                    <span class="font-weight-normal">نام</span>
                 </div>
                 <div class="col-sm-3 text-right">
-                    <span>{{ getUserData('name') }}</span>
+                    <span class="font-weight-normal">{{ getUserData('name') || 'ثبت نشده' }}</span>
                     <rs-button-icon class="ml-2" icon="copy3" rounded @click.native="copyTextUser('name')"/>
                 </div>
                 <div class="col-sm-3 d-flex align-items-center">
-                    <span>کد معرف</span>
+                    <span class="font-weight-normal">کد معرف</span>
                 </div>
                 <div class="col-sm-3 text-right">
-                    <span>{{ getUserData('refer_code') }}</span>
+                    <span class="font-weight-normal">
+                        <router-link v-if="getUserData('refer_code')" :to="{name: 'userShow', params: {id: getUserData('refer_code')}}">{{ getUserData('refer_code') }}</router-link>
+                        <span v-else>ثبت نشده</span>
+                    </span>
                     <rs-button-icon class="ml-2" icon="copy3" rounded @click.native="copyTextUser('refer_code')"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-3 d-flex align-items-center">
-                    <span>شماره واتس اپ</span>
+                    <span class="font-weight-normal">شماره موبایل</span>
                 </div>
                 <div class="col-sm-3 d-flex align-items-center justify-content-end">
-                    <span style="line-height: 1">{{ getUserData('whatsapp_number') }}</span>
-                    <rs-button-icon class="ml-2" icon="copy3" rounded @click.native="copyTextUser('whatsapp_numbers')"/>
+                    <rs-loading v-if="changingStatusMobileNumber" icon="spinner4"/>
+                    <rs-switchery class="mb-0 ml-2" :active="getUserData('mobile_number_verified_at') != null"
+                                  @click.native="updateStatusMobileNumber"/>
+                    <span class="font-weight-normal" style="line-height: 1">{{ getUserData('mobile_number') }}</span>
+                    <rs-button-icon class="ml-2" icon="copy3" rounded @click.native="copyTextUser('mobile_number')"/>
                 </div>
                 <div class="col-sm-3 d-flex align-items-center">
-                    <span>ایمیل</span>
+                    <span class="font-weight-normal">ایمیل</span>
                 </div>
                 <div class="col-sm-3 d-flex align-items-center justify-content-end">
-<!--                    <rs-loading v-if="changingStatusEmail" icon="spinner4"/>-->
-<!--                    <rs-switchery class="mb-0 ml-2" :active="getUserData('email_status')"-->
-<!--                                  @click.native="updateStatusEmail"/>-->
-                    <span style="line-height: 1">{{ getUserData('email') }}</span>
+                    <rs-loading v-if="changingStatusEmail" icon="spinner4"/>
+                    <rs-switchery class="mb-0 ml-2" :active="getUserData('email_verified_at') != null"
+                                  @click.native="updateStatusEmail"/>
+                    <span class="font-weight-normal" style="line-height: 1">{{ getUserData('email') }}</span>
                     <rs-button-icon class="ml-2" icon="copy3" rounded @click.native="copyTextUser('email')"/>
                 </div>
             </div>
+        </div>
+
+        <hr class="my-0"/>
+
+
+        {{ /* Start status description character modal */ }}
+        <rs-form :submit="updateStatusCharacter">
+            <rs-modal :dialogStyle="{minWidth: '600px'}"
+                      :title="`${modals.character.type === 'ADD' ? 'افزودن' : 'ویرایش'} توضیحات`"
+                      v-model="modals.character.visibility">
+
+                <div class="col-sm-12">
+                    <rs-input textarea placeholder="توضیحات" v-model="modals.character.fields.status_reason"/>
+                </div>
+
+                <template slot="footer">
+                    <rs-button type="button" color="link" @click.native="modals.character.visibility = false">بستن
+                    </rs-button>
+                    <rs-button type="submit" bg="primary" :loading="modals.character.loading">{{
+                        modals.character.type === 'ADD'
+                        ?
+                        'افزودن' : 'بروزرسانی'}}
+                    </rs-button>
+                </template>
+
+            </rs-modal>
+        </rs-form>
+        {{ /* End status description character modal */ }}
+
+        <div v-if="characters.length || loadings.characters" class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="mb-0">کاراکتر ها</h3>
+            </div>
+
+            <template>
+
+                <rs-loading v-if="loadings.characters" icon="spinner4"/>
+
+                <rs-table v-else-if="characters.length">
+                    <template slot="head">
+                        <th>ردیف</th>
+                        <th>نام کاراکتر</th>
+                        <th>آی دی کاراکتر</th>
+                        <th></th>
+                    </template>
+
+                    <template slot="body">
+                        <tr v-for="(item, index) of characters">
+                            <td class="font-weight-normal">{{ index + 1 }}</td>
+                            <td class="font-weight-normal" style="direction: ltr">{{ item.name }}</td>
+                            <td class="font-weight-normal">{{ item.id }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <rs-drop-down class="flex-grow-1" :source="statuses.characters" v-model="item.status" @input="updateStatusCharacter(item.id, index)"/>
+                                    <rs-badge-icon class="cursor-pointer ml-2 mr-2"
+                                                   color="primary"
+                                                   icon="bubble-lines4"
+                                                   rounded
+                                                   @click.native="showUpdateCharacterDescriptionStatusModal(item.id, index)"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </rs-table>
+
+                <div v-else class="card-body text-center">
+                    <span>کاراکتری پیدا نشد</span>
+                </div>
+
+            </template>
+
         </div>
     </div>
 </template>
 
 <script>
     import {
-        blockUser,
-        unblockUser,
+        myCharacters,
         user,
         updateProfile,
-        updatePassword,
+        updatePassword, userBalance, updateCharacterStatus,
     } from '../../../api'
 
     export default {
@@ -186,21 +287,45 @@
             changingStatusEmail: false,
             settingDescription: false,
 
+            loadings: {
+                characters: false,
+            },
+
             user: {},
+            balance: 0,
+            characters: [],
+
+            statuses: {
+                characters: [
+                    {key: 0, value: 'در انتظار تایید'},
+                    {key: 1, value: 'تایید'},
+                    {key: 2, value: 'رد شده'},
+                ]
+            },
 
             // Server error message after submit data
             signInError: {},
 
             modals: {
                 edit: {
-                    visibility: false,
                     loading: false,
+                    visibility: false,
+                    index: 0,
+                    formErrors: {},
+                    profileImageURL: null,
+                    profileDefaultImage: require('./../../../../public/images/samples/circle-profile.svg'),
 
                     fields: {
                         name: '',
-                        whatsappNumber: '',
                         email: '',
-                        refer: '',
+                        mobileNumber: '',
+                        image: null,
+
+                        rules: {
+                            name: 'required|string|min:2',
+                            email: 'required|email',
+                            mobileNumber: 'required|string:digits',
+                        }
                     }
                 },
                 setDescription: {
@@ -216,82 +341,132 @@
                     loading: false,
                     password: '',
                     retypePassword: '',
-                }
+                },
+                character: {
+                    type: 'ADD', // {'ADD' | 'EDIT'}
+
+                    visibility: false,
+                    loading: false,
+                    formErrors: {},
+
+                    id: -1,
+                    index: -1,
+
+                    fields: {
+                        status_reason: '',
+                    }
+                },
             }
         }),
 
         methods: {
             getUser () {
-                this.loading = true
-                user(this.$route.params.id)
-                    .then(response => {
-                        this.user = response.data
-                    })
-                    .catch(error => {
-
-                    })
-                    .finally(() => {
-                        this.loading = false
-                    })
-            },
-
-            showEditModal () {
-                if (!this.modals.edit.loading) {
-                    this.modals.edit.fields.name = this.getUserData('name')
-                    this.modals.edit.fields.whatsappNumber = this.getUserData('whatsapp_number')
-                    this.modals.edit.fields.email = this.getUserData('email')
-                    this.modals.edit.fields.refer = this.getUserData('refer_code')
-
-                    this.modals.edit.visibility = true
-                }
-            },
-            updateUser () {
-                if (!this.modals.edit.loading) {
-                    this.modals.edit.loading = true
-
-                    let data = {
-                        user_id: this.$route.params.id,
-                        name: this.modals.edit.fields.name,
-                        whatsapp_number: this.modals.edit.fields.whatsappNumber,
-                        email: this.modals.edit.fields.email,
-                        refer_code: this.modals.edit.fields.refer,
-                    }
-
-                    updateProfile(data)
+                if (!this.loading) {
+                    this.loading = true
+                    user(this.$route.params.id)
                         .then(response => {
-                            this.$toast.success({
-                                title: 'ویرایش کاربر',
-                                message: 'با موفقیت انجام شد',
-                            })
-                            this.modals.edit.visibility = false
+                            this.user = response.data
+                            userBalance(this.$route.params.id)
+                                .then(res => {
+                                    this.balance = res.data.amount
+                                })
+                                .catch(error => {
+
+                                })
+                                .finally(() => {
+                                    this.loading = false
+                                })
                         })
                         .catch(error => {
-                            this.$toast.error({
-                                title: 'ویرایش کاربر',
-                                message: error.response.data.msg,
-                            })
+
                         })
                         .finally(() => {
-                            this.modals.edit.loading = false
+                            this.loading = false
                         })
                 }
             },
+
+            // <editor-fold desc="Update profile">
+
+            showEditProfileModal () {
+                this.modals.edit.formErrors = {}
+                this.modals.edit.visibility = true
+                this.modals.edit.fields.image = null
+                this.modals.edit.profileImageURL = null
+
+                this.modals.edit.fields.name = this.user.name
+                this.modals.edit.fields.email = this.user.email
+                this.modals.edit.fields.mobileNumber = this.user.mobile_number
+                if (this.user.profile_image !== null)
+                    this.modals.edit.profileImageURL = process.env.VUE_APP_URL + this.user.profile_image.url_static
+            },
+
+            changeProfileImage(e) {
+                this.modals.edit.fields.image = e.target.files[0]
+                this.modals.edit.profileImageURL = URL.createObjectURL(e.target.files[0])
+            },
+
+            // Get errors from "rs-form"-component and set in "formErrors"-data-variable
+            setFormErrorsEditProfile (errors) {
+                this.modals.edit.formErrors = errors
+            },
+
+            // Customizing error-message for show in view (below inputs)
+            getInputEditProfile (key) {
+                return (this.modals.edit.formErrors.hasOwnProperty(key)) ? this.modals.edit.formErrors[key][0] : ''
+            },
+
+            updateProfile () {
+                if (!this.modals.edit.loading) {
+                    this.modals.edit.loading = true
+                    this.modals.edit.formErrors = {}
+
+                    updateProfile({
+                        user_id: this.user.id,
+                        name: this.modals.edit.fields.name,
+                        email: this.modals.edit.fields.email,
+                        mobile_number: this.modals.edit.fields.mobileNumber,
+                        image: this.modals.edit.fields.image
+                    }).then(response => {
+                        this.modals.edit.fields.name = ''
+                        this.modals.edit.fields.email = ''
+                        this.modals.edit.fields.mobileNumber = ''
+                        this.modals.edit.fields.image = null
+                        this.modals.edit.profileImageURL = null
+                        this.$toast.success({
+                            title: 'ویرایش پروفایل',
+                            message: 'بروزرسانی با موفقیت انجام شد',
+                        })
+                        this.modals.edit.visibility = false
+                    }).catch(error => {
+                        this.$toast.error({
+                            title: 'ویرایش پروفایل',
+                            message: error.response.data.msg,
+                        })
+                    }).finally(() => {
+                        this.modals.edit.loading = false
+                    })
+                }
+            },
+
+            // </editor-fold>
 
             changeLock () {
                 if (!this.lockChanging) {
                     this.lockChanging = true
-                    updateUser({
+                    updateProfile({
                         user_id: this.getUserData('id'),
-                        locked: this.getUserData('locked') ? 'false' : 'true',
+                        blocked_at: !this.getUserData('blocked_at'),
                     })
                         .then(response => {
                             this.$toast.success({
                                 title: 'تغییر وضعیت بلاک کاربر',
                                 message: 'با موفقیت انجام شد',
                             })
-                            this.user.locked = !this.user.locked
+                            this.user.blocked_at = !this.user.blocked_at
                         })
                         .catch(error => {
+                            console.log(error)
                             this.$toast.error({
                                 title: 'تغییر وضعیت بلاک کاربر',
                                 message: error.response.data.msg,
@@ -304,14 +479,14 @@
             },
 
             showSetDescriptionModal () {
-                this.modals.setDescription.fields.text = this.user.des_for_admin
+                this.modals.setDescription.fields.text = this.user.description
                 this.modals.setDescription.visibility = true
             },
             setDescription () {
                 if (!this.modals.setDescription.loading) {
                     this.modals.setDescription.loading = true
-                    updateUser({
-                        des: this.modals.setDescription.fields.text,
+                    updateProfile({
+                        description: this.modals.setDescription.fields.text,
                         user_id: this.$route.params.id,
                     })
                         .then(response => {
@@ -319,7 +494,7 @@
                                 title: 'ثبت نوضیحات',
                                 message: 'با موفقیت انجام شد',
                             })
-                            this.user.des_for_admin = this.modals.setDescription.fields.text
+                            this.user.description = this.modals.setDescription.fields.text
                             this.modals.setDescription.visibility = false
                         })
                         .catch(error => {
@@ -374,16 +549,16 @@
             updateStatusEmail () {
                 if (!this.changingStatusEmail) {
                     this.changingStatusEmail = true
-                    updateUser({
+                    updateProfile({
                         user_id: this.getUserData('id'),
-                        email_status: this.getUserData('email_status') ? 'false' : 'true',
+                        email_verified_at: !this.getUserData('email_verified_at'),
                     })
                         .then(response => {
                             this.$toast.success({
                                 title: 'تغییر وضعیت تایید ایمیل',
                                 message: 'با موفقیت انجام شد',
                             })
-                            this.user.email_status = !this.user.email_status
+                            this.user.email_verified_at = !this.user.email_verified_at
                         })
                         .catch(error => {
                             this.$toast.error({
@@ -393,6 +568,32 @@
                         })
                         .finally(() => {
                             this.changingStatusEmail = false
+                        })
+                }
+            },
+
+            updateStatusMobileNumber () {
+                if (!this.changingStatusMobileNumber) {
+                    this.changingStatusMobileNumber = true
+                    updateProfile({
+                        user_id: this.getUserData('id'),
+                        mobile_number_verified_at: !this.getUserData('mobile_number_verified_at'),
+                    })
+                        .then(response => {
+                            this.$toast.success({
+                                title: 'تغییر وضعیت تایید شماره موبایل',
+                                message: 'با موفقیت انجام شد',
+                            })
+                            this.user.mobile_number_verified_at = !this.user.mobile_number_verified_at
+                        })
+                        .catch(error => {
+                            this.$toast.error({
+                                title: 'تغییر وضعیت تایید ایمیل',
+                                message: error.response.data.msg,
+                            })
+                        })
+                        .finally(() => {
+                            this.changingStatusMobileNumber = false
                         })
                 }
             },
@@ -416,10 +617,75 @@
                     })
                 }
             },
+
+            //----------------------------------------------------------
+
+            getCharacters() {
+                this.loadings.characters = true
+
+                myCharacters(undefined, undefined, this.$route.params.id)
+                    .then(response => {
+                        this.characters = response.data.result
+                    })
+                    .catch(error => {
+                        this.$toast.error({
+                            title: 'خطا',
+                            message: 'خطا در بارگیری گزارشات',
+                        })
+                    })
+                    .finally(() => {
+                        this.loadings.characters = false
+                    })
+            },
+
+            showUpdateCharacterDescriptionStatusModal(id, index) {
+                this.modals.character.loading = false
+                this.modals.character.formErrors = {}
+
+                this.modals.character.fields.status_reason = this.characters[index].status_reason
+
+                this.modals.character.id = id
+                this.modals.character.index = index
+                this.modals.character.visibility = true
+            },
+
+            updateStatusCharacter(id = undefined, index = -1) {
+                this.modals.character.loading = true
+
+                updateCharacterStatus(id || this.modals.character.id, this.characters[index > -1 ? index : this.modals.character.index].status, index > -1 ? this.characters[index].status_reason : this.modals.character.fields.status_reason)
+                    .then(response => {
+                        this.$toast.success({
+                            title: 'ویرایش وضعیت',
+                            message: 'بروزرسانی با موفقیت انجام شد',
+                        })
+                        if (this.modals.character.visibility) {
+                            this.modals.character.visibility = false
+
+                            this.modals.character.loading = false
+                            this.modals.character.formErrors = {}
+
+                            this.modals.character.fields.status_reason = ''
+
+                            this.modals.character.id = 0
+                            this.modals.character.index = -1
+                        }
+                        this.getCharacters()
+                    })
+                    .catch(error => {
+                        this.$toast.error({
+                            title: 'ویرایش وضعیت',
+                            message: 'بروزرسانی با شکست مواجه شد',
+                        })
+                    })
+                    .finally(() => {
+                        this.modals.character.loading = false
+                    })
+            }
         },
 
         mounted () {
             this.getUser()
+            this.getCharacters()
         }
     }
 </script>
