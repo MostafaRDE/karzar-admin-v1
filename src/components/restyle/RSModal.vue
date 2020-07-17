@@ -7,7 +7,7 @@
              @click.self="model = false">
 
             <div class="modal-dialog" :style="dialogStyle">
-                <div class="modal-content">
+                <div class="modal-content" style="max-height: calc(100vh - 40px)">
 
                     {{ /* -- Header -- */ }}
                     <div v-if="!$slots.hasOwnProperty('header')" class="modal-header">
@@ -22,7 +22,7 @@
                     </div>
 
                     {{ /* -- Body -- */ }}
-                    <div class="modal-body">
+                    <div class="modal-body" style="overflow-y: overlay">
                         <slot/>
                     </div>
 
